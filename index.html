@@ -1,0 +1,2015 @@
+<!doctype html><html lang="en"><head><link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Speakeasy">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="description" content="Speakeasy: a talking word board for nonspeaking autistic kids and adults, by McLearn Media.">
+<title>Speakeasy</title>
+<meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Speakeasy</title>
+<meta name="theme-color" content="#8A3A1A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:opsz,wght@9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one-screen communicator — top bar, message strip, word-group tabs, and a fixed-position word grid that fills the rest.
+   Chrome uses McLearn DS01; word tiles use the Fitzgerald color key that AAC users and therapists already know. */
+:root{
+  --bg:#FAF1E5; --bg2:#EAD9C8; --card:#FFFFFF; --ink:#2A2420; --muted:#6E635A; --line:#D1C2B5;
+  --brand:#8A3A1A; --brand2:#C45D34; --soft:#F3E2D2; --on-brand:#FFFFFF; --scrim:rgba(42,36,32,.55);
+  /* Fitzgerald key: tile fill / border */
+  --pron-bg:#FFF2A8; --pron-bd:#C9A400;   /* people words */
+  --verb-bg:#D3F0CB; --verb-bd:#3E8E37;   /* action words */
+  --desc-bg:#D5E6FF; --desc-bd:#2F66C2;   /* describing words */
+  --noun-bg:#FFDFC2; --noun-bd:#D2701A;   /* things and places */
+  --social-bg:#FAD6E8; --social-bd:#B83F77;/* social words */
+  --q-bg:#E5D9FA;    --q-bd:#7048BE;      /* questions */
+  --prep-bg:#F3EFEB; --prep-bd:#8E837A;   /* little words */
+  --neg-bg:#FFD3CF;  --neg-bd:#C8372B;    /* no / not */
+  --font-brand:"Fraunces",Georgia,"Times New Roman",serif;
+  --font-ui:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-tile:"Atkinson Hyperlegible","Hanken Grotesk",system-ui,sans-serif;
+  --scale:1.1; --r-sm:8px; --r-md:12px; --r-lg:16px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#1C1815; --bg2:#262019; --card:#2A2420; --ink:#F4EADF; --muted:#B9AC9F; --line:#4A3F37;
+  --brand:#E3906A; --brand2:#D2754E; --soft:#3A2C24; --on-brand:#1C1815; --scrim:rgba(0,0,0,.65);
+  --pron-bg:#463C0E; --pron-bd:#E0BE2A; --verb-bg:#1E3A1B; --verb-bd:#6BC062;
+  --desc-bg:#172A4A; --desc-bd:#6E9FEA; --noun-bg:#46280F; --noun-bd:#EE9446;
+  --social-bg:#43172C; --social-bd:#E178AA; --q-bg:#2B1D48; --q-bd:#A88AEB;
+  --prep-bg:#322D29; --prep-bd:#A69A90; --neg-bg:#4A1613; --neg-bd:#F0685C; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#1C1815; --bg2:#262019; --card:#2A2420; --ink:#F4EADF; --muted:#B9AC9F; --line:#4A3F37;
+  --brand:#E3906A; --brand2:#D2754E; --soft:#3A2C24; --on-brand:#1C1815; --scrim:rgba(0,0,0,.65);
+  --pron-bg:#463C0E; --pron-bd:#E0BE2A; --verb-bg:#1E3A1B; --verb-bd:#6BC062;
+  --desc-bg:#172A4A; --desc-bd:#6E9FEA; --noun-bg:#46280F; --noun-bd:#EE9446;
+  --social-bg:#43172C; --social-bd:#E178AA; --q-bg:#2B1D48; --q-bd:#A88AEB;
+  --prep-bg:#322D29; --prep-bd:#A69A90; --neg-bg:#4A1613; --neg-bd:#F0685C; color-scheme:dark }
+
+html,body{height:100%}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-ui);margin:0;overscroll-behavior:none;
+  -webkit-user-select:none;user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+input,textarea,select{font:inherit;color:var(--ink);background:var(--card);-webkit-user-select:text;user-select:text}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+
+#app{height:100%;display:flex;flex-direction:column;gap:8px;padding-inline:16px;padding-block:8px;box-sizing:border-box;max-width:1100px;margin:0 auto}
+
+/* top bar */
+.top{display:flex;align-items:center;gap:8px}
+.brand{font-family:var(--font-brand);font-weight:600;font-size:20px;color:var(--brand);letter-spacing:-.01em}
+.mode{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.spacer{flex:1}
+.ibtn{min-width:44px;height:44px;border-radius:var(--r-md);border:1.5px solid var(--line);background:var(--card);
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 10px;font-weight:600;font-size:14px;position:relative;overflow:hidden}
+.ibtn.help{background:var(--neg-bg);border-color:var(--neg-bd)}
+.ibtn .ring{position:absolute;left:0;bottom:0;height:4px;width:0;background:var(--brand)}
+.ibtn.holding .ring{animation:fill var(--hold,1.5s) linear forwards}
+@keyframes fill{to{width:100%}}
+
+/* message strip */
+.strip{display:flex;gap:6px;align-items:stretch;background:var(--card);border:2px solid var(--line);border-radius:var(--r-lg);padding:6px;min-height:calc(64px*var(--scale))}
+.msg{flex:1;min-width:0;display:flex;align-items:center;gap:6px;overflow-x:auto;padding:2px;border-radius:var(--r-md);cursor:pointer}
+.msg .ph{color:var(--muted);font-size:15px;padding-left:6px;white-space:nowrap}
+.chip{flex:none;display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:var(--r-sm);background:var(--soft);
+  font-family:var(--font-tile);font-weight:700;font-size:calc(16px*var(--scale));white-space:nowrap}
+.chip img{width:calc(24px*var(--scale));height:calc(24px*var(--scale));object-fit:cover;border-radius:4px}
+.chip.typing{background:transparent;border:2px dashed var(--line)}
+.chip.typing::after{content:"";width:2px;height:1.1em;background:var(--brand);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.sbtn{flex:none;border-radius:var(--r-md);border:1.5px solid var(--line);background:var(--bg);min-width:52px;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center}
+.sbtn.speak{background:var(--brand);border-color:var(--brand);color:var(--on-brand);font-size:16px;padding:0 14px;gap:6px;min-width:84px}
+
+/* tabs */
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:8px 14px;font-weight:600;font-size:14px;display:inline-flex;gap:6px;align-items:center;min-height:40px}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* learn banner */
+.banner{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--soft);border:2px solid var(--brand2);border-radius:var(--r-lg);padding:8px 10px}
+.banner .ask{font-family:var(--font-tile);font-weight:700;font-size:20px;flex:1;min-width:140px}
+.banner .score{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* board */
+.board{flex:1;min-height:0;overflow:auto;border-radius:var(--r-md)}
+.grid{display:grid;grid-template-columns:repeat(var(--cols,6),minmax(0,1fr));gap:6px;grid-auto-rows:calc(84px*var(--scale))}
+.grid.fill{height:100%;grid-template-rows:repeat(var(--rows,4),minmax(calc(58px*var(--scale)),1fr));grid-auto-rows:unset}
+.tile{--tbg:var(--prep-bg);--bd:var(--prep-bd);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  border:2px solid var(--bd);background:var(--tbg);color:var(--ink);border-radius:var(--r-md);padding:4px 2px;min-width:0;min-height:0;
+  font-family:var(--font-tile);font-weight:700;font-size:min(calc(14px*var(--scale)),3.3vw);line-height:1.1;text-align:center;position:relative;overflow:hidden;
+  transition:transform .08s ease}
+.tile:active{transform:scale(.97)}
+.tile .sym{font-size:calc(28px*var(--scale));line-height:1}
+.tile img{width:calc(38px*var(--scale));height:calc(38px*var(--scale));object-fit:cover;border-radius:var(--r-sm)}
+.tile .lbl{overflow-wrap:break-word;word-break:normal;hyphens:manual;max-width:100%}
+.tile.empty{visibility:hidden}
+.tile[data-pos="pron"]{--tbg:var(--pron-bg);--bd:var(--pron-bd)} .tile[data-pos="verb"]{--tbg:var(--verb-bg);--bd:var(--verb-bd)}
+.tile[data-pos="desc"]{--tbg:var(--desc-bg);--bd:var(--desc-bd)} .tile[data-pos="noun"]{--tbg:var(--noun-bg);--bd:var(--noun-bd)}
+.tile[data-pos="social"]{--tbg:var(--social-bg);--bd:var(--social-bd)} .tile[data-pos="q"]{--tbg:var(--q-bg);--bd:var(--q-bd)}
+.tile[data-pos="neg"]{--tbg:var(--neg-bg);--bd:var(--neg-bd)}
+.tile.pressing::after{content:"";position:absolute;left:0;bottom:0;height:5px;width:0;background:var(--ink);animation:fill var(--hold,.5s) linear forwards}
+.tile.right{outline:4px solid var(--verb-bd)}
+.tile.hint{animation:pulse 1s ease-in-out 3}
+@keyframes pulse{50%{box-shadow:0 0 0 6px var(--brand2)}}
+.scan-on{outline:5px solid var(--brand)!important;outline-offset:2px;z-index:1}
+.words-only .tile .sym,.words-only .tile img{display:none}
+.words-only .tile{font-size:calc(17px*var(--scale))}
+[data-contrast="on"] .tile{background:var(--card);border-width:4px;font-size:calc(16px*var(--scale))}
+[data-contrast="on"] .strip,[data-contrast="on"] .tab,[data-contrast="on"] .ibtn{border-color:var(--ink);border-width:2px}
+
+/* phrases */
+.grid.phrases{grid-template-columns:repeat(var(--cols,1),minmax(0,1fr));grid-auto-rows:auto}
+.grid.phrases .tile{flex-direction:row;justify-content:flex-start;gap:10px;padding:12px 14px;text-align:left;min-height:calc(56px*var(--scale));font-size:calc(16px*var(--scale))}
+.grid.phrases .tile .sym{font-size:calc(24px*var(--scale))}
+
+/* keyboard */
+.kbwrap{display:flex;flex-direction:column;gap:6px;height:100%}
+.pred{display:flex;gap:6px;overflow-x:auto;min-height:48px}
+.pred button{flex:none;border-radius:var(--r-md);border:1.5px solid var(--desc-bd);background:var(--desc-bg);padding:0 14px;font-family:var(--font-tile);font-weight:700;font-size:calc(16px*var(--scale))}
+.kb{flex:1;display:grid;grid-template-columns:repeat(20,minmax(0,1fr));gap:5px;grid-auto-rows:minmax(calc(46px*var(--scale)),1fr)}
+.key{grid-column:span 2;border-radius:var(--r-sm);border:1.5px solid var(--line);background:var(--card);font-family:var(--font-tile);font-weight:700;font-size:calc(18px*var(--scale));text-transform:lowercase;min-width:0}
+.key.off1{grid-column:2 / span 2}.key.off2{grid-column:4 / span 2}
+.key.wide{grid-column:span 4;font-size:15px;text-transform:none}.key.space{grid-column:span 8;text-transform:none;font-size:15px}
+
+/* bigger core board, word-group folders, safety checks */
+.grid.fill.dense{gap:4px;grid-template-rows:repeat(var(--rows,6),minmax(calc(46px*var(--scale)),1fr))}
+.grid.dense .tile{font-size:min(calc(13px*var(--scale)),2.9vw);padding:2px 1px;border-radius:10px;gap:1px}
+.grid.dense .tile .sym{font-size:min(calc(24px*var(--scale)),5.4vw)}
+.tile.textonly .lbl{font-size:1.15em}
+.tile.folder{background:var(--card);border:2px solid var(--line);box-shadow:inset 0 6px 0 var(--soft);min-height:calc(92px*var(--scale))}
+.tile.folder .count{font-family:var(--font-ui);font-weight:500;font-size:12px;color:var(--muted)}
+.grouptitle{flex:none;align-self:center;font-family:var(--font-tile);font-weight:700;font-size:17px;padding-inline:6px}
+.ibtn .dot{position:absolute;top:5px;right:5px;width:10px;height:10px;border-radius:50%;background:var(--neg-bd);border:2px solid var(--card)}
+.checks{display:flex;flex-direction:column;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:10px 12px}
+.chk{display:flex;gap:8px;align-items:flex-start;font-size:14px;line-height:1.4}
+details summary{cursor:pointer;font-weight:600;min-height:40px;display:flex;align-items:center}
+
+/* topic packs (birds and custom topics) */
+.topichead{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;position:sticky;top:0;background:var(--bg);z-index:2;scrollbar-width:none}
+.topichead::-webkit-scrollbar{display:none}
+.chipbtn{flex:none;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-weight:600;font-size:13px;min-height:38px;display:inline-flex;gap:6px;align-items:center}
+.chipbtn[aria-pressed="true"]{background:var(--brand2);color:var(--on-brand);border-color:var(--brand2)}
+.factline{font-family:var(--font-tile);font-size:15px;line-height:1.4;background:var(--soft);border-radius:var(--r-md);padding:8px 12px;margin-bottom:6px}
+.factline b{font-weight:700}
+.grid.pics{grid-auto-rows:auto}
+.grid.pics .tile{padding:4px 4px 6px;gap:4px;justify-content:flex-start}
+.tile .art{width:100%;aspect-ratio:1;display:block;max-width:100%;position:relative}
+.art img.photo{position:absolute;inset:0;width:100%!important;height:100%!important;object-fit:cover;border-radius:10px;opacity:0;transition:opacity .4s ease}
+.art img.photo.on{opacity:1}
+.chip .art img.photo{border-radius:5px}
+.credit{display:block;font-family:var(--font-ui);font-size:11px;color:var(--muted);margin-top:4px;-webkit-user-select:text;user-select:text}
+.tile .art svg{width:100%;height:100%;display:block;border-radius:10px}
+.grid.pics .tile img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:10px}
+.grid.pics .tile .sym{font-size:calc(44px*var(--scale));aspect-ratio:1;display:flex;align-items:center;justify-content:center;width:100%}
+.chip .art{width:calc(26px*var(--scale));height:calc(26px*var(--scale));display:inline-block;flex:none}
+.chip .art svg{width:100%;height:100%;border-radius:5px}
+.words-only .tile .art,.words-only .chip .art{display:none}
+.erow .art{width:32px;height:32px;flex:none}.erow .art svg{width:100%;height:100%;border-radius:6px}
+.sbtn:disabled{opacity:.35;cursor:default}
+.sbtn.small{min-width:44px;font-size:18px}
+.formlist{display:flex;flex-wrap:wrap;gap:8px}
+.formlist button{border:2px solid var(--verb-bd);background:var(--verb-bg);border-radius:var(--r-md);padding:12px 16px;font-family:var(--font-tile);font-weight:700;font-size:18px;min-height:52px}
+.find input{width:100%;font-size:18px}
+.fres{display:flex;flex-direction:column;gap:6px}
+.fres button{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid var(--line);background:var(--card);border-radius:var(--r-sm);padding:6px 10px;min-height:48px}
+.fres .s{width:32px;font-size:22px;text-align:center;flex:none}
+.fres small{color:var(--muted);display:block}
+
+/* sparkle look */
+.spark{position:fixed;width:9px;height:9px;border-radius:50%;pointer-events:none;z-index:40;animation:spark .75s ease-out forwards}
+@keyframes spark{to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+.tile.pop{animation:pop .38s ease}
+@keyframes pop{40%{transform:scale(1.07)}100%{transform:scale(1)}}
+.tile.pop .art svg{animation:flap .5s ease}
+@keyframes flap{25%{transform:rotate(-5deg) translateY(-3px)}75%{transform:rotate(5deg)}}
+.flyer{position:fixed;left:0;width:64px;height:64px;pointer-events:none;z-index:40;animation:fly 1.7s ease-in-out forwards}
+.flyer svg{width:100%;height:100%}
+@keyframes fly{0%{transform:translate(-70px,10px)}50%{transform:translate(48vw,-24px)}100%{transform:translate(110vw,0)}}
+.sparkle .tab[aria-selected="true"]{background:linear-gradient(135deg,var(--brand),var(--brand2));border-color:transparent;color:var(--on-brand)}
+
+/* ---------- Bird game: a sky of its own in both themes ---------- */
+.game{position:fixed;inset:0;z-index:25;display:flex;flex-direction:column;gap:6px;overflow:hidden;color:#1D2A38;font-family:var(--font-tile);
+  background:linear-gradient(180deg,#7CC8F5 0%,#CDEBFF 55%,#E9F7FF 78%,#A9DB8C 78.2%,#8CCB6E 100%);
+  padding-inline:16px;padding-block:calc(10px + env(safe-area-inset-top,0px)) calc(10px + env(safe-area-inset-bottom,0px));-webkit-user-select:none;user-select:none}
+.g-cloud{position:absolute;background:#fff;border-radius:999px;opacity:.85;pointer-events:none}
+.g-top{display:flex;align-items:center;gap:8px;position:relative;z-index:2}
+.g-tool{min-width:48px;height:48px;border-radius:14px;border:0;background:rgba(255,255,255,.8);font-size:20px;font-weight:700;color:#1D2A38;position:relative;overflow:hidden;flex:none}
+.g-tool .ring{position:absolute;left:0;bottom:0;height:4px;width:0;background:#8A3A1A}
+.g-tool.holding .ring{animation:fill 1s linear forwards}
+.g-ask{flex:1;min-width:0;text-align:center;background:#fff;border-radius:18px;padding:6px 10px;box-shadow:0 4px 0 rgba(0,0,0,.08)}
+.g-ask small{display:block;font-size:clamp(14px,3.6vw,20px);color:#4A5A6A;font-weight:700}
+.g-ask b{display:block;font-size:clamp(24px,7vw,46px);line-height:1.1;color:#8A3A1A;text-wrap:balance}
+.g-stars{display:flex;justify-content:center;gap:2px;min-height:28px;font-size:22px;flex-wrap:wrap;position:relative;z-index:2}
+.g-stars .n{font-family:var(--font-ui);font-weight:700;font-size:15px;background:rgba(255,255,255,.8);border-radius:999px;padding:2px 10px;margin-left:6px;font-variant-numeric:tabular-nums}
+.g-field{flex:1;min-height:0;display:flex;align-items:center;justify-content:space-evenly;gap:10px;position:relative;z-index:1}
+.g-bird{border:0;background:#fff;border-radius:24px;padding:8px;width:min(29vw,230px);box-shadow:0 8px 0 rgba(0,0,0,.12);color:#1D2A38;
+  font-family:var(--font-tile);font-weight:700;font-size:clamp(13px,3.4vw,18px);display:flex;flex-direction:column;gap:4px;align-items:center;flex:none;transition:opacity .3s,box-shadow .2s}
+.g-bird .art{width:100%;aspect-ratio:1;display:block;position:relative}
+.g-bird .art svg{width:100%;height:100%;border-radius:16px;display:block}
+.g-bird .art img.photo{border-radius:16px}
+.g-bird img.pic{width:100%;aspect-ratio:1;object-fit:cover;border-radius:16px}
+.g-bird .gsym{font-size:min(18vw,120px);line-height:1.2}
+.g-bird .gname{min-height:1.2em}
+.g-bird.in{animation:gin .9s cubic-bezier(.2,.8,.3,1.1) both,bob 2.6s ease-in-out infinite}
+@keyframes gin{from{transform:translateX(-110vw) rotate(-10deg)}to{transform:none}}
+@keyframes bob{50%{transform:translateY(-12px)}}
+.g-field.cross{display:block}
+.g-field.cross .g-bird{position:absolute;left:0;animation:cross var(--dur) linear var(--delay) infinite;width:min(27vw,200px)}
+@keyframes cross{from{transform:translateX(-35vw)}to{transform:translateX(105vw)}}
+.g-field.done .g-bird{animation-play-state:paused}
+.g-bird.right{box-shadow:0 0 0 8px #3E9B3A,0 8px 0 rgba(0,0,0,.12)}
+.g-bird.fade{opacity:.25}
+.g-bird.wrong .art,.g-bird.wrong .gsym,.g-bird.wrong img.pic{animation:shake .45s}
+@keyframes shake{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+.g-bird.hint{box-shadow:0 0 0 8px #F2C230,0 8px 0 rgba(0,0,0,.12)}
+.g-bird.scan-on{outline:6px solid #8A3A1A;outline-offset:3px}
+.g-banner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;z-index:4}
+.g-banner .big{font-family:var(--font-tile);font-weight:700;font-size:clamp(84px,27vw,250px);line-height:1;-webkit-text-stroke:5px #fff;paint-order:stroke fill;text-shadow:0 8px 0 rgba(0,0,0,.15)}
+.g-banner .sub{font-family:var(--font-tile);font-weight:700;font-size:clamp(22px,6vw,44px);background:#fff;border-radius:16px;padding:4px 14px;margin-top:6px;text-align:center}
+.g-banner .yes{color:#2E9E3A}.g-banner .no{color:#E0602A}
+.g-banner .flyyes{animation:yesfly 2s cubic-bezier(.3,.7,.4,1) forwards}
+@keyframes yesfly{0%{transform:translateX(-120vw) rotate(-12deg)}30%{transform:translateX(0) scale(1.15) rotate(0)}72%{transform:translateX(0) scale(1)}100%{transform:translateX(120vw) rotate(10deg)}}
+.g-banner .popno{animation:nofly 1.5s ease forwards}
+@keyframes nofly{0%{transform:scale(.4);opacity:0}18%{transform:scale(1.1);opacity:1}28%,48%{transform:translateX(-14px)}38%,58%{transform:translateX(14px)}82%{opacity:1;transform:none}100%{opacity:0}}
+.g-banner .still{animation:fadeout 1.8s steps(1) forwards}
+@keyframes fadeout{to{opacity:0}}
+.conf{position:fixed;top:-24px;width:10px;height:15px;z-index:26;pointer-events:none;border-radius:2px;animation:fall var(--t) linear forwards}
+@keyframes fall{to{transform:translate(var(--x),112vh) rotate(var(--r))}}
+.g-switch{border:0;border-radius:18px;background:#8A3A1A;color:#fff;font-weight:700;font-size:20px;min-height:68px;position:relative;z-index:2}
+.g-start{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;text-align:center;padding:24px}
+.g-start h2{font-family:var(--font-brand);font-weight:600;font-size:clamp(30px,8vw,56px);margin:0;color:#8A3A1A;text-wrap:balance}
+.g-start p{margin:0;font-size:clamp(16px,4vw,22px);max-width:30ch}
+.g-start .go{border:0;border-radius:22px;background:#2E9E3A;color:#fff;font-family:var(--font-tile);font-weight:700;font-size:clamp(26px,7vw,40px);padding:18px 44px;box-shadow:0 8px 0 #1E6E28}
+.g-opts{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.g-opts button{border:2px solid #fff;background:rgba(255,255,255,.7);border-radius:999px;padding:8px 14px;font-weight:700;font-size:15px;color:#1D2A38;min-height:42px}
+.g-opts button[aria-pressed="true"]{background:#8A3A1A;color:#fff;border-color:#8A3A1A}
+@media (prefers-reduced-motion:reduce){ .g-bird.in{animation:none!important} }
+
+/* switch bar */
+.switchbar{border:none;border-radius:var(--r-lg);background:var(--brand);color:var(--on-brand);font-weight:700;font-size:20px;min-height:72px}
+
+/* sheets */
+.sheet{position:fixed;inset:0;background:var(--scrim);display:flex;justify-content:center;align-items:flex-end;z-index:10}
+.panel{background:var(--bg);width:100%;max-width:640px;max-height:92%;overflow:auto;border-radius:20px 20px 0 0;
+  padding-inline:16px;padding-block:16px calc(24px + env(safe-area-inset-bottom,0px));box-sizing:border-box;-webkit-user-select:text;user-select:text}
+.phead{display:flex;align-items:center;gap:8px;position:sticky;top:-16px;background:var(--bg);padding-block:8px;margin-top:-8px;z-index:1}
+.phead h2{font-family:var(--font-brand);font-weight:600;font-size:22px;margin:0;flex:1}
+.sec{border-top:1px solid var(--line);padding-block:14px;display:flex;flex-direction:column;gap:10px}
+.sec h3{margin:0;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.row{display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap}
+.row label{font-weight:500}
+.note{font-size:13px;color:var(--muted);margin:0;line-height:1.45;max-width:62ch}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{border:none;background:var(--card);padding:8px 16px;font-weight:600}
+.seg button[aria-pressed="true"]{background:var(--brand);color:var(--on-brand)}
+select,input[type=text],textarea{border:1.5px solid var(--line);border-radius:var(--r-sm);padding:8px 10px;min-height:40px;box-sizing:border-box}
+input[type=range]{accent-color:var(--brand);width:min(220px,100%)}
+input[type=checkbox]{accent-color:var(--brand);width:22px;height:22px}
+textarea{width:100%;min-height:90px;font-size:12px;font-family:ui-monospace,Menlo,monospace}
+.btn{border:1.5px solid var(--line);background:var(--card);border-radius:var(--r-md);padding:10px 14px;font-weight:600;min-height:44px}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+.btn.danger{color:var(--neg-bd);border-color:var(--neg-bd)}
+.elist{display:flex;flex-direction:column;gap:6px}
+.erow{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:6px 8px}
+.erow .s{width:32px;text-align:center;font-size:22px;flex:none}.erow img{width:32px;height:32px;object-fit:cover;border-radius:6px}
+.erow .t{flex:1;min-width:0}.erow .t small{display:block;color:var(--muted);overflow-wrap:anywhere}
+.erow.hidden .t{opacity:.5;text-decoration:line-through}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.grid2 label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600}
+
+/* help card */
+.helpcard{position:fixed;inset:0;z-index:20;background:var(--soft);display:flex;flex-direction:column;gap:16px;padding-inline:20px;
+  padding-block:calc(24px + env(safe-area-inset-top,0px)) calc(24px + env(safe-area-inset-bottom,0px));overflow:auto;-webkit-user-select:text;user-select:text}
+.helpcard .big{font-family:var(--font-tile);font-weight:700;font-size:clamp(28px,7vw,52px);line-height:1.15;margin:0;text-wrap:balance}
+.helpcard .info{font-family:var(--font-tile);font-size:clamp(18px,4.5vw,28px);line-height:1.35;margin:0}
+.helpcard .contact{font-family:var(--font-tile);font-size:clamp(22px,6vw,40px);font-weight:700;letter-spacing:.02em}
+.helpcard .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}
+.helpcard .acts .btn{font-size:18px;min-height:56px;flex:1}
+
+.toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);
+  padding:10px 16px;border-radius:var(--r-md);font-weight:600;font-size:14px;z-index:30;max-width:calc(100% - 32px);text-align:center}
+@media (max-width:420px){ .brand{font-size:17px} .ibtn .txt{display:none} .sbtn.speak .txt{display:none} .sbtn.speak{min-width:56px} }
+@media (prefers-reduced-motion:reduce){ *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important} }
+</style>
+
+<div id="app">
+  <div class="top">
+    <span class="brand">Speakeasy</span>
+    <span class="mode" id="modeChip">Kids</span>
+    <span class="spacer"></span>
+    <button class="ibtn help" id="helpBtn" aria-label="Help card"><span aria-hidden="true">🆘</span><span class="txt">Help</span></button>
+    <button class="ibtn" id="findBtn" aria-label="Find a word"><span aria-hidden="true">🔍</span><span class="txt">Find</span></button>
+    <button class="ibtn" id="learnBtn" aria-label="Practice"><span aria-hidden="true">🎯</span><span class="txt">Practice</span></button>
+    <button class="ibtn" id="gearBtn" aria-label="Settings. Hold to open."><span aria-hidden="true">⚙️</span><span class="ring"></span><span class="dot" id="gearDot" hidden></span></button>
+  </div>
+
+  <div class="strip">
+    <div class="msg" id="msg" role="button" tabindex="0" aria-label="Message. Tap to speak it." aria-live="polite"></div>
+    <button class="sbtn small" id="formBtn" aria-label="Word endings, like wants or wanted" title="Word endings" disabled>±</button>
+    <button class="sbtn small" id="delBtn" aria-label="Delete last word">⌫</button>
+    <button class="sbtn small" id="clrBtn" aria-label="Clear message">✕</button>
+    <button class="sbtn speak" id="speakBtn" aria-label="Speak message"><span aria-hidden="true">🔊</span><span class="txt">Speak</span></button>
+  </div>
+
+  <div class="banner" id="banner" hidden></div>
+  <div class="tabs" id="tabs" role="tablist" aria-label="Word groups"></div>
+  <div class="board" id="board"></div>
+  <button class="switchbar" id="switchBar" hidden>Tap here (or press Space) to choose</button>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+/* ================= Speakeasy Bird Pack — original illustrations, McLearn Media LLC =================
+   Each bird: [name, group, scene, "body head wing belly tail beak legs", beak shape+length, features, fact]
+   Scenes: perch, cling, upright, owl, penguin, water, wader, ground, tall, kiwi, flight, hover */
+const BIRD_GROUPS = [
+  ["backyard","Backyard","🏡"],["prey","Birds of prey","🦅"],["water","Water birds","🦆"],
+  ["ocean","Ocean and ice","🐧"],["world","Around the world","🦜"],["farm","Farm and big birds","🐓"]
+];
+const BIRDS_RAW = [
+// ---- Backyard ----
+["Northern Cardinal","backyard","perch","C8102E C8102E A80D27 D63A4C A80D27 F07F2A 8A5A44","cone1.1","crest,mask:#1a1a1a","Male cardinals are bright red. Females are soft brown with red edges."],
+["Blue Jay","backyard","perch","4F7FC6 5B8BD2 2E63B8 EEF1F4 2E63B8 222 333","cone1","crest,neckring:#1b1b1b,wingbar:#fff","Blue jays can copy the call of a hawk."],
+["American Robin","backyard","perch","5E5A57 2B2B2B 4E4A47 D9692A 3A3A3A F2B705 8A6A50","thin1","eyering:#fff","Robins pull earthworms out of the ground after it rains."],
+["Northern Mockingbird","backyard","perch","8E8E8E 9A9A9A 5E5E5E E6E6E2 4F4F4F 222 333","thin1.1","wingbar:#fff,tail:1.4","The mockingbird is Mississippi's state bird. It can sing the songs of many other birds."],
+["House Sparrow","backyard","perch","A9825B 8C8C8C 7A5636 D4CFC4 6E5236 333 A07A5A","cone0.9","cap:#8a8a8a,nape:#8a5a32,throat:#222,wingbar:#fff","House sparrows live near people in cities and towns all over the world."],
+["House Finch","backyard","perch","A58A6E D9383A 8B6E52 E8DCCB 7C624A 9A8A7A 8A6A50","cone0.9","throat:#d9383a,streaks:#8b6e52","Male house finches get their red color from the food they eat."],
+["American Goldfinch","backyard","perch","F7D417 F7D417 1E1E1E FBE35A 1E1E1E F2A65A C49A7A","cone0.9","forehead:#111,wingbar:#fff","Goldfinches love thistle and sunflower seeds."],
+["Eastern Bluebird","backyard","perch","3B6FD0 3B6FD0 2F5FC0 C8642F 2F5FC0 222 333","thin0.9","lowbelly:#f4f1ea","Bluebirds often nest in boxes that people put up for them."],
+["Carolina Chickadee","backyard","perch","9AA0A6 F2F2F0 7C838A EDE6DA 6F767D 222 444","cone0.7","cap:#111,throat:#111","Chickadees say their own name: chick-a-dee-dee-dee!"],
+["Tufted Titmouse","backyard","perch","9AA3AE 9AA3AE 8A94A0 EFEDEA 8A94A0 222 555","cone0.7","crest,forehead:#222,flank:#E0A27A","Titmice hide seeds in tree bark to eat later."],
+["Mourning Dove","backyard","perch","BFA58C BFA58C A88E76 D8C3AE 9A826A 333 D96C6C","thin0.6","spots:#3a2e26,tail:1.4","A mourning dove's soft cooing sounds a little like an owl."],
+["Rock Pigeon","backyard","perch","8C93A3 6E7584 9AA1B0 8C93A3 5A6170 333 D96C6C","thin0.6","neckring:#4FA37B,wingbar:#333","Pigeons can find their way home from very far away."],
+["European Starling","backyard","perch","2B2A33 2B2A33 34333D 2F2E38 222 F2C41A 9A6A5A","thin1.1","speckles:#e9e3c7","Starlings fly in huge swirling flocks called murmurations."],
+["Red-winged Blackbird","backyard","perch","151515 151515 151515 151515 111 222 333","cone1","shoulder:#E5262A","Male red-winged blackbirds show off red shoulder patches with a yellow edge."],
+["Common Grackle","backyard","perch","1E1E2C 2E3A7A 3A2A4A 1E1E2C 1A1A24 222 333","thin1.1","eye:#F2D24B,tail:1.5","Grackles have bright yellow eyes and shiny purple-blue heads."],
+["Brown Thrasher","backyard","perch","A0522D A0522D 8E471F F1E4CC 8E471F 333 8A6A50","thin1.4","streaks:#6a3a1a,eye:#F2C230,wingbar:#fff,tail:1.5","Brown thrashers know more than 1,000 different songs."],
+["Carolina Wren","backyard","perch","A6612C A6612C 8E5226 E9C38E 8E5226 333 C9A07A","thin1.1","brow:#fff,tailup","This tiny wren sings very loudly for its size."],
+["Dark-eyed Junco","backyard","perch","5A5F66 4C5158 4C5158 F2F2F2 3E4248 F0C9C9 A0846E","cone0.8","","Juncos are called snowbirds because many show up in winter."],
+["White-breasted Nuthatch","backyard","cling","7D97B8 FFFFFF 6E88AA F5F5F2 4A4A4A 333 555","thin1.1","cap:#111","Nuthatches climb down tree trunks headfirst."],
+["Downy Woodpecker","backyard","cling","FFFFFF FFFFFF 111111 FFFFFF 111111 333 555","chisel0.7","cap:#111,nape:#E0262B,stripes:#fff,facestripe:#111","The downy is the smallest woodpecker in North America."],
+["Red-bellied Woodpecker","backyard","cling","E9E2D4 E9E2D4 222 EBDDC4 222 333 555","chisel1","cap:#D7262C,barred:#222","Its name is tricky: the red is on its head, and the belly is only a little pink."],
+["Pileated Woodpecker","backyard","cling","1D1D1D 1D1D1D 1D1D1D 1D1D1D 111 555 555","chisel1.3","crest:#D7262C,facestripe:#fff","This crow-sized woodpecker digs big rectangle holes in trees."],
+["Northern Flicker","backyard","cling","C9A887 B9A792 A08060 F0E2CC 222 333 555","chisel1.1","spots:#222,bib:#111,nape:#D7262C","Flickers often hunt for ants on the ground."],
+["Ruby-throated Hummingbird","backyard","hover","3E8E4A 3E8E4A 6A6A6A EDEDE7 3A6E40 222 333","thin1","throat:#D2163A","Hummingbirds beat their wings more than 50 times a second."],
+["Barn Swallow","backyard","flight","254B8C 254B8C 1F3F78 E8A36A 1F3F78 222 333","thin0.6","fork,throat:#B5562A","Barn swallows build cup-shaped nests out of mud."],
+["Purple Martin","backyard","flight","2C2257 2C2257 231B47 2C2257 231B47 222 333","thin0.6","fork","Purple martins in the East nest almost only in houses people build for them."],
+["Cedar Waxwing","backyard","perch","C2A27D B8925E 8C8A88 F0DE9A 7A7A7A 222 333","cone0.8","crest,mask:#111,tailtip:#F5D11B,shoulder:#D92B2B","Waxwings sometimes pass berries to each other down a line."],
+["Indigo Bunting","backyard","perch","1F4FC2 1A3FA8 1A3FA8 2A5BD0 1A3FA8 9AA3B0 555","cone0.9","","Indigo buntings look blue, but light makes the color. Their feathers have no blue in them."],
+["Painted Bunting","backyard","perch","D9302D 2F4FC9 5DBB3A E5352F 7A3A6A 9AA3B0 555","cone0.9","eyering:#D9302D","Painted buntings look like someone colored them with crayons."],
+["Baltimore Oriole","backyard","perch","F28A1E 111 111 F7941F F28A1E 7A8290 555","thin1","wingbar:#fff,bib:#111","Orioles weave hanging nests that look like little bags."],
+["Scarlet Tanager","backyard","perch","E0201B E0201B 111 E83A2A 111 9A9A8A 555","cone0.9","","Male scarlet tanagers are bright red with black wings."],
+["Summer Tanager","backyard","perch","D9313A D9313A C02A33 E04A50 C02A33 D9C08A 555","cone1","","Summer tanagers eat bees and wasps. They rub off the stinger first."],
+["Yellow Warbler","backyard","perch","F2D21B F2D21B C9AE1A F8E04A C9AE1A 333 AA8866","thin0.8","streaks:#C64A2A","Yellow warblers sing 'sweet, sweet, sweet, I'm so sweet!'"],
+["American Crow","backyard","perch","141414 141414 1C1C1C 141414 111 111 222","cone1.4","","Crows are very smart. They can solve puzzles and remember faces."],
+["Common Raven","backyard","perch","141414 141414 1C1C1C 141414 111 111 222","cone1.8","beard,tail:1.2","Ravens are the largest songbirds in the world."],
+["Eastern Towhee","backyard","perch","111 111 111 F2F2F0 111 222 AA8866","cone0.9","flank:#C8632A,eye:#C0262B,bib:#111","Towhees sing 'drink your tea!'"],
+// ---- Birds of prey ----
+["Bald Eagle","prey","upright","4A2F1F FFFFFF 3D2718 4A2F1F FFFFFF F2C230 F2C230","hook1.4","eye:#F2D24B","The bald eagle is the national bird of the United States."],
+["Golden Eagle","prey","upright","5A3A22 B98A3E 4A2F1B 5A3A22 4A2F1B 3A3A3A F2C230","hook1.3","","Golden eagles can dive faster than 150 miles per hour."],
+["Red-tailed Hawk","prey","upright","8A5A35 7A4A28 6A4022 F3E8D6 C4572A 333 F2C230","hook1","streaks:#7a4a28","The scream you hear for eagles in movies is usually a red-tailed hawk."],
+["Cooper's Hawk","prey","upright","5E6B7A 4B5866 55606E F2D5C0 5E6B7A 333 F2C230","hook0.9","barred:#C4672E,eye:#D84A1A,tail:1.5,cap:#2e3540","Cooper's hawks chase small birds through trees at high speed."],
+["Osprey","prey","upright","4A3A2E FFFFFF 3C2E24 FFFFFF 4A3A2E 222 9FB3C0","hook1","mask:#3c2e24,eye:#F2D24B","Ospreys dive feet-first into water to catch fish."],
+["Peregrine Falcon","prey","upright","4F5B6B 1F2833 46525F F2EADC 4F5B6B F2C230 F2C230","hook0.8","barred:#6b7480,mustache:#1f2833,eyering:#F2C230,cheek:#f2eadc","The peregrine falcon is the fastest animal on Earth when it dives."],
+["American Kestrel","prey","upright","C86A32 7E90C8 7E90C8 F4E2CC C86A32 333 F2C230","hook0.7","mustache:#222,spots:#222,cheek:#fff","The kestrel is the smallest falcon in North America."],
+["Turkey Vulture","prey","upright","2A2420 D9443A 3A3029 2A2420 2A2420 EDE6DA D9C7B5","hook0.9","bald","Turkey vultures find food by smell, which is rare for birds."],
+["Black Vulture","prey","upright","1C1C1C 555555 2A2A2A 1C1C1C 1C1C1C 9A9A9A BBBBBB","hook0.9","bald","Black vultures often follow turkey vultures to find food."],
+["Great Horned Owl","prey","owl","7A5A3A 8A6A48 6A4A2E C9B08A 6A4A2E 333 C9B08A","hook0.6","tufts,eye:#F2C230,disc:#C98A4A,throat:#fff,barred:#5a4028","Great horned owls hoot five deep notes: hoo, h'hoo, hoo, hoo."],
+["Barn Owl","prey","owl","D6A45A F4E8D8 C8964C FBF6EE C8964C EDE0CF DDDDDD","hook0.5","heart,eye:#111,disc:#fbf6ee","Barn owls have heart-shaped faces that help them hear."],
+["Snowy Owl","prey","owl","F7F7F7 FAFAFA EEEEEE FFFFFF EEEEEE 333 FFFFFF","hook0.5","eye:#F2C230,spots:#333,disc:#ffffff","Snowy owls live in the Arctic and hunt during the day."],
+["Eastern Screech-Owl","prey","owl","8E8E8A 9A9A96 7A7A76 BCBCB6 7A7A76 9AB07A AAAAAA","hook0.4","tufts,eye:#F2C230,streaks:#555,disc:#a8a8a2","Screech-owls don't screech. They make a soft whinny and trill."],
+["Barred Owl","prey","owl","8A7560 9A8570 7A6550 E8DCC8 7A6550 F2C230 DDDDDD","hook0.5","eye:#2a1a10,barred:#7a6550,disc:#c8b8a0","Barred owls call 'Who cooks for you? Who cooks for you all?'"],
+["Burrowing Owl","prey","owl","9A7650 A07C56 85643F F0E2C8 85643F 9A9A8A 9A9A8A","hook0.4","eye:#F2C230,spots:#fff,longlegs,ground,disc:#b08a60,brow:#fff","Burrowing owls live in holes in the ground."],
+["Harpy Eagle","prey","upright","3A3A3E 9A9AA2 2E2E32 F4F4F2 2E2E32 222 F2C230","hook1.4","crest:#3a3a3e,neckring:#2e2e32","Harpy eagles live in rainforests and are some of the strongest eagles."],
+["Secretary Bird","prey","wader","C9CDD3 C9CDD3 222 DDE0E4 222 9AA3B0 F0B48A","hook1.4","crest:#222,face:#F27A1A,ground","Secretary birds stomp on snakes with their long legs."],
+// ---- Water birds ----
+["Mallard","water","water","9AA0A8 1F7A3E 8A8A8A 7A3E2A 222 F2C230 F28A1E","flat1","neckring:#fff,speculum:#2E4FC9,chest:#6B3A2A","Male mallards have shiny green heads. Females are speckled brown."],
+["Wood Duck","water","water","8A6040 2A6B4A 3A3A5A D9C8A8 222 D9302D F2C230","flat0.8","crest,eye:#D9302D,facestripe:#fff,chest:#7A3A3A,throat:#fff","Wood ducks nest in tree holes. Ducklings jump out the day after they hatch."],
+["Canada Goose","water","water","8A7A68 111 7A6A58 D9D0C2 111 111 222","flat0.9","neck:1,cheek:#fff","Canada geese fly in a V shape to save energy."],
+["Mute Swan","water","water","FFFFFF FFFFFF F2F2F2 FFFFFF FFFFFF F27A1A 333","flat1","neck:2,knob:#111","Mute swans can weigh as much as a small dog."],
+["Black Swan","water","water","1A1A1A 1A1A1A 222 1A1A1A 1A1A1A D9262B 333","flat1","neck:2,eye:#d9262b","Black swans come from Australia."],
+["Common Loon","water","water","1A1A1A 1A3A2A 1A1A1A 1A1A1A 1A1A1A 111 222","thin1.4","checker:#fff,neckring:#fff,eye:#D9262B","Loons make spooky, wailing calls across lakes at night."],
+["American Coot","water","water","2C2C30 1A1A1E 2A2A2E 2C2C30 2A2A2E FFFFFF 9AC24A","cone0.8","eye:#D9262B,shield:#8a2a2a","Coots have lobed toes instead of webbed feet."],
+["Great Blue Heron","water","wader","7B8FA8 E8E8E8 6A7E98 9AA8BC 6A7E98 E8B33A 6A6A5A","long1","brow:#111,plume:#333,neck:#9aa8bc","Great blue herons stand very still, then spear fish with their bills."],
+["Great Egret","water","wader","FFFFFF FFFFFF F4F4F4 FFFFFF F4F4F4 F2C230 111","long1.1","","Great egrets were almost wiped out for their feathers. Laws saved them."],
+["Snowy Egret","water","wader","FFFFFF FFFFFF F4F4F4 FFFFFF F4F4F4 111 111","long0.9","feet:#F2D21B,plume:#fff","Snowy egrets have black legs and bright yellow feet, like golden slippers."],
+["White Ibis","water","wader","FFFFFF FFFFFF F4F4F4 FFFFFF F4F4F4 E8623A E8623A","curve1","face:#E8623A,wingtip:#111","White ibises use their curved bills to feel for crabs in the mud."],
+["Roseate Spoonbill","water","wader","F2A0B8 E8E2C8 E8608A F4B4C8 E8A33A B8B8A0 D9446A","spoon1","shoulder:#D92B4A,neck:#f8d8e0","Spoonbills swish their spoon-shaped bills side to side to catch food."],
+["Wood Stork","water","wader","FFFFFF 6A6058 FFFFFF FFFFFF 111 6A6058 555","curve0.8","wingtip:#111,neck:#8a8078","Wood storks are the only storks that nest in the United States."],
+["Sandhill Crane","water","wader","A8A8AC B8B8BC 9A9AA0 B0B0B4 7A7A80 333 333","long0.8","cap:#D9262B,cheek:#fff","Sandhill cranes dance by jumping, bowing and flapping their wings."],
+["Whooping Crane","water","wader","FFFFFF FFFFFF F4F4F4 FFFFFF F4F4F4 7A6A3A 333","long0.8","cap:#D9262B,mustache:#111,wingtip:#111","Whooping cranes are the tallest birds in North America."],
+["American Flamingo","water","wader","F4708A F4708A F05A78 F78AA0 E04A6A FFF0F0 F27A92","bent1","oneleg,neck:#f4708a","Flamingos are pink because of the shrimp and algae they eat."],
+["Belted Kingfisher","water","perch","5A7AA0 5A7AA0 4A6A90 FFFFFF 4A6A90 222 555","thin1.6","crest,neckring:#fff,band:#5A7AA0","Kingfishers dive headfirst into water to catch fish."],
+["Brown Pelican","water","water","7A6E62 F4E8C8 6A5E52 7A6E62 5A4E42 9A8A6A 333","pouch1","neck:1","Brown pelicans dive from the sky into the ocean to scoop up fish."],
+["American White Pelican","water","water","FFFFFF FFFFFF FFFFFF FFFFFF FFFFFF F2A63A F2A63A","pouch1.2","neck:1,wingtip:#111","White pelicans work in teams to herd fish."],
+["Double-crested Cormorant","water","water","1E1E1E 1E1E1E 2A2A2A 1E1E1E 1E1E1E F27A1A 333","hook1.1","neck:1,eye:#2E9E7A","Cormorants dry their wings by holding them open in the sun."],
+["Anhinga","water","water","111 222 3A3A3A 111 111 F2C230 333","long0.7","neck:2,spots:#ddd","Anhingas swim with only their snake-like neck above water."],
+["Mandarin Duck","water","water","C86A2A F2A040 2A2A6A 6A4A8A 333 D9302D F2A040","flat0.7","crest:#C8461A,facestripe:#fff,sail:#E8742A,chest:#6A4A8A","Mandarin ducks are some of the most colorful ducks in the world."],
+["Killdeer","water","ground","A07A50 A07A50 8A6A44 FFFFFF D9853A 222 F0D9A8","thin0.6","neckring:#111,band:#111,eyering:#E8623A,shore","Killdeer pretend to have a broken wing to lead danger away from their nest."],
+// ---- Ocean and ice ----
+["Emperor Penguin","ocean","penguin","1E2A38 111 1E2A38 FFFFFF 111 222 333","thin1","earpatch:#F2B233,chest:#FBE7A8","Emperor penguin dads keep the egg warm on their feet all winter."],
+["King Penguin","ocean","penguin","3A4A5A 111 3A4A5A FFFFFF 111 222 333","thin1.1","earpatch:#F28A1A,chest:#F7C04A,billspot:#F28A1A","King penguins are the second largest penguins."],
+["Gentoo Penguin","ocean","penguin","1E2A38 111 1E2A38 FFFFFF 111 F2602A F28A1A","thin0.8","brow:#fff","Gentoos are the fastest swimming penguins."],
+["Little Penguin","ocean","penguin","3E6E9E 3E6E9E 3E6E9E FFFFFF 333 222 DDDDDD","thin0.8","","Little penguins are the smallest penguins. They are also called fairy penguins."],
+["Atlantic Puffin","ocean","upright","111 EDEDE8 111 FFFFFF 111 F2602A F28A1A","puffin1","cap:#111,rock","Puffins can hold more than ten small fish in their beaks at once."],
+["Herring Gull","ocean","flight","FFFFFF FFFFFF A8B4C0 FFFFFF FFFFFF F2C230 E8A0A0","cone1.2","tips:#111,billspot:#D9262B","Gull chicks peck the red spot on a parent's bill to ask for food."],
+["Laughing Gull","ocean","flight","FFFFFF 222 5A6470 FFFFFF FFFFFF 8A1A1A 8A1A1A","cone1.1","tips:#111","Laughing gulls sound like they are laughing: ha-ha-ha!"],
+["Wandering Albatross","ocean","flight","FFFFFF FFFFFF 3A3A3A FFFFFF FFFFFF F2C8A8 E8C8C0","hook1.2","longwing","Wandering albatrosses have the longest wings of any bird, about 11 feet."],
+["Blue-footed Booby","ocean","ground","8A6A4A D8CBB8 7A5A3A FFFFFF 7A5A3A 5A7A9A 3FB7D9","cone1.3","streaks:#8a6a4a,rock","Blue-footed boobies show off their bright blue feet in a dance."],
+["Magnificent Frigatebird","ocean","perch","1A1A1A 1A1A1A 1A1A1A 1A1A1A 1A1A1A 7A7A7A 333","hook1.4","balloon:#E0202A,fork,tail:1.3","Male frigatebirds puff up a giant red throat pouch like a balloon."],
+["Arctic Tern","ocean","flight","FFFFFF FFFFFF D8DEE4 FFFFFF FFFFFF D9262B D9262B","thin1","cap:#111,fork","Arctic terns fly from the Arctic to Antarctica and back every year."],
+["Sanderling","ocean","ground","C8C8C8 D8D8D8 9A9A9A FFFFFF 8A8A8A 111 111","thin0.9","shore","Sanderlings run back and forth with the waves on the beach."],
+// ---- Around the world ----
+["Scarlet Macaw","world","upright","E01A2A E01A2A F2C41A E01A2A 1E5FD0 EDE6DA 555","hook1.2","face:#fff,wingband:#1E5FD0,tail:1.9","Macaws can live for more than 50 years."],
+["Blue-and-yellow Macaw","world","upright","1E7FD0 1E7FD0 1E6FC0 F7C21A 1E6FC0 111 555","hook1.2","face:#fff,forehead:#2E9E4A,tail:1.9","These macaws use their strong beaks like a third foot to climb."],
+["Hyacinth Macaw","world","upright","2A3E9A 2A3E9A 24368A 2A3E9A 24368A 222 555","hook1.3","eyering:#F2D21B,jaw:#F2D21B,tail:1.9","The hyacinth macaw is the largest flying parrot."],
+["African Grey Parrot","world","upright","8E9196 A2A5AA 7A7D82 9A9DA2 D9262B 111 555","hook1","face:#eeeeee,tail:0.9","African greys are famous for copying words and sounds."],
+["Sulphur-crested Cockatoo","world","upright","FFFFFF FFFFFF F4F4F4 FFFFFF F4F4F4 222 555","hook0.9","crest:#F2D21B,eye:#111","Cockatoos raise their crests when they are excited."],
+["Budgerigar","world","perch","6FCB3A F2E24A C9C93A 6FCB3A 2E5FB8 E8C8A8 8AAAC8","hook0.4","barred:#222,throatspots","Budgies are small parrots from Australia. Many can learn words."],
+["Cockatiel","world","perch","A8A8A8 F2E24A 9A9A9A A8A8A8 8A8A8A 9A9A9A AAAAAA","hook0.4","crest:#F2E24A,cheek:#F28A3A,wingbar:#fff,tail:1.5","Cockatiels whistle tunes and bob their heads to music."],
+["Rainbow Lorikeet","world","upright","2EA84A 2A4FC9 2E9A3A 2A4FC9 2E9A3A E8302A 777","hook0.5","chest:#F25A1A,neckring:#B8E04A","Rainbow lorikeets have brush-tipped tongues for drinking flower nectar."],
+["Peach-faced Lovebird","world","perch","4EB84A F28A6A 3EA83A 6ACB5A 2E7AD0 E8E0C8 AAAAAA","hook0.4","throat:#F28A6A","Lovebirds stay close to their partner and often sit side by side."],
+["Toco Toucan","world","perch","111 111 111 111 111 F28A1A 4A7AC9","huge1","throat:#fff,eyering:#2E7AD0,billtip:#111","A toucan's huge beak is light because it is mostly hollow."],
+["Keel-billed Toucan","world","perch","111 111 111 111 111 7ACB4A 4A7AC9","huge1","throat:#F2D21B,rainbowbill","Its colorful beak helps it reach fruit on thin branches."],
+["Great Hornbill","world","perch","111 111 111 FFFFFF FFFFFF F2D21B 555","huge0.9","casque:#F2C21A,wingbar:#fff,neck:#f2e8c8","Hornbill mothers seal themselves inside a tree hole to keep their chicks safe."],
+["Resplendent Quetzal","world","perch","2EA86A 2EA86A 1E8A5A D9262B 2EA86A F2D21B 555","cone0.5","crest,tail:2.6","The quetzal's tail feathers can be longer than its body."],
+["Laughing Kookaburra","world","perch","E8DCC8 EDE4D2 6A5A4A F2EADC A0602A 333 999","thin1.5","mask:#5a4a3a,cap:#a8977f","Kookaburra calls sound like loud laughing."],
+["Indian Peafowl","world","ground","1E5FB8 1E6FC8 C9B88A 1E5FB8 2E7A4A 9A9A8A 9A9A9A","cone0.7","peacockfan,crest","Only male peafowl, called peacocks, have the giant tail with eye spots."],
+["Greater Bird-of-paradise","world","perch","6A3A1A F2E24A 6A3A1A 6A3A1A 6A3A1A 9AB0C0 777","cone0.9","throat:#2E7A4A,plumes:#F2C21A","Male birds-of-paradise show off amazing feathers in dances."],
+["Shoebill","world","wader","8A96A2 8A96A2 7A8692 9AA6B2 6A7682 C9B898 333","shoe1","eye:#F2E8C8,neck:#8a96a2","The shoebill has a huge beak shaped like a wooden shoe."],
+["Kiwi","world","kiwi","7A5A3A 7A5A3A 7A5A3A 8A6A4A 7A5A3A D8C8A8 C9B898","long1","","Kiwis can't fly. They have nostrils at the tip of their beaks to sniff out food."],
+["Superb Fairywren","world","perch","4A3A2E 3FB7E8 6A5A4A EDE4D2 2E4FC9 111 777","thin0.7","mask:#111,neckring:#1a2a6a,tailup,tail:1.4","Male fairywrens give flower petals as gifts."],
+["Gouldian Finch","world","perch","2EA84A 111 2EA84A F2D21B 111 F0C9B8 E8C8C0","cone0.8","chest:#9A4AC9,neckring:#3FB7E8","Gouldian finches look like they were painted with every color."],
+["European Robin","world","perch","8A7A60 8A7A60 7A6A50 EDE6DA 7A6A50 333 8A7A6A","thin0.8","chest:#E8622A,face:#E8622A","European robins often follow gardeners to catch worms."],
+["Blue Tit","world","perch","7AA84A FFFFFF 3F7FD0 F2D21B 3F7FD0 222 777","cone0.6","cap:#3F7FD0,mask:#1a2a6a,neckring:#1a2a6a","Blue tits can hang upside down to reach food."],
+["European Bee-eater","world","perch","C8562A A8362A 3EA8A8 3FB7D9 2EA88A 111 777","thin1.3","throat:#F2D21B,mask:#111,tail:1.3","Bee-eaters catch bees in the air and rub off the stinger."],
+["Hoopoe","world","ground","E8A86A E8A86A 111 EDC8A0 111 333 777","curve0.9","crest:#E8A86A,barred:#fff","Hoopoes raise a fan-shaped crest that looks like a crown."],
+["Common Kingfisher","world","perch","1E9AC9 1E8AB9 1E7AA9 F28A3A 1E9AC9 222 F2602A","thin1.5","cheek:#F28A3A,throat:#fff","These tiny kingfishers flash bright blue as they zip over rivers."],
+// ---- Farm and big birds ----
+["Chicken","farm","ground","C8692A C8692A A8501A D9803A 6A3A1A F2C230 F2C230","cone0.7","comb,wattle","Hens can lay about one egg a day."],
+["Rooster","farm","ground","D8862A F2A040 8A2A1A 1A1A1A 1E3A2A F2C230 F2C230","cone0.7","comb,wattle,tailarch:#1E5A3A","Roosters crow 'cock-a-doodle-doo' in the morning, and at other times too."],
+["Wild Turkey","farm","ground","4A3A2A 8AA8D8 5A4A3A 3A2A1A 6A4A2A D8C8A8 D9A8A0","cone0.7","tailfan,wattle,bald","Wild turkeys can run fast and fly short distances."],
+["Pekin Duck","farm","water","FFFFFF FFFFFF F4F0E8 FFFFFF FFFFFF F2A040 F2A040","flat0.9","","White farm ducks came from wild mallards long ago."],
+["Ostrich","farm","tall","1A1A1A E8C8B8 1A1A1A 1A1A1A FFFFFF E8B8A8 E8B8A8","cone0.7","neck:#E8B8B0,wingtip:#fff","The ostrich is the biggest bird in the world. It can run about as fast as a car on a city street."],
+["Emu","farm","tall","6A5A4A 3A4A6A 6A5A4A 6A5A4A 6A5A4A 333 6A6A6A","cone0.7","neck:#5A6A8A,shaggy","Emus are the second tallest birds. They can't fly, but they can swim."],
+["Southern Cassowary","farm","tall","111 2E7AD0 111 111 111 333 7A7A6A","cone0.8","neck:#2E7AD0,casque:#8A6A3A,wattle:#D9262B","Cassowaries wear a tall helmet on their heads called a casque."],
+["Greater Roadrunner","farm","ground","A08A6A 7A6A5A 6A5A4A EDE4D2 5A4A3A 333 6A7A8A","thin1.2","crest:#5a4a3a,streaks:#5a4a3a,tail:1.8,tailup","Roadrunners run up to 20 miles per hour and eat lizards and snakes."],
+["Northern Bobwhite","farm","ground","A0623A A0623A 8A5232 EDE0C8 7A4A2A 333 A08A6A","cone0.6","brow:#fff,throat:#fff,barred:#333","Bobwhites whistle their name: bob-WHITE!"],
+["Ring-necked Pheasant","farm","ground","B8622A 1E6A4A 9A5A2A A8522A A8823A E8D8A8 999","cone0.7","face:#D9262B,neckring:#fff,longtail","Pheasants can burst into the air almost straight up."],
+["Helmeted Guineafowl","farm","ground","3A3A4A 8AC8E8 3A3A4A 3A3A4A 3A3A4A D8B88A 555","cone0.6","spots:#fff,wattle:#D9262B,casque:#C8A86A","Guineafowl make loud alarm calls that warn the whole farm."]
+];
+
+const BIRDS = BIRDS_RAW.map((a,i)=>{
+  const [name,group,tpl,cols,beak,feat,fact]=a;
+  const [b,h,w,l,t,k,g]=cols.split(" ").map(x=>"#"+x);
+  const m = beak.match(/^([a-z]+)([\d.]+)?$/);
+  const f = {};
+  feat.split(",").filter(Boolean).forEach(s=>{ const j=s.indexOf(":"); if(j<0) f[s]=true; else f[s.slice(0,j)]=s.slice(j+1); });
+  return {id:"bird-"+i, name, group, tpl, c:{b,h,w,l,t,k,g}, bs:m[1], bl:+(m[2]||1), f, fact};
+});
+
+/* ---------------- Drawing ---------------- */
+function shade(hex,amt){
+  let x=hex.replace("#",""); if(x.length===3) x=[...x].map(c=>c+c).join("");
+  const n=parseInt(x,16); const cl=v=>Math.max(0,Math.min(255,v));
+  const r=cl((n>>16)+amt), g=cl(((n>>8)&255)+amt), b=cl((n&255)+amt);
+  return "#"+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);
+}
+let BIRD_UID=0;
+function birdSVG(B,opt={}){
+  const u="bd"+(BIRD_UID++), c=B.c, f=B.f, o=[];
+  const P=s=>o.push(s);
+  const E=(cx,cy,rx,ry,rot,fill,x="")=>`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="${fill}"${rot?` transform="rotate(${rot} ${cx} ${cy})"`:""} ${x}/>`;
+  const C=(cx,cy,r,fill,x="")=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fill}" ${x}/>`;
+  const L=(x1,y1,x2,y2,stroke,w,x="")=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${stroke}" stroke-width="${w}" stroke-linecap="round" ${x}/>`;
+  const PG=(pts,fill,x="")=>`<polygon points="${pts.map(p=>p.join(",")).join(" ")}" fill="${fill}" ${x}/>`;
+  const tpl=B.tpl;
+
+  /* ---- geometry by scene ---- */
+  let G;
+  switch(tpl){
+    case "cling": G={body:[50,56,12,23,8],belly:[53,58,7,17,8],wing:[47,57,9,19,8],head:[54,30,11],beak:[64,31],eye:[57,28],tail:[[44,74],[48,76],[44,94],[38,92]],legs:[[[47,64],[37,63]],[[48,73],[37,73]]]}; break;
+    case "upright": G={body:[50,60,17,24,0],belly:[53,64,11,18,0],wing:[43,60,10,21,12],head:[52,31,14],beak:[64,33],eye:[57,29],tail:[[45,78],[55,78],[54,90],[46,90]],legs:[[[46,80],[46,86]],[[54,80],[54,86]]]}; break;
+    case "owl": G={body:[50,62,19,23,0],belly:[50,66,13,17,0],wing:[38,62,8,19,8],head:[50,33,17],beak:[50,38],eye:[50,31],tail:[[45,80],[55,80],[54,88],[46,88]],legs:[[[45,82],[45,f.longlegs?92:87]],[[55,82],[55,f.longlegs?92:87]]]}; break;
+    case "penguin": G={body:[50,58,19,29,0],belly:[53,62,13,23,0],wing:[37,58,6,18,15],head:[52,25,13],beak:[63,27],eye:[57,23]}; break;
+    case "water": { const n=+(f.neck||0);
+      G={body:[45,64,27,12,-4],wing:[41,61,17,7,-6],n,tail:[[20,62],[9,54],[24,58]]};
+      if(n===0) G.head=[69,50,10]; else if(n===1) G.head= B.bs==="pouch" ? [60,36,8] : [73,36,8]; else G.head=[67,24,7];
+      G.beak=[G.head[0]+G.head[2]*0.8,G.head[1]+1]; G.eye=[G.head[0]+G.head[2]*0.3,G.head[1]-G.head[2]*0.25]; break; }
+    case "wader": G={body:[45,50,19,11,-12],belly:[49,54,12,6,-12],wing:[41,48,16,8,-14],head:[64,20,7],beak:[69,21],eye:[65.5,18.5],tail:[[28,52],[19,58],[30,56]],legs:[[[45,58],[43,88]],[[51,58],[55,88]]]}; break;
+    case "tall": G={body:[42,46,24,15,-6],wing:[38,44,18,10,-8],head:[66,13,6],beak:[70.5,14],eye:[67.5,11.5],tail:[[19,44],[10,40],[14,50]],legs:[[[38,57],[36,90]],[[48,57],[52,90]]]}; break;
+    case "kiwi": G={body:[46,62,26,20,0],belly:[48,68,18,12,0],wing:[40,60,14,10,0],head:[69,54,9],beak:[76,56],eye:[71,51],legs:[[[42,79],[41,88]],[[52,79],[53,88]]]}; break;
+    case "flight": G={body:[47,52,21,7,-5],head:[69,48,7],beak:[75,49],eye:[70.5,46.5],tail:[[28,54],[16,58],[17,51]]}; break;
+    case "hover": G={body:[44,52,12,7,-28],head:[55,42,6.5],beak:[60,43],eye:[56.5,40.5],tail:[[36,58],[27,70],[33,71]]}; break;
+    case "ground": G={body:[45,56,23,16,-6],belly:[49,61,15,9,-6],wing:[41,54,16,10,-10],head:[68,34,10],beak:[77,35],eye:[70,32],tail:[[24,52],[12,40],[17,57]],legs:[[[42,70],[40,86]],[[52,70],[54,86]]]}; break;
+    default: G={body:[48,58,24,17,-22],belly:[53,63,16,11,-22],wing:[42,55,19,10,-28],head:[68,38,13],beak:[79,40],eye:[71,35],tail:[[34,64],[29,70],[12,84],[17,89]],legs:[[[50,72],[49,82]],[[56,71],[57,82]]]};
+  }
+  const [hx,hy,hr]=G.head, hs=hr/13;
+
+  /* ---- background scene ---- */
+  const sky = tpl==="penguin" ? ["#D8F1FF","#B6E2F8"] : tpl==="owl" && !f.ground ? ["#2B3A67","#4B5D96"] : ["#BFE6FF","#EAF7FF"];
+  P(`<defs><linearGradient id="${u}s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky[0]}"/><stop offset="1" stop-color="${sky[1]}"/></linearGradient>`
+   +`<clipPath id="${u}h"><circle cx="${hx}" cy="${hy}" r="${hr}"/></clipPath></defs>`);
+  P(`<rect width="100" height="100" rx="14" fill="url(#${u}s)"/>`);
+  if (tpl==="owl" && !f.ground){ P(C(82,18,8,"#F7F1C8")); P(C(20,24,1.2,"#fff")); P(C(30,12,1,"#fff")); P(C(88,40,1,"#fff")); }
+  else if (tpl!=="penguin") P(C(84,15,7,"#FFE58A"));
+  if (tpl==="flight"){ P(E(24,26,12,5,0,"#fff","opacity=\".9\"")); P(E(80,74,14,5,0,"#fff","opacity=\".9\"")); }
+  const branch = () => { P(`<path d="M2 ${tpl==="upright"||tpl==="owl"?88:83} Q50 ${tpl==="upright"||tpl==="owl"?84:79} 98 ${tpl==="upright"||tpl==="owl"?89:84}" stroke="#7A4E2D" stroke-width="6" fill="none" stroke-linecap="round"/>`);
+    P(E(88,78,6,3,-30,"#6BB04A")); P(E(12,80,5,2.5,25,"#6BB04A")); };
+  const grass = (y=86,col="#7CC25A") => { P(`<rect x="0" y="${y}" width="100" height="${100-y}" fill="${col}"/>`); P(`<path d="M0 ${y} Q25 ${y-3} 50 ${y} T100 ${y}" fill="${col}"/>`); };
+  if (tpl==="perch"||tpl==="hover") { if(tpl==="perch") branch(); }
+  if ((tpl==="upright" && !f.rock) || (tpl==="owl" && !f.ground)) branch();
+  if (tpl==="upright" && f.rock) grass(84,"#9A9488");
+  if (tpl==="owl" && f.ground){ grass(86,"#C9A86A"); P(E(26,88,12,5,0,"#5a4028")); }
+  if (tpl==="cling"){ P(`<rect x="18" y="0" width="20" height="100" fill="#7A4E2D"/>`); P(L(24,10,24,40,"#5f3c22",2)); P(L(31,50,31,85,"#5f3c22",2)); }
+  if (tpl==="penguin"){ P(`<path d="M0 84 Q50 78 100 84 V100 H0Z" fill="#F4FBFF"/>`); }
+  if (tpl==="wader"){ if (f.ground) grass(86,"#D8C27A"); else { P(`<rect x="0" y="80" width="100" height="20" fill="#7FC4E8"/>`); } }
+  if (tpl==="ground"||tpl==="tall"||tpl==="kiwi"){ if (f.shore) grass(84,"#EAD8A8"); else if (f.rock) grass(84,"#9A9488"); else grass(86); }
+  if (tpl==="hover"){ P(L(86,100,84,60,"#4E9A3A",3)); P(E(91,78,6,2.5,-30,"#6BB04A")); P(`<path d="M76 47 L88 41 L90 60 Z" fill="#E8304A"/>`); P(E(78,50,3,5,-25,"#F25A6A")); }
+
+  const birdStart = o.length;
+  /* ---- behind the body ---- */
+  if (f.peacockfan){ P(E(30,44,30,30,0,"#2E8A5A")); for(let a=0;a<9;a++){ const t=-1.9+a*0.42, x=30+Math.cos(t)*23, y=44+Math.sin(t)*23; P(C(x,y,4.5,"#C9A23A")); P(C(x,y,3,"#1E5FB8")); P(C(x,y,1.4,"#0b2a5a")); } }
+  if (f.tailfan){ for(let a=0;a<7;a++){ const t=-2.6+a*0.32; P(L(32,52,32+Math.cos(t)*28,52+Math.sin(t)*28,c.t,9)); P(L(32+Math.cos(t)*22,52+Math.sin(t)*22,32+Math.cos(t)*28,52+Math.sin(t)*28,"#E8DCC0",9)); } }
+  if (f.tailarch){ P(`<path d="M28 54 Q10 30 30 20" stroke="${f.tailarch}" stroke-width="7" fill="none" stroke-linecap="round"/>`); P(`<path d="M26 56 Q4 42 16 26" stroke="${shade(f.tailarch,20)}" stroke-width="6" fill="none" stroke-linecap="round"/>`); }
+  if (f.longtail){ P(`<path d="M26 54 L-2 44 L0 50 Z" fill="${c.t}"/>`); P(L(26,54,2,46,"#5a3a1a",1.2,"opacity=\".6\"")); }
+  if (f.plumes){ P(`<path d="M30 60 Q10 70 4 90 Q16 76 34 66 Z" fill="${f.plumes}"/>`); P(`<path d="M34 62 Q20 80 18 96 Q26 80 38 66 Z" fill="${shade(f.plumes,-20)}"/>`); }
+
+  /* ---- legs ---- */
+  const lw = tpl==="tall" ? 3.5 : tpl==="wader" ? 2.2 : 2.6;
+  const legs = () => (G.legs||[]).forEach(([a,b],i)=>{
+    if (f.oneleg && i===1){ P(`<polyline points="${a[0]},${a[1]} ${a[0]+8},${a[1]+14} ${a[0]-2},${a[1]+12}" fill="none" stroke="${c.g}" stroke-width="${lw}" stroke-linecap="round" stroke-linejoin="round"/>`); return; }
+    P(L(a[0],a[1],b[0],b[1],c.g,lw));
+    const fc = f.feet || c.g;
+    if (tpl==="cling") return;
+    P(E(b[0]+2.5,b[1]+0.5,f.feet||tpl==="ground"&&B.group==="ocean"?4.5:3.2,1.4,0,fc));
+  });
+
+  /* ---- tail ---- */
+  const tm = +(f.tail||1);
+  const tail = () => {
+    if (!G.tail || tpl==="penguin" || f.peacockfan || f.tailfan) return;
+    let pts = G.tail;
+    if (tm!==1){ const base=[pts[0][0],pts[0][1]]; pts=pts.map((p,i)=> i===0 ? p : [base[0]+(p[0]-base[0])*tm, base[1]+(p[1]-base[1])*tm]); }
+    const rot = f.tailup ? ` transform="rotate(${tpl==="ground"?40:70} ${pts[0][0]} ${pts[0][1]})"` : "";
+    if (f.fork){ const [a,b2]=[pts[0],pts[pts.length-1]]; const mid=pts[1]||b2;
+      P(`<g${rot}>${PG([pts[0],[mid[0]-6,mid[1]+8],[mid[0]+2,mid[1]+2],[b2[0]+4,b2[1]],[b2[0]-4,b2[1]+10],pts[0]],c.t)}</g>`); return; }
+    P(`<g${rot}>${PG(pts,c.t)}${f.tailtip?PG([pts[pts.length-2],pts[pts.length-1],[(pts[pts.length-1][0]*3+pts[0][0])/4,(pts[pts.length-1][1]*3+pts[0][1])/4],[(pts[pts.length-2][0]*3+pts[0][0])/4,(pts[pts.length-2][1]*3+pts[0][1])/4]],f.tailtip):""}</g>`);
+  };
+
+  /* ---- flight wings ---- */
+  const lwing = f.longwing ? 1.35 : 1;
+  const farWing = () => P(PG([[44,49],[44+18*lwing,49-30*lwing],[44+25*lwing,49-28*lwing],[56,51]],shade(c.w,-25)));
+  const nearWing = () => { const tip=[[30-6*(lwing-1)*10/4,14-4*(lwing-1)],[41,13-4*(lwing-1)]];
+    P(PG([[40,51],tip[0],tip[1],[56,51]],c.w));
+    if (f.tips) P(PG([tip[0],tip[1],[38.5,22],[32,23]],f.tips));
+  };
+
+  /* ---- body ---- */
+  const body = () => {
+    const [cx,cy,rx,ry,rot]=G.body; P(E(cx,cy,rx,ry,rot,c.b));
+    if (G.belly && tpl!=="water"){ const [bx,by,brx,bry,br]=G.belly; P(E(bx,by,brx,bry,br,c.l));
+      if (f.lowbelly) P(E(bx-2,by+5,brx*0.7,bry*0.55,br,f.lowbelly));
+      if (f.chest) P(E(bx+brx*0.35,by-bry*0.35,brx*0.6,bry*0.6,br,f.chest));
+      if (f.flank) P(E(bx-brx*0.35,by+bry*0.1,brx*0.5,bry*0.5,br,f.flank));
+      const pat = f.streaks||f.barred||(f.spots&&tpl!=="cling"?f.spots:null);
+      if (f.streaks) for(let i=0;i<6;i++) P(L(bx-brx*0.5+i*brx*0.22,by-bry*0.3+(i%2)*3,bx-brx*0.5+i*brx*0.22-1,by-bry*0.3+(i%2)*3+4,f.streaks,1.3));
+      if (f.barred) for(let i=0;i<4;i++) P(L(bx-brx*0.55,by-bry*0.5+i*bry*0.35,bx+brx*0.55,by-bry*0.5+i*bry*0.35,f.barred,1.2,`opacity=".75" transform="rotate(${br||0} ${bx} ${by})"`));
+      if (f.spots && !pat?.startsWith) {}
+      if (f.speckles) for(let i=0;i<14;i++) P(C(cx-rx*0.6+((i*37)%100)/100*rx*1.3, cy-ry*0.5+((i*53)%100)/100*ry, 0.9, f.speckles));
+      if (f.throatspots) for(let i=0;i<4;i++) P(C(hx+2+i*2.4-4, hy+hr*0.95, 0.9, "#111"));
+    }
+    if (tpl==="water"){ if (f.chest) P(E(cx+rx*0.7,cy-2,7,8,0,f.chest)); }
+    if (tpl==="kiwi" || f.shaggy) for(let i=0;i<12;i++) P(L(cx-rx*0.7+i*rx*0.13,cy-ry*0.4+(i%3)*5,cx-rx*0.7+i*rx*0.13-2,cy-ry*0.4+(i%3)*5+4,shade(c.b,-25),1.2));
+  };
+  const wing = () => {
+    if (!G.wing) return;
+    const [wx,wy,wrx,wry,wr]=G.wing;
+    P(E(wx,wy,wrx,wry,wr,c.w));
+    if (f.stripes) for(let i=0;i<4;i++) P(L(wx-wrx*0.4,wy-wry*0.6+i*wry*0.4,wx+wrx*0.4,wy-wry*0.6+i*wry*0.4,f.stripes,1.6,`transform="rotate(${wr} ${wx} ${wy})"`));
+    if (f.checker) for(let i=0;i<10;i++) P(C(wx-wrx*0.7+(i%5)*wrx*0.35, wy-wry*0.3+Math.floor(i/5)*wry*0.6, 0.9, f.checker));
+    if (f.wingbar) P(L(wx-wrx*0.45,wy+wry*0.1,wx+wrx*0.35,wy-wry*0.25,f.wingbar,1.8,`transform="rotate(${tpl==="perch"?0:wr} ${wx} ${wy})"`));
+    if (f.wingband) P(E(wx,wy+wry*0.45,wrx*0.95,wry*0.45,wr,f.wingband));
+    if (f.shoulder) P(E(wx+wrx*0.45,wy-wry*0.2,wrx*0.32,wry*0.45,wr,f.shoulder));
+    if (f.speculum) P(E(wx+wrx*0.1,wy+wry*0.1,wrx*0.3,wry*0.35,wr,f.speculum));
+    if (f.sail) P(PG([[wx+2,wy-wry],[wx+8,wy-wry-9],[wx+12,wy-wry+1]],f.sail));
+    if (f.wingtip) P(E(wx-wrx*0.75,wy+wry*0.15,wrx*0.35,wry*0.5,wr,f.wingtip));
+    if (f.back) P(E(wx+2,wy-wry*0.5,wrx*0.6,wry*0.4,wr,f.back));
+    if (f.spots){ const [cx,cy,rx,ry]=G.body; for(let i=0;i<12;i++) P(C(cx-rx*0.6+((i*41)%100)/100*rx*1.2, cy-ry*0.45+((i*67)%100)/100*ry*1.05, B.group==="farm"?1.3:1, f.spots)); }
+  };
+
+  /* ---- neck ---- */
+  const neck = () => {
+    const nc = f.neck && f.neck.startsWith("#") ? f.neck : c.h;
+    if (tpl==="water"){
+      if (G.n===0) P(E(hx-3,hy+6,7,8,0,c.h));
+      if (G.n===1) P(`<path d="M${B.bs==="pouch"?52:62} 60 Q${B.bs==="pouch"?58:70} 50 ${hx-1} ${hy+4}" stroke="${tpl==="water"&&B.f.cheek?c.h:nc}" stroke-width="7" fill="none" stroke-linecap="round"/>`);
+      if (G.n===2) P(`<path d="M60 60 C78 50 54 34 ${hx-1} ${hy+3}" stroke="${nc}" stroke-width="6" fill="none" stroke-linecap="round"/>`);
+    }
+    if (tpl==="wader") P(`<path d="M58 46 Q72 38 ${hx-2} ${hy+4}" stroke="${nc}" stroke-width="5" fill="none" stroke-linecap="round"/>`);
+    if (tpl==="tall") P(`<path d="M58 40 Q68 28 ${hx-1} ${hy+3}" stroke="${nc}" stroke-width="5" fill="none" stroke-linecap="round"/>`);
+    if (tpl==="ground") P(L(61,46,hx-2,hy+4,c.h,11));
+    if (tpl==="perch") P(E(hx-4,hy+8,9,8,-20,c.h));
+    if (tpl==="hover") P(E(hx-3,hy+4,5,4,-20,c.h));
+    if (tpl==="flight") P(E(hx-4,hy+2,6,4.5,-10,c.h));
+  };
+
+  /* ---- head ---- */
+  const head = () => {
+    if (f.crest) { const cc = f.crest===true ? c.h : f.crest;
+      P(PG([[hx-hr*0.2,hy-hr*0.8],[hx-hr*0.95,hy-hr*1.75],[hx-hr*0.15,hy-hr*1.35],[hx+hr*0.35,hy-hr*0.85]],cc)); }
+    if (f.tufts){ P(PG([[hx-hr*0.75,hy-hr*0.6],[hx-hr*0.95,hy-hr*1.45],[hx-hr*0.3,hy-hr*0.85]],c.h)); P(PG([[hx+hr*0.75,hy-hr*0.6],[hx+hr*0.95,hy-hr*1.45],[hx+hr*0.3,hy-hr*0.85]],c.h)); }
+    if (f.comb){ for(let i=0;i<4;i++) P(C(hx-hr*0.5+i*hr*0.38,hy-hr*0.95-(i%2)*1.5,hr*0.32,"#E0202A")); }
+    if (f.plume) P(`<path d="M${hx-hr*0.6} ${hy-hr*0.4} Q${hx-hr*2.6} ${hy-hr*0.3} ${hx-hr*3.2} ${hy+hr*0.8}" stroke="${f.plume}" stroke-width="1.6" fill="none"/>`);
+    if (f.casque && tpl!=="perch") P(E(hx+hr*0.1,hy-hr*1.05,hr*0.5,hr*0.75,-10,f.casque));
+    P(C(hx,hy,hr,f.bald&&tpl==="upright"?c.h:c.h));
+    if (f.bald && tpl==="upright") P(E(hx-hr*0.6,hy+hr*0.95,hr*0.9,hr*0.45,0,c.b));
+    // features inside the head outline
+    const inside=[];
+    if (f.cap) inside.push(`<rect x="${hx-hr}" y="${hy-hr}" width="${hr*2}" height="${hr*0.85}" fill="${f.cap}"/>`);
+    if (f.forehead) inside.push(C(hx+hr*0.55,hy-hr*0.75,hr*0.5,f.forehead));
+    if (f.nape) inside.push(C(hx-hr*0.9,hy-hr*0.3,hr*0.45,f.nape));
+    if (f.face) inside.push(E(hx+hr*0.35,hy,hr*0.6,hr*0.55,0,f.face));
+    if (f.cheek) inside.push(E(hx-hr*0.05,hy+hr*0.45,hr*0.55,hr*0.4,0,f.cheek));
+    if (f.mask) inside.push(`<rect x="${hx-hr*0.2}" y="${G.eye[1]-hr*0.28}" width="${hr*1.3}" height="${hr*0.5}" fill="${f.mask}"/>`);
+    if (f.brow) inside.push(`<rect x="${hx-hr*0.6}" y="${G.eye[1]-hr*0.42}" width="${hr*1.4}" height="${hr*0.17}" fill="${f.brow}"/>`);
+    if (f.facestripe) inside.push(`<rect x="${hx-hr}" y="${G.eye[1]+hr*0.15}" width="${hr*2}" height="${hr*0.18}" fill="${f.facestripe}"/>`);
+    if (f.mustache) inside.push(`<rect x="${G.eye[0]-hr*0.15}" y="${G.eye[1]}" width="${hr*0.22}" height="${hr*0.9}" fill="${f.mustache}"/>`);
+    if (f.earpatch) inside.push(E(hx-hr*0.35,hy+hr*0.35,hr*0.35,hr*0.6,15,f.earpatch));
+    if (f.disc) inside.push(E(hx,hy+hr*0.05,hr*0.85,hr*0.72,0,f.disc));
+    if (f.heart) inside.push(`<path d="M${hx} ${hy-hr*0.45} Q${hx-hr*0.95} ${hy-hr*1.05} ${hx-hr*0.85} ${hy+hr*0.1} Q${hx-hr*0.5} ${hy+hr*0.8} ${hx} ${hy+hr*0.85} Q${hx+hr*0.5} ${hy+hr*0.8} ${hx+hr*0.85} ${hy+hr*0.1} Q${hx+hr*0.95} ${hy-hr*1.05} ${hx} ${hy-hr*0.45}Z" fill="#FFFDF8"/>`);
+    if (f.jaw) inside.push(E(hx+hr*0.7,hy+hr*0.35,hr*0.3,hr*0.2,0,f.jaw));
+    if (inside.length) P(`<g clip-path="url(#${u}h)">${inside.join("")}</g>`);
+    if (f.earpatch && tpl==="penguin") P(E(hx-hr*0.2,hy+hr*1.1,hr*0.3,hr*0.5,-20,f.earpatch));
+    if (f.neckring) P(`<path d="M${hx-hr*0.9} ${hy+hr*0.55} Q${hx} ${hy+hr*1.35} ${hx+hr*0.85} ${hy+hr*0.6}" stroke="${f.neckring}" stroke-width="${Math.max(1.6,hr*0.22)}" fill="none"/>`);
+    if (f.band) P(`<path d="M${G.body[0]+4} ${G.body[1]-G.body[3]*0.75} Q${G.body[0]+G.body[2]*0.75} ${G.body[1]-G.body[3]*0.2} ${G.body[0]+G.body[2]*0.8} ${G.body[1]-G.body[3]*0.65}" stroke="${f.band}" stroke-width="2.4" fill="none"/>`);
+    if (f.throat && tpl!=="hover") P(E(hx+hr*0.35,hy+hr*0.78,hr*0.5,hr*0.42,0,f.throat));
+    if (f.throat && tpl==="hover") P(E(hx+1.5,hy+4.5,3.6,2.8,-20,f.throat));
+    if (f.bib) P(E(hx+hr*0.15,hy+hr*1.05,hr*0.65,hr*0.5,0,f.bib));
+    if (f.beard) for(let i=0;i<3;i++) P(PG([[hx+hr*0.1+i*2.5,hy+hr*0.75],[hx+hr*0.25+i*2.5,hy+hr*1.25],[hx+hr*0.45+i*2.5,hy+hr*0.7]],c.h));
+    if (f.balloon) P(E(hx+hr*0.25,hy+hr*1.55,hr*0.85,hr*0.95,0,f.balloon));
+  };
+
+  /* ---- beak ---- */
+  const beak = () => {
+    const [bx,by]=G.beak, bl=B.bl, s=hs;
+    let d;
+    switch(B.bs){
+      case "cone": { const Ln=9*bl*s; d=`M${bx-1} ${by-4*s} L${bx+Ln} ${by} L${bx-1} ${by+4*s}Z`; break; }
+      case "chisel": { const Ln=13*bl*s; d=`M${bx-1} ${by-2.6*s} L${bx+Ln} ${by-0.4*s} L${bx+Ln} ${by+0.6*s} L${bx-1} ${by+2.6*s}Z`; break; }
+      case "hook": { const Ln=8*bl*s;
+        if (tpl==="owl") { d=`M${bx-2.2} ${by-1} L${bx+2.2} ${by-1} L${bx} ${by+4.5*bl}Z`; break; }
+        d=`M${bx-1} ${by-4.2*s} Q${bx+Ln*0.95} ${by-5*s} ${bx+Ln} ${by+2.5*s} Q${bx+Ln*0.75} ${by+1*s} ${bx+Ln*0.55} ${by+3.8*s} L${bx-1} ${by+4*s}Z`; break; }
+      case "flat": { const Ln=11*bl*s; d=`M${bx-2} ${by-3*s} L${bx+Ln-2.5*s} ${by-2.6*s} Q${bx+Ln} ${by-2.6*s} ${bx+Ln} ${by} Q${bx+Ln} ${by+2.4*s} ${bx+Ln-2.5*s} ${by+2.4*s} L${bx-2} ${by+2.4*s}Z`; break; }
+      case "long": { const Ln=(tpl==="kiwi"?16:24)*bl, dy=tpl==="kiwi"?14:0; d=`M${bx-1} ${by-1.6} L${bx+Ln} ${by+dy} L${bx-1} ${by+1.8}Z`; break; }
+      case "curve": { const Ln=22*bl; d=`M${bx-1} ${by-1.8} Q${bx+Ln*0.65} ${by-2.5} ${bx+Ln} ${by+9*bl} Q${bx+Ln*0.55} ${by+1.5} ${bx-1} ${by+1.8}Z`; break; }
+      case "spoon": { const Ln=20*bl; d=`M${bx-1} ${by-1.6} L${bx+Ln-3} ${by-0.8} Q${bx+Ln+4} ${by-3.5} ${bx+Ln+4} ${by+1.2} Q${bx+Ln+3} ${by+4.5} ${bx+Ln-3} ${by+1.2} L${bx-1} ${by+1.8}Z`; break; }
+      case "bent": d=`M${bx-1} ${by-2.6} L${bx+8} ${by-2.2} Q${bx+13.5} ${by+0.5} ${bx+12.5} ${by+9} L${bx+9.5} ${by+8.2} Q${bx+9.5} ${by+2.4} ${bx-1} ${by+2.6}Z`; break;
+      case "shoe": d=`M${bx-2} ${by-5} Q${bx+15} ${by-6.5} ${bx+15} ${by+0.5} Q${bx+12} ${by+7} ${bx-2} ${by+5}Z`; break;
+      case "huge": { const Ln=26*bl*s; d=`M${bx-1.5} ${by-6.5*s} Q${bx+Ln*0.7} ${by-10*s} ${bx+Ln} ${by-1} Q${bx+Ln*0.75} ${by+5*s} ${bx-1.5} ${by+6.5*s}Z`; break; }
+      case "puffin": d=`M${bx-1.5} ${by-6} L${bx+10} ${by+1} L${bx-1.5} ${by+7}Z`; break;
+      case "pouch": { const Ln=22*bl; P(`<path d="M${bx} ${by+1.5} Q${bx+Ln*0.45} ${by+12} ${bx+Ln} ${by+2}Z" fill="${shade(c.k,-10)}"/>`);
+        d=`M${bx-1} ${by-2} L${bx+Ln} ${by} L${bx+Ln} ${by+2} L${bx-1} ${by+2}Z`; break; }
+      default: { const Ln=12*bl*s; d=`M${bx-1} ${by-2.2*s} L${bx+Ln} ${by+0.6*s} L${bx-1} ${by+2.4*s}Z`; }
+    }
+    P(`<clipPath id="${u}k"><path d="${d}"/></clipPath><path d="${d}" fill="${c.k}"/>`);
+    const over=[];
+    if (f.billtip) over.push(`<rect x="${bx+18*hs}" y="0" width="30" height="100" fill="${f.billtip}"/>`);
+    if (f.rainbowbill){ ["#F28A1A","#E0202A","#2E7AD0"].forEach((col,i)=>over.push(`<rect x="${bx+6*hs+i*6*hs}" y="0" width="${5*hs}" height="100" fill="${col}"/>`)); }
+    if (B.bs==="puffin"){ over.push(`<rect x="${bx-2}" y="0" width="3.2" height="100" fill="#3A5A8A"/>`); over.push(`<rect x="${bx+3}" y="0" width="1.6" height="100" fill="#F2D21B"/>`); }
+    if (f.billspot) over.push(C(bx+(B.bs==="cone"?7*hs:4),by+1.6*hs,1.8,f.billspot));
+    if (B.bs==="bent") over.push(`<rect x="${bx+8}" y="${by+3}" width="10" height="10" fill="#111"/>`);
+    if (over.length) P(`<g clip-path="url(#${u}k)">${over.join("")}</g>`);
+    if (f.knob) P(E(bx+1,by-3.2*hs,2.2*hs,2*hs,0,f.knob));
+    if (f.shield) P(E(bx-0.5,by-3.5*hs,2*hs,3.6*hs,0,f.shield));
+    if (f.casque && tpl==="perch") P(`<path d="M${bx-1} ${by-6*hs} Q${bx+8*hs} ${by-13*hs} ${bx+16*hs} ${by-8*hs} Q${bx+8*hs} ${by-6*hs} ${bx-1} ${by-6*hs}Z" fill="${f.casque}"/>`);
+    if (f.wattle) P(`<path d="M${bx-1} ${by+3*hs} Q${bx+2} ${by+10*hs} ${bx-3} ${by+11*hs} Q${bx-6} ${by+7*hs} ${bx-1} ${by+3*hs}Z" fill="${f.wattle===true?"#E0202A":f.wattle}"/>`);
+  };
+
+  /* ---- eye ---- */
+  const eye = () => {
+    const er = Math.max(1.4, hr*0.17);
+    if (tpl==="owl"){
+      const ec = f.eye || "#F2C230";
+      [[hx-hr*0.38,hy-hr*0.05],[hx+hr*0.38,hy-hr*0.05]].forEach(([x,y])=>{ P(C(x,y,hr*0.27,ec)); P(C(x,y,hr*0.15,"#111")); P(C(x-hr*0.06,y-hr*0.07,hr*0.05,"#fff")); });
+      return;
+    }
+    const [ex,ey]=G.eye;
+    if (f.eyering) P(C(ex,ey,er*1.7,f.eyering));
+    if (f.eye){ P(C(ex,ey,er*1.25,f.eye)); }
+    P(C(ex,ey,er,"#111")); P(C(ex+er*0.35,ey-er*0.35,er*0.38,"#fff"));
+  };
+
+  /* ---- assemble by scene ---- */
+  if (tpl==="flight"){ farWing(); tail(); body(); nearWing(); neck(); head(); beak(); eye(); }
+  else if (tpl==="hover"){
+    P(E(42,38,4.5,13,-25,"#DDEEFF","opacity=\".75\"")); tail(); body(); neck(); head(); beak(); eye();
+    P(E(46,34,4.5,14,-5,"#EEF6FF","opacity=\".8\""));
+  }
+  else if (tpl==="water"){ tail(); body(); wing(); neck(); head(); beak(); eye();
+    P(`<path d="M0 68 Q12 65 25 68 T50 68 T75 68 T100 68 V100 H0Z" fill="#4FA8DA"/>`); P(`<path d="M8 78 Q16 75 24 78 M56 84 Q64 81 72 84" stroke="#BFE6FF" stroke-width="1.6" fill="none"/>`); }
+  else if (tpl==="penguin"){ body(); wing(); head(); beak(); eye();
+    P(E(44,87,5,2,0,c.g)); P(E(57,87,5,2,0,c.g)); }
+  else { tail(); legs(); body(); wing(); neck(); head(); beak(); eye(); }
+
+  if (tpl==="flight"){ const parts=o.splice(birdStart); o.push(`<g transform="translate(8 16) scale(0.84)">${parts.join("")}</g>`); }
+  if (opt.nobg) o.splice(1, birdStart-1);
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${B.name}">${o.join("")}</svg>`;
+}
+
+</script>
+<script>
+(() => {
+"use strict";
+
+/* ---------------- Vocabulary ----------------
+   Built-in lists are append-only: IDs come from list position, so add new
+   words at the END of a list. Core words never move (motor planning). */
+const CORE = [
+  ["I","🙋","pron"],["you","👉","pron"],["want","🤲","verb"],["like","👍","verb"],["more","➕","desc"],["stop","✋","verb"],
+  ["go","🚶","verb"],["help","🤝","verb"],["it","📦","pron"],["that","👆","pron"],["not","🚫","neg"],["all done","🏁","social"],
+  ["eat","🍽️","verb"],["drink","🥤","verb"],["play","🎈","verb"],["look","👀","verb"],["feel","💗","verb"],["need","❗","verb"],
+  ["what","❓","q"],["where","🧭","q"],["in","📥","prep"],["on","🔛","prep"],["yes","✅","social"],["no","❌","neg"],
+  // 25–48: the larger board
+  ["he","👦","pron"],["she","👧","pron"],["we","👫","pron"],["they","👥","pron"],["my","👈","pron"],["your","🫵","pron"],
+  ["do","🛠️","verb"],["get","✊","verb"],["make","🔨","verb"],["put","👇","verb"],["turn","🔄","verb"],["is","🟰","verb"],
+  ["can","💪","verb"],["come","↩️","verb"],["big","🐘","desc"],["little","🐭","desc"],["good","🌟","desc"],["bad","👎","desc"],
+  ["again","🔁","desc"],["up","⬆️","prep"],["down","⬇️","prep"],["out","📤","prep"],["off","📴","prep"],["here","📌","prep"]
+].map(([label,sym,pos],i)=>({id:"core-"+i,label,sym,pos,builtin:true}));
+const STARTER = new Set([0,2,4,5,6,7,11,12,13,14,22,23].map(i=>"core-"+i));
+// Fixed spots. Each board size keeps every word in one place forever.
+const LAYOUT24 = CORE.slice(0,24).map(c=>c.id);
+const LAYOUT48 = [ 0, 1, 2, 6, 3, 4,20,22,
+                  24,25,17,31, 7,38,21,23,
+                  26,27,30,32, 5,39,43,10,
+                   8, 9,35,12,13,40,44,11,
+                  28,29,36,14,15,41,45,47,
+                  18,19,37,33,16,34,42,46].map(i=>"core-"+i);
+const ORIGINAL24 = new Set(LAYOUT24);
+const CORE_BY_ID = new Map(CORE.map(c=>[c.id,c]));
+
+const W = (label,sym,pos="noun",m="") => ({label,sym,pos,m});
+const CATS = {
+  feelings:{name:"Feelings",sym:"😊",modes:"ka",items:[
+    W("happy","😊","desc"),W("sad","😢","desc"),W("angry","😠","desc"),W("scared","😨","desc"),W("tired","😴","desc"),W("excited","🤩","desc"),
+    W("calm","😌","desc"),W("frustrated","😣","desc"),W("sick","🤒","desc"),W("bored","🥱","desc"),W("hurt","🤕","desc"),W("silly","🤪","desc","k"),
+    W("anxious","😰","desc","a"),W("overwhelmed","😵‍💫","desc"),W("okay","🙂","desc"),W("lonely","🫥","desc","a"),W("proud","🥲","desc"),W("loved","🥰","desc"),
+    W("confused","😕","desc"),W("surprised","😮","desc"),W("nervous","😬","desc"),W("embarrassed","😳","desc"),W("annoyed","😤","desc"),W("worried","😟","desc"),W("safe","🛟","desc")]},
+  food:{name:"Food",sym:"🍎",modes:"ka",items:[
+    W("water","💧"),W("juice","🧃"),W("milk","🥛"),W("apple","🍎"),W("banana","🍌"),W("crackers","🍘"),W("sandwich","🥪"),W("pizza","🍕"),
+    W("chicken","🍗"),W("rice","🍚"),W("cereal","🥣"),W("snack","🍪"),W("coffee","☕","noun","a"),W("tea","🍵","noun","a"),W("soup","🍲"),W("fries","🍟"),
+    W("bread","🍞"),W("eggs","🥚"),W("cheese","🧀"),W("yogurt","🥄"),W("pasta","🍝"),W("hamburger","🍔"),W("hot dog","🌭"),W("chips","🥔"),
+    W("grapes","🍇"),W("orange","🍊"),W("strawberry","🍓"),W("carrots","🥕"),W("ice cream","🍦"),W("cookie","🍪"),W("cake","🍰"),W("candy","🍬"),
+    W("popcorn","🍿"),W("soda","🥤"),W("peanut butter","🥜"),W("salad","🥗"),W("breakfast","🍳"),W("lunch","🥪"),W("dinner","🍽️"),
+    W("hungry","😋","desc"),W("thirsty","👅","desc")]},
+  play:{name:"Play",sym:"🧩",modes:"k",items:[
+    W("ball","⚽"),W("blocks","🧱"),W("tablet","📱"),W("music","🎵"),W("swing","🛝"),W("bubbles","🫧"),W("book","📖"),W("draw","🖍️","verb"),
+    W("puzzle","🧩"),W("outside","🌳"),W("cars","🚗"),W("dance","💃","verb"),W("tickle","🤭","verb"),W("TV","📺"),W("game","🎮"),W("song","🎤"),
+    W("bike","🚲"),W("trains","🚂"),W("dinosaurs","🦖"),W("dolls","🪆"),W("paint","🎨","verb"),W("build","🏗️","verb"),W("hide and seek","🙈"),W("tag","🏃"),W("video game","🕹️")]},
+  people:{name:"People",sym:"👪",modes:"ka",items:[
+    W("mom","👩"),W("dad","👨"),W("me","🙋","pron"),W("teacher","🧑‍🏫"),W("friend","🧑‍🤝‍🧑"),W("grandma","👵"),W("grandpa","👴"),W("brother","👦"),
+    W("sister","👧"),W("doctor","🧑‍⚕️"),W("nurse","🩺","noun","a"),W("caregiver","🤝","noun","a"),W("partner","💑","noun","a"),W("therapist","🗣️"),W("pastor","⛪"),
+    W("baby","👶"),W("aunt","👩‍🦱"),W("uncle","👨‍🦱"),W("cousin","🧒"),W("neighbor","🏘️"),W("boss","🧑‍💼","noun","a"),W("coworker","👥","noun","a"),
+    W("bus driver","🚌"),W("police officer","👮"),W("firefighter","🧑‍🚒"),W("everyone","👨‍👩‍👧‍👦","pron")]},
+  places:{name:"Places",sym:"🏠",modes:"ka",items:[
+    W("home","🏠"),W("school","🏫"),W("bathroom","🚽"),W("bedroom","🛏️"),W("outside","🌳"),W("car","🚗"),W("store","🏪"),W("park","🏞️"),
+    W("church","⛪"),W("doctor's office","🏥"),W("work","💼","noun","a"),W("restaurant","🍽️"),W("quiet room","🤫"),
+    W("playground","🛝"),W("library","📚"),W("hospital","🏥"),W("grandma's house","🏡"),W("pool","🏊"),W("beach","🏖️"),W("zoo","🦁"),
+    W("farm","🚜"),W("gym","🏋️"),W("kitchen","🍳"),W("living room","🛋️"),W("bus stop","🚏")]},
+  body:{name:"Body",sym:"🙆",modes:"ka",items:[
+    W("head","🙆"),W("tummy","🫃","noun","k"),W("ears","👂"),W("eyes","👀"),W("mouth","👄"),W("hand","✋"),W("foot","🦶"),W("tooth","🦷"),
+    W("hurts","🤕","verb"),W("itchy","🐜","desc"),W("hot","🥵","desc"),W("cold","🥶","desc"),
+    W("nose","👃"),W("hair","💇"),W("arm","💪"),W("leg","🦵"),W("fingers","🖐️"),W("heart","❤️"),W("bleeding","🩸","desc"),W("stomach","🫃","noun","a")]},
+  health:{name:"Health",sym:"🩺",modes:"a",items:[
+    W("pain","⚡"),W("medicine","💊"),W("headache","🤕"),W("sick to my stomach","🤢","desc"),W("dizzy","😵","desc"),W("can't breathe well","🫁","desc"),
+    W("doctor","🧑‍⚕️"),W("appointment","📅"),W("bathroom","🚽"),W("tired","😴","desc"),W("too loud","🔊","desc"),W("too bright","🔆","desc"),
+    W("cough","😷"),W("fever","🤒"),W("bandage","🩹"),W("toothache","🦷"),W("wheelchair","♿"),W("glasses","👓"),W("hearing aid","🦻"),W("lie down","🛏️","verb")]},
+  daily:{name:"Daily life",sym:"🗓️",modes:"ka",items:[
+    W("shower","🚿"),W("get dressed","👕","verb"),W("sleep","😴","verb"),W("phone","📱"),W("TV","📺"),W("walk","🚶","verb"),W("rest","🛋️","verb"),
+    W("money","💵","noun","a"),W("bus","🚌"),W("work","💼","noun","a"),W("laundry","🧺","noun","a"),W("cook","🍳","verb"),W("shopping","🛒"),W("music","🎵"),
+    W("brush teeth","🪥","verb"),W("bath","🛁"),W("haircut","💈"),W("bed","🛏️"),W("clean up","🧹","verb"),W("dishes","🍽️"),W("call","📞","verb"),
+    W("text message","💬"),W("email","📧","noun","a"),W("drive","🚗","verb","a"),W("potty","🚽","noun","k")]},
+  actions:{name:"Actions",sym:"🏃",modes:"ka",items:[
+    W("open","🔓","verb"),W("close","🔒","verb"),W("give","🎁","verb"),W("take","👜","verb"),W("bring","🧺","verb"),W("find","🔍","verb"),W("wait","⏳","verb"),
+    W("sit","🪑","verb"),W("stand","🧍","verb"),W("walk","🚶","verb"),W("run","🏃","verb"),W("jump","🦘","verb"),W("sleep","😴","verb"),W("wash","🧼","verb"),
+    W("read","📖","verb"),W("write","✏️","verb"),W("draw","🖍️","verb"),W("watch","📺","verb"),W("listen","👂","verb"),W("hear","🎧","verb"),W("see","👁️","verb"),
+    W("say","🗣️","verb"),W("tell","💬","verb"),W("talk","🗨️","verb"),W("ask","🙋‍♀️","verb"),W("know","🧠","verb"),W("think","💭","verb"),W("try","🎯","verb"),
+    W("finish","☑️","verb"),W("start","▶️","verb"),W("love","❤️","verb"),W("hug","🫂","verb"),W("kiss","😘","verb"),W("sing","🎤","verb"),W("dance","💃","verb"),
+    W("swim","🏊","verb"),W("ride","🚲","verb"),W("throw","⚾","verb"),W("catch","🧤","verb"),W("push","👐","verb"),W("pull","🪢","verb"),W("cut","✂️","verb"),
+    W("fix","🔧","verb"),W("clean","🧹","verb"),W("cook","🍳","verb"),W("buy","💳","verb"),W("use","🧰","verb"),W("learn","🎓","verb"),W("work","💼","verb"),
+    W("call","📞","verb"),W("share","🤝","verb"),W("have","🫴","verb"),W("keep","🗄️","verb"),W("show","🖼️","verb")]},
+  describe:{name:"Describing",sym:"📏",modes:"ka",items:[
+    W("hot","🔥","desc"),W("cold","🧊","desc"),W("fast","⚡","desc"),W("slow","🐢","desc"),W("loud","📢","desc"),W("quiet","🤫","desc"),W("soft","🧸","desc"),
+    W("hard","🪨","desc"),W("wet","💦","desc"),W("dry","🏜️","desc"),W("clean","✨","desc"),W("dirty","🗑️","desc"),W("full","🔋","desc"),W("empty","📭","desc"),
+    W("new","🆕","desc"),W("old","🏚️","desc"),W("same","👯","desc"),W("different","🔀","desc"),W("easy","👌","desc"),W("funny","😂","desc"),W("scary","👻","desc"),
+    W("yummy","😋","desc"),W("yucky","🤢","desc"),W("pretty","🌸","desc"),W("nice","😊","desc"),W("mean","😈","desc"),W("right","✔️","desc"),W("wrong","✖️","desc"),
+    W("first","🥇","desc"),W("last","🔚","desc"),W("next","⏭️","desc"),W("long","📏","desc"),W("short","📐","desc"),W("heavy","🏋️","desc"),W("light","🪶","desc"),
+    W("dark","🌑","desc"),W("bright","🔆","desc"),W("broken","💔","desc"),W("careful","⚠️","desc"),W("ready","🚦","desc"),W("sticky","🍯","desc"),W("sharp","🌵","desc")]},
+  little:{name:"Little words",sym:"🔗",modes:"ka",items:("the a an to and of for with at from about over under around but or because if so then now later too very really some any all every maybe also just only there this these those")
+    .split(" ").map(w=>W(w,"","prep"))},
+  questions:{name:"Questions",sym:"❓",modes:"ka",items:[
+    W("who","👤","q"),W("what","❓","q"),W("where","🧭","q"),W("when","⏰","q"),W("why","🤷","q"),W("how","💡","q"),W("which","☝️","q"),
+    W("how many","🔢","q"),W("how much","💲","q"),W("can I","🙋","q"),W("can you","🙏","q"),W("do you","🤔","q"),W("is it","🧐","q"),W("what's that","👆","q")]},
+  social:{name:"Social",sym:"👋",modes:"ka",items:[
+    W("hi","👋","social"),W("bye","👋","social"),W("please","🙏","social"),W("thank you","💐","social"),W("sorry","😔","social"),W("excuse me","🙇","social"),
+    W("my turn","🙋","social"),W("your turn","👉","social"),W("wait for me","⏳","social"),W("good job","👏","social"),W("love you","🥰","social"),W("okay","👌","social"),
+    W("maybe","🤔","social"),W("I don't know","🤷","social"),W("look at me","👀","social"),W("leave me alone","🙅","social"),W("high five","✋","social"),
+    W("good morning","🌅","social"),W("good night","🌙","social"),W("how are you?","💬","social"),W("nice to meet you","🤝","social")]},
+  colors:{name:"Colors",sym:"🎨",modes:"ka",items:[
+    W("red","🟥","desc"),W("orange","🟧","desc"),W("yellow","🟨","desc"),W("green","🟩","desc"),W("blue","🟦","desc"),W("purple","🟪","desc"),W("pink","🌸","desc"),
+    W("brown","🟫","desc"),W("black","⬛","desc"),W("white","⬜","desc"),W("gray","🌫️","desc"),W("gold","🪙","desc"),W("rainbow","🌈","desc")]},
+  numbers:{name:"Numbers",sym:"🔢",modes:"ka",items:[
+    W("zero","0️⃣","desc"),W("one","1️⃣","desc"),W("two","2️⃣","desc"),W("three","3️⃣","desc"),W("four","4️⃣","desc"),W("five","5️⃣","desc"),W("six","6️⃣","desc"),
+    W("seven","7️⃣","desc"),W("eight","8️⃣","desc"),W("nine","9️⃣","desc"),W("ten","🔟","desc"),W("a lot","💯","desc")]},
+  time:{name:"Time and weather",sym:"🕒",modes:"ka",items:[
+    W("now","⏱️","desc"),W("later","⏳","desc"),W("soon","🔜","desc"),W("today","📅"),W("tomorrow","➡️"),W("yesterday","⬅️"),W("morning","🌅"),W("afternoon","☀️"),
+    W("night","🌙"),W("weekend","🎉"),W("Monday","🗓️"),W("Tuesday","🗓️"),W("Wednesday","🗓️"),W("Thursday","🗓️"),W("Friday","🗓️"),W("Saturday","🗓️"),W("Sunday","🗓️"),
+    W("birthday","🎂"),W("holiday","🎄"),W("sunny","🌞","desc"),W("rainy","🌧️","desc"),W("cloudy","☁️","desc"),W("windy","🌬️","desc"),W("snowy","❄️","desc"),W("stormy","⛈️","desc")]},
+  clothes:{name:"Clothes",sym:"👕",modes:"ka",items:[
+    W("shirt","👕"),W("pants","👖"),W("shorts","🩳"),W("dress","👗"),W("shoes","👟"),W("socks","🧦"),W("coat","🧥"),W("hat","🧢"),W("pajamas","🛌"),
+    W("underwear","🩲"),W("gloves","🧤"),W("glasses","👓"),W("backpack","🎒"),W("diaper","🧷","noun","k"),W("uniform","🦺"),W("jacket","🧥")]},
+  animals:{name:"Animals",sym:"🐶",modes:"ka",items:[
+    W("dog","🐶"),W("cat","🐱"),W("fish","🐟"),W("horse","🐴"),W("cow","🐮"),W("pig","🐷"),W("sheep","🐑"),W("rabbit","🐰"),W("mouse","🐭"),W("lion","🦁"),
+    W("tiger","🐯"),W("elephant","🐘"),W("monkey","🐵"),W("bear","🐻"),W("frog","🐸"),W("snake","🐍"),W("turtle","🐢"),W("butterfly","🦋"),W("bug","🐛"),
+    W("giraffe","🦒"),W("shark","🦈"),W("whale","🐳"),W("dolphin","🐬"),W("spider","🕷️"),W("bird","🐦")]},
+  school:{name:"School",sym:"🎒",modes:"k",items:[
+    W("pencil","✏️"),W("paper","📄"),W("crayons","🖍️"),W("scissors","✂️"),W("glue","🧴"),W("backpack","🎒"),W("desk","🪑"),W("book","📖"),W("computer","💻"),
+    W("recess","🛝"),W("lunch","🍱"),W("bus","🚌"),W("class","🏫"),W("homework","📝"),W("art","🎨"),W("music","🎵"),W("gym","🏀"),W("library","📚"),
+    W("line up","🚶","verb"),W("raise hand","🙋","verb")]},
+  work:{name:"Work",sym:"💼",modes:"a",items:[
+    W("job","💼"),W("meeting","👥"),W("break","☕"),W("email","📧"),W("phone","📱"),W("computer","💻"),W("schedule","📅"),W("task","✅"),
+    W("paycheck","💵"),W("uniform","🦺"),W("lunch break","🥪"),W("training","🎓"),W("shift","⏰"),W("day off","🏖️")]}
+};
+// The order word groups appear in, for each mode
+const GROUP_ORDER = {
+  k:["feelings","social","questions","actions","describe","little","food","play","people","places","body","school","animals","clothes","colors","numbers","time","daily"],
+  a:["feelings","social","questions","actions","describe","little","food","people","places","health","body","daily","work","time","clothes","colors","numbers","animals"]
+};
+const groupKeys = () => GROUP_ORDER[m()].filter(k=>CATS[k] && CATS[k].modes.includes(m()));
+for (const [k,c] of Object.entries(CATS)) c.items.forEach((it,i)=>{ it.id=k+"-"+i; it.builtin=true; });
+
+const PHRASES = {
+  k:["I need a break.","I need the bathroom.","Help me, please.","I don't like that.","It's too loud.","I'm hungry.","Can I have a hug?","I'm all done.","I want to go home.","Play with me!","Something hurts.","I love you."],
+  a:["Please give me a moment to type.","I understand you. I just can't speak right now.","I use this device to talk.","I need a quiet space.","Please ask me yes or no questions.","I'm in pain.","Please call my emergency contact.","Thank you.","Please speak to me, not about me.","I need a minute.","Can you repeat that?","I don't understand."]
+};
+const PHRASE_SYM = {k:["🧘","🚽","🤝","🙅","🔊","🍽️","🤗","🏁","🏠","🎲","🤕","❤️"],a:["⏳","👂","💬","🤫","✅","⚡","📞","🙏","🗣️","⏸️","🔁","🤔"]};
+
+const WORDS = [...new Set(("I you to the a and it is my me want go not do that what can need like help please thank thanks yes no more stop have get this we be are was in on for with now here there where when why how who feel good bad okay tired hungry thirsty bathroom water home today tomorrow later time again all done some don't can't I'm it's going eat drink play look see make take give tell know think love school work mom dad friend sorry hello hi bye wait break quiet loud hurt pain medicine doctor call phone music outside hot cold happy sad angry scared sick better little big one two name understand talk listen read write minute question answer ready finished because but or if very really you're they she he them his her our your about from up down off out over under").split(" "))];
+
+const MODE_TABS = {
+  k:["core","groups","phrases","keyboard"],
+  a:["core","phrases","keyboard","groups"]
+};
+const TAB_META = {core:{name:"Core",sym:"⭐"},groups:{name:"Groups",sym:"🗂️"},phrases:{name:"Phrases",sym:"💬"},keyboard:{name:"Keyboard",sym:"⌨️"}};
+// Everything in the vocabulary also feeds keyboard word suggestions
+for (const c of [CORE, ...Object.values(CATS).map(c=>c.items)]) for (const it of c) { const w=it.label; if (!w.includes(" ") && !WORDS.includes(w)) WORDS.push(w); }
+
+/* Topic packs: a person's favorite subject, ready to talk about. Families can add their own topics too. */
+const PACKS = {
+  birds:{name:"Birds",sym:"🐦",facts:true,groups:BIRD_GROUPS,
+    items:BIRDS.map(b=>({id:b.id,label:b.name,pos:"noun",art:b,fact:b.fact,group:b.group,builtin:true}))}
+};
+const artCache = new Map();
+function artSVG(it){ if(!it.art) return ""; if(!artCache.has(it.id)) artCache.set(it.id, birdSVG(it.art)); return artCache.get(it.id); }
+
+/* ---------------- Real bird photos ----------------
+   Photos come from Wikipedia's free (Wikimedia Commons) images, fetched on the device the first
+   time it's online, then kept for offline use. Drawings show until a photo arrives, and stay if
+   there's no internet. Every photo keeps its photographer credit and license. */
+const PHOTO_TITLE = {"Kiwi":"Kiwi (bird)","Pekin Duck":"American Pekin","Peach-faced Lovebird":"Rosy-faced lovebird","Blue Tit":"Eurasian blue tit",
+  "Herring Gull":"American herring gull","Barn Owl":"American barn owl","White Ibis":"American white ibis","Rock Pigeon":"Rock dove",
+  "African Grey Parrot":"Grey parrot","Secretary Bird":"Secretarybird","Ostrich":"Common ostrich","Ring-necked Pheasant":"Common pheasant","Hoopoe":"Eurasian hoopoe"};
+const PKEY = "speakeasy.photos.v1";
+let photoDB = (()=>{ try { return JSON.parse(localStorage.getItem(PKEY)) || {}; } catch { return {}; } })();
+const savePhotos = () => { try { localStorage.setItem(PKEY, JSON.stringify(photoDB)); } catch {} };
+let photoBlocked = false, photoQ = [], photoBusy = 0;
+const photosOn = () => S.photos !== "off";
+function photoWanted(it){ return it.art && photosOn() && !photoBlocked && !(photoDB[it.id] && (photoDB[it.id].src || photoDB[it.id].none)); }
+async function fetchPhoto(it){
+  const title = (PHOTO_TITLE[it.label] || it.label).replace(/ /g,"_");
+  const r = await fetch("https://en.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(title));
+  if (r.status===404){ photoDB[it.id]={none:true}; savePhotos(); return; }
+  if (!r.ok) throw new Error("http "+r.status);
+  const j = await r.json(); const src = j.thumbnail && j.thumbnail.source;
+  // only freely licensed Commons photos; skip anything stored locally on English Wikipedia
+  if (!src || j.type==="disambiguation" || !src.includes("/wikipedia/commons/")){ photoDB[it.id]={none:true}; savePhotos(); return; }
+  const m = src.match(/\/commons\/thumb\/[0-9a-f]\/[0-9a-f]{2}\/([^/]+)\//) || src.match(/\/commons\/[0-9a-f]\/[0-9a-f]{2}\/([^/]+)$/);
+  photoDB[it.id] = {src, file: m ? decodeURIComponent(m[1]) : "", page: j.content_urls && j.content_urls.desktop && j.content_urls.desktop.page || ""};
+  savePhotos();
+}
+function pumpPhotos(){
+  while (photoBusy < 4 && photoQ.length){
+    const {it, host} = photoQ.shift();
+    if (!photoWanted(it)){ attachPhoto(it, host); continue; }
+    photoBusy++;
+    fetchPhoto(it).then(()=>attachPhoto(it, host)).catch(()=>{ photoBlocked = true; photoQ = []; markBlocked(); })
+      .finally(()=>{ photoBusy--; pumpPhotos(); });
+  }
+}
+function attachPhoto(it, host){
+  const d = photoDB[it.id]; if (!d || !d.src || !photosOn() || !host || host.querySelector("img.photo")) return;
+  const img = el("img","photo"); img.alt = ""; img.decoding = "async"; img.referrerPolicy = "no-referrer";
+  img.onload = () => img.classList.add("on");
+  img.onerror = () => img.remove();
+  img.src = d.src; host.append(img);
+}
+let photoIO = null;
+function watchPhoto(it, host){
+  if (!it.art || !photosOn()) return;
+  if (photoDB[it.id] && photoDB[it.id].src){ attachPhoto(it, host); return; }
+  if (photoBlocked) return;
+  if (!photoIO && "IntersectionObserver" in window){
+    photoIO = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ photoIO.unobserve(e.target); const x=e.target._photo; if(x){ photoQ.push(x); pumpPhotos(); } } }), {rootMargin:"300px"});
+  }
+  host._photo = {it, host};
+  if (photoIO) photoIO.observe(host); else { photoQ.push({it,host}); pumpPhotos(); }
+}
+function markBlocked(){ const fl=$("factLine"); if (fl && !fl.dataset.touched) fl.textContent = "Showing drawings. Real bird photos load when Speakeasy is installed and online."; }
+const stripTags = h => { const d = new DOMParser().parseFromString(h||"", "text/html"); return (d.body.textContent||"").replace(/\s+/g," ").trim(); };
+async function photoCredit(it){
+  const d = photoDB[it.id]; if (!d || !d.src || !d.file) return "";
+  if (d.credit) return d.credit;
+  try{
+    const u = "https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&prop=imageinfo&iiprop=extmetadata&titles=File:"+encodeURIComponent(d.file);
+    const j = await (await fetch(u)).json(); const pg = Object.values(j.query.pages)[0]; const md = pg.imageinfo[0].extmetadata;
+    const who = stripTags(md.Artist && md.Artist.value) || "Unknown photographer";
+    const lic = (md.LicenseShortName && md.LicenseShortName.value) || "see Wikimedia Commons";
+    d.credit = `Photo: ${who} · ${lic} · Wikimedia Commons`; savePhotos(); return d.credit;
+  }catch{ return "Photo: Wikimedia Commons"; }
+}
+
+/* Word endings: tap ± after a word to change it (want → wants, wanted, wanting). */
+const IRREG = {i:["me","my","mine","I'm"],you:["your","yours","you're"],go:["goes","went","going","gone"],eat:["eats","ate","eating","eaten"],
+  drink:["drinks","drank","drinking"],feel:["feels","felt","feeling"],it:["its","it's"],that:["those","that's","this"],what:["what's"],where:["where's"],
+  not:["don't","can't","won't","didn't"],more:["most"],"in":["into","inside"],on:["onto"],me:["my","mine","I"],
+  goose:["geese"],mouse:["mice"],person:["people"],child:["children"],foot:["feet"],tooth:["teeth"],"all done":[],yes:[],no:[],stop:["stops","stopped","stopping"],
+  he:["him","his","he's"],she:["her","hers","she's"],we:["us","our","we're"],they:["them","their","they're"],my:["mine","me","I"],your:["yours","you"],here:["there"],
+  is:["am","are","was","were","be","being"],can:["can't","could","couldn't"],do:["does","did","doing","done","don't"],have:["has","had","having"],
+  make:["makes","made","making"],take:["takes","took","taking","taken"],give:["gives","gave","giving","given"],get:["gets","got","getting"],
+  come:["comes","came","coming"],see:["sees","saw","seeing","seen"],say:["says","said","saying"],tell:["tells","told","telling"],
+  know:["knows","knew","knowing"],think:["thinks","thought","thinking"],sit:["sits","sat","sitting"],stand:["stands","stood","standing"],
+  run:["runs","ran","running"],swim:["swims","swam","swimming"],sing:["sings","sang","singing"],buy:["buys","bought","buying"],
+  bring:["brings","brought","bringing"],catch:["catches","caught","catching"],throw:["throws","threw","throwing"],ride:["rides","rode","riding"],
+  write:["writes","wrote","writing"],read:["reads","reading"],hold:["holds","held","holding"],find:["finds","found","finding"],
+  cut:["cuts","cutting"],put:["puts","putting"],hurt:["hurts","hurting"],sleep:["sleeps","slept","sleeping"],hear:["hears","heard","hearing"],
+  draw:["draws","drew","drawing"],build:["builds","built","building"],keep:["keeps","kept","keeping"],show:["shows","showed","showing","shown"]};
+const CVC = /^[^aeiou]*[aeiou][bdgklmnprt]$/;
+function plural(w){ const parts=w.split(" "), last=parts.pop(), k=last.toLowerCase();
+  const pl = IRREG[k]&&IRREG[k].length===1 ? IRREG[k][0] : /[^aeiou]y$/i.test(last) ? last.slice(0,-1)+"ies" : /(s|sh|ch|x|z)$/i.test(last) ? last+"es" : last+"s";
+  return [...parts,pl].join(" "); }
+function verbForms(v){ const dbl = CVC.test(v) && v.length<=4 ? v+v.slice(-1) : v;
+  const ing = /ie$/.test(v)? v.slice(0,-2)+"ying" : /[^e]e$/.test(v)? v.slice(0,-1)+"ing" : dbl+"ing";
+  const ed = /e$/.test(v)? v+"d" : /[^aeiou]y$/.test(v)? v.slice(0,-1)+"ied" : dbl+"ed";
+  const s3 = /(s|sh|ch|x|z|o)$/.test(v)? v+"es" : /[^aeiou]y$/.test(v)? v.slice(0,-1)+"ies" : v+"s"; return [s3,ed,ing]; }
+// bigger and biggest, happier and happiest
+const CMP_IRREG = {good:["better","best"],bad:["worse","worst"],little:["less","least"],far:["farther","farthest"]};
+const NOCMP = new Set(["okay","same","different","first","last","next","broken","ready","right","wrong","hurt","empty","full","now","later","soon","safe","mean"]);
+function canCompare(w, id){
+  const k = w.toLowerCase(); if (CMP_IRREG[k]) return true;
+  if (id && /^(colors|numbers|time)-/.test(id)) return false;
+  return !w.includes(" ") && w.length<=7 && !NOCMP.has(k) && !/(ed|ing|ful|ous)$/.test(k);
+}
+function cmpForms(a){ if (CMP_IRREG[a]) return CMP_IRREG[a];
+  if (/e$/.test(a)) return [a+"r", a+"st"];
+  if (/[^aeiou]y$/.test(a)) return [a.slice(0,-1)+"ier", a.slice(0,-1)+"iest"];
+  const d = /^[^aeiou]*[aeiou][bdgmnpt]$/.test(a) ? a+a.slice(-1) : a; return [d+"er", d+"est"]; }
+const NOPLURAL = new Set(["water","milk","juice","rice","cereal","music","money","laundry","homework","soup","tea","coffee","bread","cheese","pasta","popcorn",
+  "yogurt","peanut butter","art","gym","lunch","breakfast","dinner","recess","tv","work","school","home","church","outside","pain","medicine","glue","paper",
+  "candy","soda","salad","ice cream","hair","underwear","everyone","tag","hide and seek","today","tomorrow","yesterday","shopping","potty"]);
+function formsOf(w){
+  if (!w || !w.label) return [];
+  const base = w.base || w.label, k = base.toLowerCase();
+  let list = IRREG[k] ? IRREG[k]
+    : w.pos==="verb" && !base.includes(" ") ? verbForms(k)
+    : w.pos==="noun" ? (NOPLURAL.has(k) || /[^s]s$/.test(k) ? [] : [plural(base)])
+    : w.pos==="desc" && canCompare(base, w.id) ? cmpForms(k) : [];
+  return [...new Set([base, ...list])].filter(x=>x!==w.label || x===base);
+}
+
+/* ---------------- State ----------------
+   Their words are their voice, so saving is layered:
+   1) IndexedDB on the device (much more room than simple browser storage)
+   2) a quick copy in localStorage so the app opens instantly
+   3) restore points (the last 7) to undo mistakes
+   4) backup files the family keeps somewhere else */
+const LS = "speakeasy.v1";
+const DEFAULT = {
+  settings:{photos:"photos",look:"sparkle",mode:"k",voiceURI:"",rate:0.9,pitch:1,speakOnTap:true,holdMs:0,debounceMs:300,scale:1.1,contrast:false,wordsOnly:false,
+            board:"24",level:"all",scan:"off",scanMs:1500,lock:true},
+  custom:{}, hidden:[], learned:{}, help:{name:"",contact:"",info:""}, practice:{right:0,tries:0},
+  packs:{birds:true}, topics:[], birdGroup:"all", facts:false, savedAt:0, lastBackup:0
+};
+function normalize(d){
+  d = d && typeof d==="object" ? d : {};
+  const n = {...structuredClone(DEFAULT), ...d, settings:{...DEFAULT.settings, ...(d.settings||{})}, help:{...DEFAULT.help, ...(d.help||{})}, packs:{...DEFAULT.packs, ...(d.packs||{})}};
+  if (d.settings && d.settings.starter===true && !d.settings.level) n.settings.level = "starter";   // from v0.4
+  delete n.settings.starter; delete n._stripped;
+  if (!["24","48"].includes(String(n.settings.board))) n.settings.board = "24";
+  n.settings.board = String(n.settings.board);
+  if (!["starter","24","all"].includes(n.settings.level)) n.settings.level = "all";
+  for (const k of ["custom","learned","help","practice","packs"]) if (!n[k] || typeof n[k]!=="object") n[k] = structuredClone(DEFAULT[k]);
+  if (!Array.isArray(n.hidden)) n.hidden = []; if (!Array.isArray(n.topics)) n.topics = [];
+  return n;
+}
+function load(){ try { return JSON.parse(localStorage.getItem(LS)) || {}; } catch { return {}; } }
+const saved = load();
+const localStripped = !!saved._stripped;
+const state = normalize(saved);
+const S = state.settings;
+function adopt(d){
+  const n = normalize(d), s = n.settings;
+  for (const k of Object.keys(state)) delete state[k];
+  Object.assign(state, n);
+  for (const k of Object.keys(S)) delete S[k];
+  Object.assign(S, s); state.settings = S;
+}
+
+const health = {idb:null, persisted:null, localOK:true};
+let idb = null, idbTimer = null, saveWarned = false;
+function warnSave(){ if (saveWarned) return; saveWarned = true; toast("Speakeasy can't save on this device right now. Open Settings and save a backup file."); updateSafetyDot(); }
+function stripPhotos(st){ const c = JSON.parse(JSON.stringify(st)); for (const k in c.custom) (c.custom[k]||[]).forEach(it=>{ if (it && it.img) it.img="__idb__"; }); c._stripped = true; return c; }
+function save(){
+  state.savedAt = Date.now();
+  let json; try { json = JSON.stringify(state); } catch { return; }
+  try { localStorage.setItem(LS, json); health.localOK = true; }
+  catch { health.localOK = false; try { localStorage.setItem(LS, JSON.stringify(stripPhotos(state))); } catch {} }
+  clearTimeout(idbTimer); idbTimer = setTimeout(flushIDB, 250);
+  if (!health.localOK && health.idb===false) warnSave();
+  updateSafetyDot();
+}
+function openIDB(){
+  return new Promise(res => {
+    try {
+      const r = indexedDB.open("speakeasy", 1);
+      r.onupgradeneeded = () => { const d = r.result;
+        if (!d.objectStoreNames.contains("kv")) d.createObjectStore("kv");
+        if (!d.objectStoreNames.contains("points")) d.createObjectStore("points", {keyPath:"t"}); };
+      r.onsuccess = () => res(r.result); r.onerror = () => res(null); r.onblocked = () => res(null);
+      setTimeout(() => res(null), 4000);
+    } catch { res(null); }
+  });
+}
+function idbDo(store, mode, fn){
+  return new Promise((res, rej) => {
+    if (!idb) return rej(new Error("no storage"));
+    let req, tx;
+    try { tx = idb.transaction(store, mode); req = fn(tx.objectStore(store)); } catch(e){ return rej(e); }
+    tx.oncomplete = () => res(req ? req.result : undefined);
+    tx.onerror = () => rej(tx.error); tx.onabort = () => rej(tx.error || new Error("aborted"));
+  });
+}
+async function flushIDB(){
+  clearTimeout(idbTimer); idbTimer = null;
+  if (!idb) return;
+  try { await idbDo("kv","readwrite", st => st.put(JSON.parse(JSON.stringify(state)), "state")); health.idb = true; }
+  catch { health.idb = false; if (!health.localOK) warnSave(); }
+}
+async function listPoints(){ if (!idb) return []; const all = await idbDo("points","readonly", st => st.getAll()); return (all||[]).sort((a,b)=>b.t-a.t); }
+async function addPoint(label){
+  if (!idb) return;
+  const data = JSON.parse(JSON.stringify(state)), t = Date.now();     // copy now, before anything else changes
+  try {
+    await idbDo("points","readwrite", st => st.put({t, label, data}));
+    const pts = await listPoints();
+    for (const p of pts.slice(7)) await idbDo("points","readwrite", st => st.delete(p.t));
+  } catch {}
+}
+const dayKey = t => new Date(t).toDateString();
+async function initStorage(){
+  idb = await openIDB(); health.idb = !!idb;
+  if (idb){
+    try {
+      const fromDB = await idbDo("kv","readonly", st => st.get("state"));
+      if (fromDB && ((fromDB.savedAt||0) > (state.savedAt||0) || localStripped)) { adopt(fromDB); apply(); }
+      else await flushIDB();                     // first run, or moving data over from an older version
+      const pts = await listPoints();
+      if (!pts.length || dayKey(pts[0].t)!==dayKey(Date.now())) await addPoint("Start of the day");
+    } catch { health.idb = false; }
+  }
+  try { if (navigator.storage && navigator.storage.persist){ health.persisted = await navigator.storage.persisted(); if (!health.persisted) health.persisted = await navigator.storage.persist(); } } catch {}
+  updateSafetyDot();
+}
+document.addEventListener("visibilitychange", () => { if (document.visibilityState==="hidden" && idbTimer) flushIDB(); });
+window.addEventListener("pagehide", () => { if (idbTimer) flushIDB(); });
+
+/* Backup files */
+const BACKUP_KIND = "speakeasy-backup";
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform==="MacIntel" && navigator.maxTouchPoints>1);
+const installable = () => !!document.querySelector('link[rel="manifest"]') && "serviceWorker" in navigator && /^https?:$/.test(location.protocol);
+const installed = () => { try { return matchMedia("(display-mode: standalone)").matches || navigator.standalone===true; } catch { return false; } };
+const addedWords = d => Object.values((d&&d.custom)||{}).reduce((n,a)=>n+((a&&a.length)||0),0);
+const needsBackup = () => (addedWords(state) > 0 || state.topics.length > 0 || state.help.contact) && (!state.lastBackup || Date.now()-state.lastBackup > 14*864e5);
+function backupText(){ return JSON.stringify({kind:BACKUP_KIND, version:1, app:"Speakeasy", created:new Date().toISOString(), state}); }
+function backupName(){ const d=new Date(), p=n=>String(n).padStart(2,"0"); return `speakeasy-backup-${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}.json`; }
+function markBackedUp(){ state.lastBackup = Date.now(); save(); updateSafetyDot(); }
+async function saveBackupFile(){
+  const name = backupName(), text = backupText();
+  if (window.claude && typeof window.claude.use==="function"){       // inside Claude's preview: the viewer confirms the save
+    let dl = null; try { dl = await window.claude.use("downloads"); } catch {}
+    if (!dl){ toast("Saving files isn't available here. Use Copy backup text instead."); return false; }
+    try { await dl.save({filename:name, data:new Blob([text],{type:"application/json"})}); markBackedUp(); toast("Backup file saved."); return true; }
+    catch(e){ toast(e && e.code==="declined" ? "Backup file not saved." : "Saving files isn't available here. Use Copy backup text instead."); return false; }
+  }
+  const file = new File([text], name, {type:"application/json"});
+  if (matchMedia("(pointer: coarse)").matches && navigator.canShare && navigator.canShare({files:[file]})){
+    try { await navigator.share({files:[file], title:"Speakeasy backup"}); markBackedUp(); toast("Backup sent. Keep it somewhere safe."); return true; }
+    catch(e){ if (e && e.name==="AbortError") return false; }
+  }
+  try {
+    const url = URL.createObjectURL(file), a = el("a"); a.href = url; a.download = name; document.body.append(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 5000); markBackedUp(); toast("Backup file downloaded."); return true;
+  } catch { toast("This device blocked the file. Use Copy backup text instead."); return false; }
+}
+function parseBackup(text){
+  const d = JSON.parse(text); const st = d && d.kind===BACKUP_KIND ? d.state : d;
+  if (!st || typeof st!=="object" || !st.settings || typeof st.settings!=="object") throw new Error("not a backup");
+  return st;
+}
+async function restoreFrom(st, msgText){ await addPoint("Before restoring"); adopt(st); save(); apply(); toast(msgText || "Restored."); }
+function updateSafetyDot(){ const d = $("gearDot"); if (d) d.hidden = !(needsBackup() || (health.idb===false && !health.localOK)); }
+const fmtWhen = t => new Date(t).toLocaleString(undefined,{weekday:"short",month:"short",day:"numeric",hour:"numeric",minute:"2-digit"});
+const fmtDay = t => new Date(t).toLocaleDateString(undefined,{month:"short",day:"numeric"});
+
+let msg = [];            // chosen words: {label, say, sym, img}
+let typing = "";         // letters typed but not yet a word
+let tab = "core";
+let itemsById = new Map();
+const learn = {on:false,target:null,misses:0};
+
+/* ---------------- Helpers ---------------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const el = (tag, cls, text) => { const e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; };
+const m = () => S.mode;
+let toastT;
+function toast(t){ const n=$("toast"); n.textContent=t; n.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>n.hidden=true,3200); }
+
+/* ---------------- Speech ---------------- */
+const synth = window.speechSynthesis || null;
+let voices = [];
+function loadVoices(){ if(!synth) return; voices = synth.getVoices(); if($("v-voice")) fillVoices(); }
+if (synth){ loadVoices(); synth.onvoiceschanged = loadVoices; }
+function say(text, cue=false){
+  if (!text) return;
+  if (!synth){ toast(text); return; }
+  try{
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    const v = voices.find(v=>v.voiceURI===S.voiceURI); if (v) u.voice = v;
+    u.rate = cue ? Math.min(2, S.rate*1.2) : S.rate; u.pitch = S.pitch; u.volume = cue ? 0.7 : 1;
+    synth.speak(u);
+  }catch{ toast(text); }
+}
+const sentence = () => [...msg.map(w=>w.say||w.label), ...(typing?[typing]:[])].join(" ").replace(/\s+([.?!,])/g,"$1");
+
+/* ---------------- Tabs and items ---------------- */
+const isTopic = t => !!PACKS[t] || state.topics.some(x=>x.id===t);
+let sub = null;   // which word group is open inside the Groups tab
+function coreLayout(){ return S.board==="48" ? LAYOUT48 : LAYOUT24; }
+function coreShown(it, h=hiddenSet()){
+  if (h.has(it.id) || !coreLayout().includes(it.id)) return false;
+  if (S.level==="starter") return STARTER.has(it.id);
+  if (S.level==="24") return ORIGINAL24.has(it.id);
+  return true;
+}
+function sections(){ return ["core", ...topicTabs(), ...groupKeys(), "phrases"]; }
+function topicTabs(){ return [...Object.keys(PACKS).filter(k=>state.packs[k]!==false), ...state.topics.map(x=>x.id)]; }
+function tabsFor(){ const base=MODE_TABS[m()], at = m()==="k" ? 1 : 3; return [...base.slice(0,at), ...topicTabs(), ...base.slice(at)]; }
+function tabMeta(t){ return TAB_META[t] || CATS[t] || PACKS[t] || state.topics.find(x=>x.id===t) || {name:t,sym:"⭐"}; }
+const pictured = it => !!(it.sym || it.art || (it.img && it.img!=="__idb__"));
+
+function hiddenSet(){ return new Set(state.hidden); }
+function builtinItems(t){
+  if (t==="core") return CORE;
+  if (PACKS[t]) return PACKS[t].items;
+  if (t==="phrases") return PHRASES[m()].map((p,i)=>({id:`ph-${m()}-${i}`,label:p,sym:PHRASE_SYM[m()][i],pos:"social",builtin:true}));
+  const c = CATS[t]; if(!c) return [];
+  return c.items.filter(it=>!it.m || it.m===m());
+}
+function allItems(t){ return [...builtinItems(t), ...((state.custom[t]||[]))]; }
+function visibleItems(t){ const h=hiddenSet(); return allItems(t).filter(it=>!h.has(it.id)); }
+
+/* ---------------- Render ---------------- */
+function apply(){
+  const root = document.documentElement;
+  root.style.setProperty("--scale", S.scale);
+  root.dataset.contrast = S.contrast ? "on" : "off";
+  document.body.classList.toggle("words-only", S.wordsOnly);
+  $("modeChip").textContent = m()==="k" ? "Kids" : "Adults";
+  document.body.classList.toggle("sparkle", S.look==="sparkle");
+  if (!tabsFor().includes(tab)) tab = "core";
+  renderTabs(); renderStrip(); renderBoard(); renderBanner();
+  $("switchBar").hidden = S.scan==="off";
+  restartScan();
+}
+
+function renderStrip(){
+  const box = $("msg"); box.replaceChildren();
+  if (!msg.length && !typing){ box.append(el("span","ph", m()==="k" ? "Tap words to talk" : "Tap words or type to build a message")); return; }
+  for (const w of msg){
+    const c = el("span","chip");
+    if (w.img){ const i=el("img"); i.src=w.img; i.alt=""; c.append(i); }
+    else if (w.art){ const a=el("span","art"); a.innerHTML=artSVG(w.art); c.append(a); attachPhoto(w.art, a); }
+    else if (w.sym && !S.wordsOnly) c.append(el("span",null,w.sym));
+    c.append(el("span",null,w.label)); box.append(c);
+  }
+  if (typing) box.append(el("span","chip typing",typing));
+  box.scrollLeft = box.scrollWidth;
+  $("formBtn").disabled = !(msg.length && !typing && formsOf(msg[msg.length-1]).length>1);
+}
+
+function renderTabs(){
+  const box = $("tabs"); box.replaceChildren();
+  for (const t of tabsFor()){
+    const meta = tabMeta(t);
+    const b = el("button","tab"); b.setAttribute("role","tab"); b.setAttribute("aria-selected", t===tab);
+    b.dataset.tab = t;
+    if (!S.wordsOnly) b.append(el("span",null,meta.sym));
+    b.append(el("span",null,meta.name));
+    b.onclick = () => {
+      if (t==="groups" && tab==="groups" && sub){ sub=null; renderBoard(); restartScan(); return; }
+      if (tab!==t){ tab=t; if (t==="groups") sub=null; renderTabs(); renderBoard(); restartScan(); }
+    };
+    box.append(b);
+  }
+}
+
+function tileFor(it){
+  const b = el("button","tile"); b.dataset.act="tile"; b.dataset.id=it.id; b.dataset.pos=it.pos||"noun";
+  if (it.img && it.img!=="__idb__"){ const i=el("img"); i.src=it.img; i.alt=""; b.append(i); }
+  else if (it.art){ const a=el("span","art"); a.innerHTML=artSVG(it); b.append(a); watchPhoto(it, a); }
+  else if (it.sym) b.append(el("span","sym",it.sym));
+  else b.classList.add("textonly");
+  b.append(el("span","lbl",it.label));
+  b.setAttribute("aria-label", it.say && it.say!==it.label ? `${it.label}, says ${it.say}` : it.label);
+  return b;
+}
+
+function renderBoard(){
+  const board = $("board"); board.replaceChildren(); itemsById = new Map();
+  if (tab==="keyboard") return renderKeyboard(board);
+  const grid = el("div","grid");
+  const h = hiddenSet();
+  if (tab==="core"){
+    const big = S.board==="48";
+    grid.classList.add("fill"); if (big) grid.classList.add("dense");
+    grid.style.setProperty("--cols", big?8:6); grid.style.setProperty("--rows", big?6:4);
+    for (const id of coreLayout()){
+      const it = CORE_BY_ID.get(id), t = tileFor(it); itemsById.set(it.id,it);
+      // hidden or not-yet-introduced words keep their place so muscle memory never breaks
+      if (!coreShown(it,h)){ t.classList.add("empty"); t.tabIndex=-1; t.setAttribute("aria-hidden","true"); delete t.dataset.act; }
+      grid.append(t);
+    }
+  } else if (isTopic(tab)){
+    const pack = PACKS[tab], head = el("div","topichead");
+    if (pack && pack.groups){
+      const groups = [["all","All",pack.sym], ...pack.groups];
+      for (const [g,name,sym] of groups){
+        const b = el("button","chipbtn"); b.dataset.scan="1"; b.setAttribute("aria-pressed", state.birdGroup===g);
+        if (!S.wordsOnly) b.append(el("span",null,sym)); b.append(el("span",null,name));
+        b.onclick = () => { state.birdGroup=g; save(); renderBoard(); restartScan(); }; head.append(b);
+      }
+    }
+    if (pack && pack.facts){
+      const fb = el("button","chipbtn"); fb.dataset.scan="1"; fb.setAttribute("aria-pressed", state.facts);
+      fb.append(el("span",null,"💡"), el("span",null, state.facts ? "Fun facts: on" : "Fun facts: off"));
+      fb.onclick = () => { state.facts=!state.facts; save(); renderBoard(); restartScan(); }; head.prepend(fb);
+    }
+    if (visibleItems(tab).length >= 3){
+      const gb = el("button","chipbtn"); gb.dataset.scan="1"; gb.style.fontWeight="700";
+      gb.append(el("span",null,"🎮"), el("span",null, tab==="birds" ? "Bird game" : "Play a game"));
+      gb.onclick = () => openGame(tab); head.prepend(gb);
+    }
+    if (head.children.length) board.append(head);
+    if (pack && pack.facts){ const fl = el("div","factline"); fl.id="factLine"; fl.setAttribute("aria-live","polite");
+      fl.textContent = state.facts ? "Tap a bird to hear its name and a fun fact." : "Tap a bird to say its name. Turn on fun facts to learn more."; board.append(fl);
+      if (photoBlocked && photosOn()) markBlocked(); }
+    grid.classList.add("pics");
+    const wide = window.innerWidth>700;
+    grid.style.setProperty("--cols", m()==="k" ? (wide?5:3) : (wide?6:4));
+    let list = visibleItems(tab);
+    if (pack && pack.groups && state.birdGroup!=="all") list = list.filter(it=>it.group===state.birdGroup || !it.builtin);
+    for (const it of list){ itemsById.set(it.id,it); grid.append(tileFor(it)); }
+    if (!list.length) board.append(el("p","note", pack ? "Every word here is hidden. Turn some back on in Settings, Edit words." : "This topic is empty. Add words and photos in Settings, Edit words."));
+  } else if (tab==="phrases"){
+    grid.classList.add("phrases"); grid.style.setProperty("--cols", window.innerWidth>700 ? 2 : 1);
+    for (const it of visibleItems(tab)){ itemsById.set(it.id,it); grid.append(tileFor(it)); }
+  } else if (tab==="groups" && !sub){
+    grid.style.setProperty("--cols", window.innerWidth>700 ? 6 : 3);
+    for (const k of groupKeys()){
+      const c = CATS[k], b = el("button","tile folder"); b.dataset.act="folder"; b.dataset.k=k;
+      if (!S.wordsOnly) b.append(el("span","sym",c.sym));
+      b.append(el("span","lbl",c.name), el("span","count",`${visibleItems(k).length} words`));
+      b.setAttribute("aria-label", `${c.name} group`); grid.append(b);
+    }
+  } else {
+    const key = tab==="groups" ? sub : tab;
+    if (tab==="groups"){
+      const head = el("div","topichead");
+      const back = el("button","chipbtn"); back.dataset.scan="1"; back.append(el("span",null,"◀"), el("span",null,"All groups"));
+      back.onclick = () => { sub=null; renderBoard(); restartScan(); board.scrollTop=0; };
+      const title = el("span","grouptitle", (S.wordsOnly?"":tabMeta(key).sym+" ")+tabMeta(key).name);
+      head.append(back, title);
+      if (visibleItems(key).filter(pictured).length >= 3){
+        const gb = el("button","chipbtn"); gb.dataset.scan="1"; gb.style.fontWeight="700";
+        gb.append(el("span",null,"🎮"), el("span",null,"Play a game")); gb.onclick = () => openGame(key); head.append(gb);
+      }
+      board.append(head);
+    }
+    const cols = m()==="k" ? (window.innerWidth>700?6:4) : (window.innerWidth>700?8:5);
+    grid.style.setProperty("--cols",cols);
+    for (const it of visibleItems(key)){ itemsById.set(it.id,it); grid.append(tileFor(it)); }
+    if (!grid.children.length) board.append(el("p","note","Every word here is hidden. Turn some back on in Settings, Edit words."));
+  }
+  board.append(grid);
+}
+
+function predictions(){
+  const p = typing.toLowerCase();
+  const L = state.learned;
+  const pool = [...new Set([...Object.keys(L), ...WORDS])];
+  const rank = w => (L[w]||0)*1000 - (WORDS.indexOf(w)===-1 ? 999 : WORDS.indexOf(w));
+  if (!p) return pool.sort((a,b)=>rank(b)-rank(a)).slice(0,6);
+  return pool.filter(w=>w.toLowerCase().startsWith(p) && w.toLowerCase()!==p).sort((a,b)=>rank(b)-rank(a)).slice(0,6);
+}
+function renderKeyboard(board){
+  const wrap = el("div","kbwrap"), pred = el("div","pred"), kb = el("div","kb");
+  pred.setAttribute("aria-label","Word suggestions");
+  for (const w of predictions()){ const b=el("button",null,w); b.dataset.act="pred"; b.dataset.w=w; pred.append(b); }
+  const rows = ["qwertyuiop","asdfghjkl","zxcvbnm"];
+  rows.forEach((r,ri)=>[...r].forEach((ch,ci)=>{
+    const k=el("button","key"+(ci===0&&ri===1?" off1":"")+(ci===0&&ri===2?" off2":""),ch); k.dataset.act="key"; k.dataset.k=ch; kb.append(k);
+  }));
+  const extra = [["⌫ letter","back","wide"],["space","space","space"],["'","'",""],[".",".",""],["?","?",""]];
+  for (const [t,k,c] of extra){ const b=el("button","key "+c,t); b.dataset.act="key"; b.dataset.k=k; if(k==="back") b.setAttribute("aria-label","Delete letter"); kb.append(b); }
+  wrap.append(pred,kb); board.append(wrap);
+}
+
+function renderBanner(){
+  const b = $("banner");
+  if (!learn.on || !learn.target){ b.hidden=true; return; }
+  b.hidden=false; b.replaceChildren();
+  const ask = el("span","ask",`Find: ${S.wordsOnly||!learn.target.sym?"":learn.target.sym+" "}${learn.target.label}`);
+  const sc = el("span","score",`${state.practice.right} found`);
+  const again = el("button","btn","Hear it"); again.onclick=()=>say("Find "+learn.target.label);
+  const skip = el("button","btn","Skip"); skip.onclick=nextTarget;
+  const done = el("button","btn primary","Done"); done.onclick=stopLearn;
+  b.append(ask,sc,again,skip,done);
+}
+
+/* ---------------- Choosing ---------------- */
+let lastAct = 0;
+function bump(word){ const w=word.toLowerCase(); if(!w || w.includes(" ")) return; state.learned[w]=(state.learned[w]||0)+1; save(); }
+function activate(node){
+  const now = performance.now();
+  if (now - lastAct < S.debounceMs) return;   // ignore accidental double taps
+  lastAct = now;
+  const act = node.dataset.act;
+  if (act==="folder"){ sub = node.dataset.k; renderBoard(); $("board").scrollTop = 0; restartScan(); return; }
+  if (act==="tile"){
+    const it = itemsById.get(node.dataset.id); if(!it) return;
+    if (learn.on) return learnCheck(it,node);
+    commitTyping();
+    msg.push({id:it.id, label:it.label, say:it.say, sym:it.sym, img:it.img, art:it.art?it:null, pos:it.pos});
+    const fl = $("factLine");
+    if (it.fact && fl){ fl.dataset.touched="1"; fl.replaceChildren(el("b",null,it.label+". "), document.createTextNode(it.fact));
+      if (photoDB[it.id] && photoDB[it.id].src && photosOn()){ const cr=el("small","credit","Photo: Wikimedia Commons"); fl.append(cr); photoCredit(it).then(t=>{ if(t) cr.textContent=t; }); } }
+    if (it.fact && state.facts) say(`${it.label}. ${it.fact}`);
+    else if (S.speakOnTap) say(it.say||it.label);
+    bump(it.label); renderStrip(); pop(node);
+  } else if (act==="key"){
+    const k = node.dataset.k;
+    if (k==="back"){ if (typing) typing=typing.slice(0,-1); else msg.pop(); }
+    else if (k==="space"){ commitTyping(true); }
+    else if (".?".includes(k)){ typing += k; commitTyping(); }
+    else typing += k;
+    renderStrip(); refreshPred();
+  } else if (act==="pred"){
+    const w = node.dataset.w; typing=""; msg.push({label:w, pos:guessPos(w)}); bump(w);
+    if (S.speakOnTap) say(w);
+    renderStrip(); refreshPred();
+  }
+}
+function commitTyping(speakIt){
+  const t = typing.trim(); if(!t) { typing=""; return; }
+  msg.push({label:t, pos:guessPos(t)}); bump(t.replace(/[.?!]$/,"")); typing="";
+  if (speakIt && S.speakOnTap) say(t);
+}
+function guessPos(w){ const k=w.toLowerCase(); const hit=CORE.find(c=>c.label.toLowerCase()===k); return hit ? hit.pos : ""; }
+
+/* ---------------- Sparkle look ---------------- */
+const reduced = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+const lively = () => S.look==="sparkle" && !reduced;
+function pop(node){ if(!lively()||!node) return; node.classList.remove("pop"); void node.offsetWidth; node.classList.add("pop"); burst(node,7); }
+function burst(node,n=8){
+  if (!lively() || !node) return;
+  const r=node.getBoundingClientRect(), x=r.left+r.width/2, y=r.top+r.height/2;
+  const cols=["#F2C230","#E5262A","#3B6FD0","#4EB84A","#C45D34","#9A4AC9","#3FB7E8"];
+  for(let i=0;i<n;i++){ const s=el("span","spark"); const a=Math.random()*Math.PI*2, d=30+Math.random()*50;
+    s.style.left=x+"px"; s.style.top=y+"px"; s.style.background=cols[i%cols.length];
+    s.style.setProperty("--dx",Math.cos(a)*d+"px"); s.style.setProperty("--dy",Math.sin(a)*d+"px");
+    document.body.append(s); setTimeout(()=>s.remove(),800); }
+}
+const FLYERS = BIRDS.filter(b=>b.tpl==="flight");
+function flyBird(){
+  if (!lively()) return;
+  const b = FLYERS[Math.floor(Math.random()*FLYERS.length)];
+  const f = el("div","flyer"); f.innerHTML = birdSVG(b,{nobg:true});
+  const r = $("msg").getBoundingClientRect(); f.style.top = Math.max(0,r.top-20)+"px";
+  document.body.append(f); setTimeout(()=>f.remove(),1800);
+}
+
+function refreshPred(){ if(tab!=="keyboard") return; const p=document.querySelector(".pred"); if(!p) return;
+  p.replaceChildren(...predictions().map(w=>{const b=el("button",null,w); b.dataset.act="pred"; b.dataset.w=w; return b;})); restartScan(); }
+
+// press handling: optional hold-to-select for people who tap by accident
+let press = null;
+const board = $("board");
+board.addEventListener("pointerdown", e=>{
+  const t = e.target.closest("[data-act]"); if(!t) return;
+  press = {el:t, t:performance.now()};
+  if (S.holdMs>0){ t.style.setProperty("--hold", S.holdMs+"ms"); t.classList.add("pressing"); }
+});
+const endPress = (e, cancel) => {
+  if (!press) return; const p = press; press = null; p.el.classList.remove("pressing");
+  if (cancel) return;
+  const over = document.elementFromPoint(e.clientX, e.clientY)?.closest("[data-act]");
+  if (over===p.el && performance.now()-p.t >= S.holdMs) activate(p.el);
+};
+document.addEventListener("pointerup", e=>endPress(e,false));
+document.addEventListener("pointercancel", e=>endPress(e,true));
+board.addEventListener("click", e=>{ const t=e.target.closest("[data-act]"); if(t && e.detail===0) activate(t); }); // keyboard and screen readers
+board.addEventListener("contextmenu", e=>e.preventDefault());
+
+$("speakBtn").onclick = () => { commitTyping(); renderStrip(); const s=sentence(); if(s){ say(s); burst($("speakBtn"),10); flyBird(); } else toast("Choose some words first."); };
+$("msg").onclick = $("speakBtn").onclick;
+$("msg").onkeydown = e => { if(e.key==="Enter"){ e.preventDefault(); $("speakBtn").onclick(); } };
+$("delBtn").onclick = () => { if (typing) typing=typing.slice(0,-1); else msg.pop(); renderStrip(); refreshPred(); };
+$("clrBtn").onclick = () => { msg=[]; typing=""; renderStrip(); refreshPred(); };
+$("formBtn").onclick = () => {
+  const w = msg[msg.length-1]; const forms = formsOf(w); if (forms.length<2) return;
+  stopScan();
+  const sheet = el("div","sheet"); sheet.setAttribute("role","dialog"); sheet.setAttribute("aria-label","Word endings");
+  const panel = el("div","panel"); const head = el("div","phead"); head.append(el("h2",null,"Change “"+w.label+"”"));
+  const close = el("button","btn","Cancel"); close.onclick=()=>{ sheet.remove(); restartScan(); }; head.append(close);
+  const list = el("div","formlist");
+  for (const f of forms){ const b=el("button",null,f); b.onclick=()=>{ if(!w.base) w.base=w.label; w.label=f; w.say=undefined; say(f); sheet.remove(); renderStrip(); restartScan(); }; list.append(b); }
+  panel.append(head, list); sheet.append(panel); document.body.append(sheet);
+  sheet.addEventListener("click", e=>{ if(e.target===sheet){ sheet.remove(); restartScan(); } });
+};
+
+/* ---------------- Find a word (shows where a word lives, to build muscle memory) ---------------- */
+$("findBtn").onclick = () => {
+  stopScan();
+  const sheet = el("div","sheet"); sheet.setAttribute("role","dialog"); sheet.setAttribute("aria-label","Find a word");
+  sheet.innerHTML = `<div class="panel find"><div class="phead"><h2>Find a word</h2><button class="btn" id="fClose">Close</button></div>
+    <input type="text" id="fQ" placeholder="Type a word, like eat or eagle" autocomplete="off" aria-label="Word to find">
+    <p class="note">Speakeasy shows you where the word lives, so it gets easier to find next time.</p><div class="fres" id="fRes"></div></div>`;
+  document.body.append(sheet);
+  const close = () => { sheet.remove(); restartScan(); };
+  sheet.querySelector("#fClose").onclick = close;
+  sheet.addEventListener("click", e=>{ if(e.target===sheet) close(); });
+  const h = hiddenSet();
+  const index = [];
+  for (const t of sections()){
+    for (const it of allItems(t)){ if (h.has(it.id)) continue; if (t==="core" && !coreShown(it,h)) continue; index.push({it,t}); } }
+  const q = sheet.querySelector("#fQ"), res = sheet.querySelector("#fRes");
+  const show = () => {
+    const v = q.value.trim().toLowerCase(); res.replaceChildren();
+    if (!v) return;
+    const hits = index.filter(x=>x.it.label.toLowerCase().includes(v)).sort((a,b)=>a.it.label.toLowerCase().indexOf(v)-b.it.label.toLowerCase().indexOf(v)).slice(0,30);
+    if (!hits.length){ res.append(el("p","note","No word like that yet. Caregivers can add it in Settings, Edit words.")); return; }
+    for (const {it,t} of hits){
+      const b = el("button");
+      const s = el("span","s"); if (it.art){ s.className="art"; s.innerHTML=artSVG(it); } else if (it.img && it.img!=="__idb__"){ const i=el("img"); i.src=it.img; i.alt=""; i.style.width="32px"; i.style.height="32px"; i.style.borderRadius="6px"; s.append(i); } else s.textContent=it.sym||"🔤";
+      const txt = el("span"); txt.append(document.createTextNode(it.label), el("small",null, CATS[t] ? `in Groups › ${CATS[t].name}` : "in "+tabMeta(t).name));
+      b.append(s, txt);
+      b.onclick = () => {
+        sheet.remove(); if (CATS[t]){ tab="groups"; sub=t; } else tab=t; if (t==="birds") state.birdGroup="all";
+        renderTabs(); renderBoard();
+        const tile = board.querySelector(`[data-id="${CSS.escape(it.id)}"]`);
+        document.querySelector(`.tab[data-tab="${CSS.escape(tab)}"]`)?.scrollIntoView({inline:"center",block:"nearest"});
+        if (tile){ tile.scrollIntoView({block:"center",inline:"nearest"}); tile.classList.remove("hint"); void tile.offsetWidth; tile.classList.add("hint"); }
+        say(it.label); restartScan(1500);
+      };
+      res.append(b);
+    }
+  };
+  q.addEventListener("input", show); setTimeout(()=>q.focus(),50);
+};
+
+/* ---------------- Find-it game ----------------
+   "Which one is the Blue Jay?" Three birds fly in. Right answer: a big YES flies across, cheers and confetti,
+   then the next bird. Wrong answer: a gentle NO, the app says which bird they picked, and asks again.
+   After two misses the right bird glows, so every round ends in success. */
+let AC = null;
+function audio(){ try{ AC = AC || new (window.AudioContext||window.webkitAudioContext)(); if (AC.state==="suspended") AC.resume(); }catch{ AC=null; } return AC; }
+function tone(f, t0, dur, type="sine", vol=.14, f2){
+  const a = audio(); if(!a) return; const t=a.currentTime+t0, o=a.createOscillator(), g=a.createGain();
+  o.type=type; o.frequency.setValueAtTime(f,t); if (f2) o.frequency.exponentialRampToValueAtTime(f2,t+dur);
+  g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(vol,t+.02); g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t+dur+.05);
+}
+function noise(t0, dur, vol, freq, q=0.8){
+  const a = audio(); if(!a) return; const t=a.currentTime+t0, n=Math.floor(a.sampleRate*dur), buf=a.createBuffer(1,n,a.sampleRate), d=buf.getChannelData(0);
+  for(let i=0;i<n;i++) d[i]=(Math.random()*2-1)*(0.6+0.4*Math.sin(i/a.sampleRate*2*Math.PI*7));
+  const src=a.createBufferSource(); src.buffer=buf; const bp=a.createBiquadFilter(); bp.type="bandpass"; bp.frequency.value=freq; bp.Q.value=q;
+  const g=a.createGain(); g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(vol,t+dur*0.3); g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  src.connect(bp).connect(g).connect(a.destination); src.start(t); src.stop(t+dur);
+}
+const SND = {
+  chirp(){ tone(2300,0,.09,"sine",.07,3500); tone(2700,.13,.09,"sine",.07,3900); tone(2500,.26,.13,"sine",.07,3300); },
+  jingle(){ [523,659,784,1047].forEach((f,i)=>tone(f,i*.11,.2,"triangle",.11)); },
+  yay(){ [523,659,784,1047,1319].forEach((f,i)=>tone(f,i*.08,.35,"triangle",.13)); noise(.05,1.6,.22,1400,.6); noise(.15,1.3,.12,2600,1.2);
+         for(let i=0;i<8;i++) noise(.2+i*.13+Math.random()*.05,.06,.18,1800,2); },
+  uhoh(){ tone(392,0,.22,"sine",.11); tone(311,.25,.34,"sine",.11); }
+};
+
+function confetti(n){
+  if (S.look!=="sparkle" || reduced) return;
+  const cols=["#F2C230","#E5262A","#3B6FD0","#4EB84A","#C45D34","#9A4AC9","#3FB7E8","#F28AB0"];
+  for(let i=0;i<n;i++){ const c=el("span","conf"); c.style.left=(Math.random()*100)+"vw"; c.style.background=cols[i%cols.length];
+    c.style.setProperty("--t",(1.6+Math.random()*1.4)+"s"); c.style.setProperty("--x",(Math.random()*120-60)+"px"); c.style.setProperty("--r",(Math.random()*900-450)+"deg");
+    c.style.animationDelay=(Math.random()*0.5)+"s"; if(i%3===0) c.style.borderRadius="50%";
+    document.body.append(c); setTimeout(()=>c.remove(),3800); }
+}
+
+function openGame(t){
+  let pool = visibleItems(t).filter(pictured);
+  if (t==="birds" && state.birdGroup!=="all"){ const g = pool.filter(it=>it.group===state.birdGroup || !it.builtin); if (g.length>=3) pool = g; }
+  if (pool.length < 3){ toast("This group needs at least 3 words with pictures to play."); return; }
+  stopScan(); if (synth) synth.cancel();
+  const G = state.game ||= {motion:"fly", sound:true, names:false, best:0};
+  if (reduced && G.motion==="cross") G.motion="still";
+  const what = t==="birds" ? "bird" : "one";
+  const g = el("div","game"); g.setAttribute("role","dialog"); g.setAttribute("aria-label","Find it game");
+  g.innerHTML = `
+    <span class="g-cloud" style="top:16%;left:6%;width:90px;height:28px"></span><span class="g-cloud" style="top:28%;right:8%;width:120px;height:34px"></span>
+    <div class="g-top">
+      <button class="g-tool" id="gX" aria-label="${S.lock?"Hold to leave the game":"Leave the game"}">✕<span class="ring"></span></button>
+      <div class="g-ask"><small>Which ${what} is the</small><b id="gName"></b></div>
+      <button class="g-tool" id="gHear" aria-label="Hear it again">🔊</button>
+    </div>
+    <div class="g-stars" id="gStars" aria-label="Score"></div>
+    <div class="g-field" id="gField"></div>
+    ${S.scan!=="off"?`<button class="g-switch" id="gSwitch">Tap here (or press Space) to choose</button>`:""}
+    <div class="g-banner" id="gBanner" aria-live="assertive"></div>
+    <div class="g-start" id="gStart">
+      <h2>${t==="birds"?"Bird game":esc(tabMeta(t).name)+" game"}</h2>
+      <p>Listen to the name, then tap the right ${what}.</p>
+      <div class="g-opts" role="group" aria-label="How birds move">
+        <button data-mo="fly">🐦 Fly in</button><button data-mo="cross">💨 Keep flying</button><button data-mo="still">✋ Stay still</button></div>
+      <div class="g-opts"><button id="gNames">Show names</button><button id="gSnd">Sounds</button></div>
+      <button class="go" id="gGo">▶ Play</button>
+    </div>`;
+  document.body.append(g);
+  const $g = id => g.querySelector("#"+id);
+  const field=$g("gField"), banner=$g("gBanner"), stars=$g("gStars");
+  const syncOpts = () => {
+    g.querySelectorAll("[data-mo]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.mo===G.motion));
+    $g("gNames").setAttribute("aria-pressed", G.names); $g("gSnd").setAttribute("aria-pressed", G.sound);
+  };
+  g.querySelectorAll("[data-mo]").forEach(b=>b.onclick=()=>{ G.motion=b.dataset.mo; save(); syncOpts(); });
+  $g("gNames").onclick=()=>{ G.names=!G.names; save(); syncOpts(); };
+  $g("gSnd").onclick=()=>{ G.sound=!G.sound; save(); syncOpts(); };
+  syncOpts();
+
+  let score=0, round=null, busy=false, bag=[], timer=null, scanT=null, scanI=-1;
+  const play = name => { if (G.sound && SND[name]) SND[name](); };
+  const drawStars = () => { stars.replaceChildren(); const shown=Math.min(score,10);
+    for(let i=0;i<shown;i++) stars.append(el("span",null,"⭐"));
+    if (score) stars.append(el("span","n",`${score} found${G.best?` · best ${G.best}`:""}`)); };
+  const nextTarget = () => { if(!bag.length) bag = pool.map((_,i)=>i).sort(()=>Math.random()-.5); return pool[bag.pop()]; };
+  const looksDifferent = (a,b) => !a.art || !b.art || a.art.c.b!==b.art.c.b || a.art.tpl!==b.art.tpl;
+  function picture(it){
+    const wrap = el("span","art");
+    if (it.img){ const i=el("img","pic"); i.src=it.img; i.alt=""; return i; }
+    if (it.art){ wrap.innerHTML = artSVG(it); attachPhoto(it, wrap); if (photoDB[it.id] && !photoDB[it.id].src) {} watchPhoto(it, wrap); return wrap; }
+    return el("span","gsym",it.sym||"⭐");
+  }
+  function ask(){ say(`Which ${what} is the ${round.target.label}?`); }
+  function newRound(){
+    busy=false; clearTimeout(timer);
+    const target = nextTarget();
+    const others = pool.filter(it=>it.id!==target.id).sort(()=>Math.random()-.5);
+    const picks = [...others.filter(o=>looksDifferent(o,target)), ...others].filter((v,i,a)=>a.indexOf(v)===i).slice(0,2);
+    const choices = [target, ...picks].sort(()=>Math.random()-.5);
+    round = {target, choices, misses:0};
+    $g("gName").textContent = target.label;
+    field.className = "g-field" + (G.motion==="cross" ? " cross" : "");
+    field.replaceChildren();
+    choices.forEach((it,i)=>{
+      const b = el("button","g-bird"); b.dataset.id = it.id; b.setAttribute("aria-label", it.label);
+      b.append(picture(it)); b.append(el("span","gname", G.names ? it.label : ""));
+      if (G.motion==="fly"){ b.classList.add("in"); b.style.animationDelay = `${i*0.25}s, ${0.9+i*0.25}s`; }
+      if (G.motion==="cross"){ b.style.top = (6+i*31)+"%"; b.style.setProperty("--dur",(9+i*1.7)+"s"); b.style.setProperty("--delay",(-i*3.1)+"s"); }
+      b.addEventListener("pointerdown", e=>{ e.preventDefault(); choose(it,b); });
+      b.addEventListener("click", e=>{ if (e.detail===0) choose(it,b); });
+      field.append(b);
+    });
+    play("chirp"); setTimeout(ask, 350); restartGameScan();
+  }
+  function showBanner(kind, sub){
+    banner.replaceChildren();
+    const big = el("div","big "+kind, kind==="yes" ? "YES!" : "NO");
+    const still = reduced || S.look!=="sparkle";
+    big.classList.add(still ? "still" : kind==="yes" ? "flyyes" : "popno");
+    banner.append(big); if (sub) banner.append(Object.assign(el("div","sub",sub),{className:"sub "+(still?"still":kind==="yes"?"flyyes":"popno")}));
+  }
+  function choose(it, node){
+    if (busy || !round) return;
+    if (it.id===round.target.id){
+      busy=true; stopGameScan(); score++; if (score>G.best){ G.best=score; } state.practice.right++; save();
+      field.classList.add("done");
+      field.querySelectorAll(".g-bird").forEach(b=>{ b.classList.remove("hint"); b.classList.add(b===node?"right":"fade"); });
+      node.querySelector(".gname").textContent = it.label;
+      showBanner("yes", `That's the ${it.label}!`);
+      play("yay"); confetti(score%5===0 ? 140 : 70);
+      say(score%5===0 ? `Yes! That's the ${it.label}! Wow, ${score} in a row!` : `Yes! That's the ${it.label}!`);
+      drawStars();
+      timer = setTimeout(newRound, score%5===0 ? 3400 : 2700);
+    } else {
+      round.misses++; state.practice.tries++; save();
+      node.classList.remove("wrong"); void node.offsetWidth; node.classList.add("wrong");
+      showBanner("no", "Try again!"); play("uhoh");
+      say(`No, that's the ${it.label}. Which ${what} is the ${round.target.label}?`);
+      if (round.misses>=2){ const right = field.querySelector(`[data-id="${CSS.escape(round.target.id)}"]`); right && right.classList.add("hint"); }
+    }
+  }
+  // switch and listening access inside the game
+  function stopGameScan(){ clearInterval(scanT); scanT=null; g.querySelectorAll(".scan-on").forEach(n=>n.classList.remove("scan-on")); }
+  function restartGameScan(){ stopGameScan(); if (S.scan==="off") return; scanI=-1;
+    scanT=setInterval(()=>{ const bs=[...field.querySelectorAll(".g-bird")]; if(!bs.length) return; g.querySelectorAll(".scan-on").forEach(n=>n.classList.remove("scan-on"));
+      scanI=(scanI+1)%bs.length; bs[scanI].classList.add("scan-on"); if (S.scan==="listen") say(bs[scanI].getAttribute("aria-label"), true); }, S.scanMs); }
+  function scanPick(){ const bs=[...field.querySelectorAll(".g-bird")]; const b=bs[scanI]; if(!b) return; const it=round.choices.find(c=>c.id===b.dataset.id); choose(it,b); }
+  const onKey = e => { if (!g.isConnected) return; if (S.scan!=="off" && (e.key===" "||e.key==="Enter") && !$g("gStart")){ e.preventDefault(); scanPick(); } };
+  document.addEventListener("keydown", onKey);
+  if ($g("gSwitch")) $g("gSwitch").addEventListener("pointerdown", e=>{ e.preventDefault(); scanPick(); });
+
+  $g("gHear").onclick = () => { if (round){ play("chirp"); ask(); } };
+  $g("gGo").onclick = () => { audio(); play("jingle"); $g("gStart").remove(); drawStars(); setTimeout(newRound, 450); };
+  // leaving: a hold when the caregiver lock is on, so a child doesn't exit by accident
+  const close = () => { clearTimeout(timer); stopGameScan(); document.removeEventListener("keydown", onKey); if (synth) synth.cancel(); g.remove(); renderBoard(); restartScan(); };
+  const x = $g("gX"); let xt=null;
+  x.addEventListener("pointerdown", ()=>{ if(!S.lock) return; x.classList.add("holding"); xt=setTimeout(()=>{ xt="done"; close(); },1000); });
+  x.addEventListener("pointerup", ()=>{ if(!S.lock) return; if(xt && xt!=="done"){ clearTimeout(xt); x.classList.remove("holding"); toast("Hold ✕ to leave the game."); } });
+  x.addEventListener("pointerleave", ()=>{ if(xt && xt!=="done"){ clearTimeout(xt); x.classList.remove("holding"); } });
+  x.addEventListener("click", e=>{ if (!S.lock || e.detail===0) close(); });
+}
+
+/* ---------------- Practice ---------------- */
+function startLearn(){ learn.on=true; learn.tab = (isTopic(tab) || (tab==="groups" && sub)) ? tab : "core"; tab = learn.tab; apply(); nextTarget(); }
+function stopLearn(){ learn.on=false; learn.target=null; document.querySelectorAll(".tile.hint,.tile.right").forEach(t=>t.classList.remove("hint","right")); renderBanner(); restartScan(); }
+function nextTarget(){
+  document.querySelectorAll(".tile.hint,.tile.right").forEach(t=>t.classList.remove("hint","right"));
+  const h = hiddenSet();
+  let pool;
+  if (learn.tab && learn.tab!=="core"){ pool = [...itemsById.values()].filter(it=>it!==learn.target); }
+  else pool = CORE.filter(it=>coreShown(it,h) && it!==learn.target);
+  learn.target = pool[Math.floor(Math.random()*pool.length)] || CORE[0]; learn.misses=0;
+  renderBanner(); say("Find " + learn.target.label);
+}
+function learnCheck(it,node){
+  state.practice.tries++;
+  if (it.id===learn.target.id){
+    state.practice.right++; save(); node.classList.add("right"); say("Yes! " + it.label); burst(node,16);
+    renderBanner(); setTimeout(()=>{ if(learn.on) nextTarget(); }, 1500);
+  } else {
+    learn.misses++; save(); say(it.label);
+    if (learn.misses>=2){
+      const t = board.querySelector(`[data-id="${learn.target.id}"]`); if (t){ t.classList.remove("hint"); void t.offsetWidth; t.classList.add("hint"); }
+      setTimeout(()=>say("Find " + learn.target.label), 900);
+    }
+  }
+}
+$("learnBtn").onclick = () => learn.on ? stopLearn() : startLearn();
+
+/* ---------------- Switch and listening scanning ---------------- */
+const scan = {timer:null,i:-1,els:[]};
+function scanTargets(){
+  return [...board.querySelectorAll("[data-scan],[data-act]"), $("speakBtn"), $("formBtn"), $("delBtn"), $("clrBtn"), ...$("tabs").querySelectorAll(".tab")];
+}
+function stopScan(){ clearInterval(scan.timer); scan.timer=null; document.querySelectorAll(".scan-on").forEach(n=>n.classList.remove("scan-on")); }
+function restartScan(delay=0){
+  stopScan();
+  if (S.scan==="off" || document.querySelector(".sheet,.helpcard,.game")) return;
+  setTimeout(()=>{
+    if (S.scan==="off" || scan.timer) return;
+    scan.els = scanTargets(); scan.i = -1;
+    scan.timer = setInterval(stepScan, S.scanMs); stepScan();
+  }, delay);
+}
+function stepScan(){
+  document.querySelectorAll(".scan-on").forEach(n=>n.classList.remove("scan-on"));
+  if (!scan.els.length) return;
+  scan.i = (scan.i+1) % scan.els.length;
+  const n = scan.els[scan.i]; n.classList.add("scan-on"); n.scrollIntoView({block:"nearest",inline:"nearest"});
+  if (S.scan==="listen") say(n.dataset.w || n.getAttribute("aria-label") || n.textContent, true);
+}
+function scanSelect(){
+  const n = scan.els[scan.i]; if(!n) return;
+  stopScan();
+  if (n.dataset.act) activate(n); else n.click();
+  restartScan(S.scan==="listen" ? 1400 : 250);
+}
+$("switchBar").addEventListener("pointerdown", e=>{ e.preventDefault(); scanSelect(); });
+document.addEventListener("keydown", e=>{
+  if (S.scan==="off" || document.querySelector(".sheet,.helpcard,.game")) return;
+  if (e.key===" " || e.key==="Enter"){ e.preventDefault(); scanSelect(); }
+});
+
+/* ---------------- Help card ---------------- */
+$("helpBtn").onclick = () => {
+  stopScan();
+  const H = state.help, kid = m()==="k";
+  const line1 = kid ? "I need help. I can't talk right now." : "I can't speak right now. I use this device to communicate.";
+  const line2 = kid ? "Please find a grown-up I know." : "Please be patient and read my screen.";
+  const card = el("div","helpcard"); card.setAttribute("role","dialog"); card.setAttribute("aria-label","Help card");
+  card.innerHTML = `<p class="big">${esc(line1)}</p><p class="info">${esc(line2)}</p>
+    ${H.name?`<p class="info">My name is <b>${esc(H.name)}</b>.</p>`:""}
+    ${H.contact?`<div><p class="info">Please contact:</p><div class="contact">${esc(H.contact)}</div></div>`:""}
+    ${H.info?`<p class="info">${esc(H.info)}</p>`:""}
+    ${(!H.name&&!H.contact)?`<p class="info" style="color:var(--muted)">Caregivers: add a name and emergency contact in Settings, Help card.</p>`:""}
+    <div class="acts"><button class="btn primary" id="hcSay">🔊 Say this</button><button class="btn" id="hcClose">Close</button></div>`;
+  document.body.append(card);
+  const text = [line1,line2,H.name?`My name is ${H.name}.`:"",H.contact?`Please contact ${H.contact}.`:"",H.info].filter(Boolean).join(" ");
+  card.querySelector("#hcSay").onclick = () => say(text);
+  card.querySelector("#hcClose").onclick = () => { card.remove(); restartScan(); };
+  say(text);
+};
+
+/* ---------------- Settings (caregiver lock: hold the gear) ---------------- */
+const gear = $("gearBtn"); let gearT=null;
+gear.addEventListener("pointerdown", ()=>{
+  if (!S.lock) return;
+  gear.style.setProperty("--hold","1.5s"); gear.classList.add("holding");
+  gearT = setTimeout(()=>{ gear.classList.remove("holding"); gearT="done"; openSettings(); },1500);
+});
+const gearUp = () => { if (gearT && gearT!=="done"){ clearTimeout(gearT); gear.classList.remove("holding"); toast("Hold the gear for 2 seconds to open settings."); } };
+gear.addEventListener("pointerup", ()=>{ if(S.lock) gearUp(); });
+gear.addEventListener("pointerleave", ()=>{ if(gearT && gearT!=="done"){ clearTimeout(gearT); gear.classList.remove("holding"); } });
+gear.addEventListener("click", e=>{ if(!S.lock || e.detail===0){ openSettings(); } gearT=null; });
+
+function fillVoices(){
+  const sel = $("v-voice"); if(!sel) return;
+  const list = voices.length ? voices : [];
+  sel.innerHTML = `<option value="">Device default</option>` + list.map(v=>`<option value="${esc(v.voiceURI)}"${v.voiceURI===S.voiceURI?" selected":""}>${esc(v.name)} (${esc(v.lang)})${v.localService?"":" · needs internet"}</option>`).join("");
+}
+
+function openSettings(){
+  stopScan();
+  const sheet = el("div","sheet"); sheet.setAttribute("role","dialog"); sheet.setAttribute("aria-label","Settings");
+  const opt = (v,cur,t) => `<option value="${v}"${String(v)===String(cur)?" selected":""}>${t}</option>`;
+  const editTabs = sections();
+  sheet.innerHTML = `<div class="panel">
+    <div class="phead"><h2>Settings</h2><button class="btn primary" id="sClose">Done</button></div>
+
+    <div class="sec"><h3>Keep their words safe</h3>
+      <div class="checks" id="safeChecks"></div>
+      <div class="row" style="justify-content:flex-start">
+        <button class="btn primary" id="b-file">💾 Save backup file</button>
+        <button class="btn" id="b-pickbtn">Restore from file</button>
+        <input type="file" id="b-pick" accept=".json,application/json" hidden></div>
+      <p class="note">A backup file holds every word, photo and setting. Save one after big changes and keep it somewhere else, like your email or cloud drive. To move to a new phone or tablet, open Speakeasy there and choose Restore from file.</p>
+      <details id="b-pointsbox"><summary>Restore points</summary>
+        <p class="note">Speakeasy saves a restore point each day it's opened and before big changes, and keeps the last 7. Use one to undo a mistake.</p>
+        <div class="elist" id="b-points"></div></details></div>
+
+    <div class="sec"><h3>Who's using Speakeasy</h3>
+      <div class="row"><span class="seg" role="group" aria-label="Mode">
+        <button data-mode="k" aria-pressed="${m()==="k"}">Kids</button><button data-mode="a" aria-pressed="${m()==="a"}">Adults</button></span></div>
+      <p class="note">Both modes keep the same core words in the same places, so a child who grows into Adults mode keeps their muscle memory.</p></div>
+
+    <div class="sec"><h3>Look and feel</h3>
+      <div class="row"><span class="seg" role="group" aria-label="Look">
+        <button data-look="sparkle" aria-pressed="${S.look==="sparkle"}">✨ Sparkle</button><button data-look="calm" aria-pressed="${S.look==="calm"}">🌿 Calm</button></span></div>
+      <p class="note">Sparkle adds color bursts, bouncing buttons and a bird that flies by when you speak. Calm turns all movement off. Some autistic kids love the extra excitement and others find it too much, so try both. Core words never move in either look.</p></div>
+
+    <div class="sec"><h3>Topics</h3>
+      <div class="row"><label for="p-birds">🐦 Birds (124 birds, 6 groups, fun facts)</label><input type="checkbox" id="p-birds" ${state.packs.birds!==false?"checked":""}></div>
+      <div class="row"><label for="p-photos">Bird pictures</label><select id="p-photos">${opt("photos",S.photos,"Real photos")}${opt("off",S.photos,"Drawings")}</select></div>
+      <p class="note">Real photos come from Wikipedia's free photo library. Each device downloads them once while online, then they work offline. Drawings show until a photo arrives.${photoBlocked?" Photos can't load in this preview, so drawings are showing.":""}</p>
+      <div class="row" style="justify-content:flex-start"><button class="btn" id="p-credits">Photo credits</button></div>
+      <div class="elist" id="p-credlist"></div>
+      <div class="elist" id="t-list"></div>
+      <div class="grid2">
+        <label>New topic name<input type="text" id="t-name" maxlength="30" placeholder="Trucks, Dinosaurs, Trains…"></label>
+        <label>Picture (emoji)<input type="text" id="t-sym" maxlength="8" placeholder="🚚"></label></div>
+      <div class="row" style="justify-content:flex-start"><button class="btn primary" id="t-add">Create topic</button></div>
+      <p class="note">A topic is a whole page about something the person loves. After you create one, add its words and real photos below in Edit words.</p></div>
+
+    <div class="sec"><h3>Voice</h3>
+      <div class="row"><label for="v-voice">Voice</label><select id="v-voice"></select></div>
+      <div class="row"><label for="v-rate">Speed</label><input type="range" id="v-rate" min="0.5" max="1.5" step="0.05" value="${S.rate}"></div>
+      <div class="row"><label for="v-pitch">Pitch</label><input type="range" id="v-pitch" min="0.5" max="1.5" step="0.05" value="${S.pitch}"></div>
+      <div class="row"><label for="v-tap">Say each word when tapped</label><input type="checkbox" id="v-tap" ${S.speakOnTap?"checked":""}></div>
+      <div class="row"><button class="btn" id="v-test">🔊 Test voice</button></div>
+      <p class="note">${synth?"Voices come from this device. Voices marked “needs internet” stop working offline, so pick one without that label for everyday use.":"This browser can't speak out loud. Messages will show as text instead. Try Safari on iPhone or iPad, or Chrome on Android."}</p></div>
+
+    <div class="sec"><h3>Touch and access</h3>
+      <div class="row"><label for="a-hold">Hold to choose</label><select id="a-hold">${opt(0,S.holdMs,"Off")}${opt(300,S.holdMs,"Short (0.3s)")}${opt(600,S.holdMs,"Medium (0.6s)")}${opt(1000,S.holdMs,"Long (1s)")}</select></div>
+      <div class="row"><label for="a-deb">Ignore repeat taps</label><select id="a-deb">${opt(0,S.debounceMs,"Off")}${opt(300,S.debounceMs,"0.3s")}${opt(600,S.debounceMs,"0.6s")}${opt(1000,S.debounceMs,"1s")}</select></div>
+      <div class="row"><label for="a-size">Button size</label><input type="range" id="a-size" min="0.8" max="1.6" step="0.05" value="${S.scale}"></div>
+      <div class="row"><label for="a-con">High contrast</label><input type="checkbox" id="a-con" ${S.contrast?"checked":""}></div>
+      <div class="row"><label for="a-words">Words only (no pictures)</label><input type="checkbox" id="a-words" ${S.wordsOnly?"checked":""}></div>
+      <div class="row"><label for="a-board">Core board</label><select id="a-board">${opt("24",S.board,"24 big buttons")}${opt("48",S.board,"48 buttons, more words")}</select></div>
+      <div class="row"><label for="a-level">Core words showing</label><select id="a-level">${opt("starter",S.level,"12 starter words")}${opt("24",S.level,"24 words")}${opt("all",S.level,"All")}</select></div>
+      <p class="note">Start small and add more as they learn. Words that aren't showing yet keep their real places, so nothing moves when more appear. The 48-button board fits more words and works best on a tablet. Pick one board size and stay with it, because changing sizes moves the words.</p></div>
+
+    <div class="sec"><h3>Switch and listening access</h3>
+      <div class="row"><label for="x-scan">Scanning</label><select id="x-scan">${opt("off",S.scan,"Off")}${opt("switch",S.scan,"Switch scanning")}${opt("listen",S.scan,"Listening scanning (speaks each choice)")}</select></div>
+      <div class="row"><label for="x-speed">Time on each choice</label><input type="range" id="x-speed" min="800" max="4000" step="100" value="${S.scanMs}"></div>
+      <p class="note">Scanning highlights one choice at a time. Choose with the big button at the bottom, the Space key, or a Bluetooth switch set to send Space. Listening scanning reads each choice aloud, for users who are blind or have low vision.</p></div>
+
+    <div class="sec"><h3>Help card</h3>
+      <div class="grid2">
+        <label>Name<input type="text" id="h-name" value="${esc(state.help.name)}" autocomplete="off"></label>
+        <label>Emergency contact<input type="text" id="h-contact" value="${esc(state.help.contact)}" placeholder="Name and phone number" autocomplete="off"></label></div>
+      <label class="grid2" style="grid-template-columns:1fr">Other important info<input type="text" id="h-info" value="${esc(state.help.info)}" placeholder="For example: I'm autistic. Loud noise is painful for me."></label>
+      <p class="note">This shows on the red Help button. It stays on this device only.</p></div>
+
+    <div class="sec"><h3>Edit words</h3>
+      <div class="row"><label for="e-tab">Word group</label><select id="e-tab">${editTabs.map(t=>opt(t,"core",esc(tabMeta(t).name))).join("")}</select></div>
+      <div class="elist" id="e-list"></div>
+      <div id="e-add"></div></div>
+
+    <div class="sec"><h3>Caregiver lock</h3>
+      <div class="row"><label for="l-lock">Hold the gear 2 seconds to open settings</label><input type="checkbox" id="l-lock" ${S.lock?"checked":""}></div></div>
+
+    <div class="sec"><h3>Backup as text</h3>
+      <p class="note">If files don't work on this device, copy the backup as text and paste it into an email to yourself. Paste it back here to restore.</p>
+      <textarea id="b-text" aria-label="Backup text" placeholder="Paste a backup here to restore it."></textarea>
+      <div class="row" style="justify-content:flex-start"><button class="btn" id="b-copy">Copy backup text</button><button class="btn" id="b-restore">Restore from text</button></div></div>
+
+    <div class="sec"><h3>About and privacy</h3>
+      <p class="note">Speakeasy v1.0 by McLearn Media LLC. Bird illustrations are original McLearn Media artwork. Bird photos come from Wikimedia Commons under free licenses, credited in Settings, Photo credits. Everything you add stays on this device. Nothing is sent anywhere, and there's no tracking.</p>
+      <p class="note">Speakeasy is a communication tool, not therapy. A speech-language pathologist can help choose the right words, settings and goals. Using a talking device does not stop speech from developing. Research shows it often helps.</p></div>
+  </div>`;
+  document.body.append(sheet);
+  const q = id => sheet.querySelector("#"+id);
+  const set = (k,v) => { S[k]=v; save(); apply(); };
+
+  fillVoices();
+  q("sClose").onclick = closeSettings;
+  sheet.querySelectorAll("[data-look]").forEach(b=>b.onclick=()=>{ set("look",b.dataset.look); sheet.querySelectorAll("[data-look]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.look===S.look)); });
+  q("p-birds").onchange = e => { state.packs.birds = e.target.checked; save(); apply(); rebuildEditTabs(); };
+  q("p-photos").onchange = e => { set("photos", e.target.value); };
+  q("p-credits").onclick = async () => {
+    const list = q("p-credlist"); const have = PACKS.birds.items.filter(it=>photoDB[it.id]&&photoDB[it.id].src);
+    if (!have.length){ list.innerHTML = `<p class="note">No photos downloaded on this device yet. Open the Birds tab while online.</p>`; return; }
+    list.innerHTML = `<p class="note">Loading credits for ${have.length} photos…</p>`;
+    const rows = [];
+    for (const it of have){ rows.push(`<div class="erow"><span class="t">${esc(it.label)}<small>${esc(await photoCredit(it))}</small></span></div>`); }
+    list.innerHTML = rows.join("");
+  };
+  function renderTopics(){
+    const list = q("t-list");
+    list.innerHTML = state.topics.map(t=>`<div class="erow"><span class="s">${esc(t.sym)}</span><span class="t">${esc(t.name)}<small>${(state.custom[t.id]||[]).length} words</small></span><button class="btn danger" data-tdel="${esc(t.id)}">Delete</button></div>`).join("");
+    list.querySelectorAll("[data-tdel]").forEach(b=>b.onclick=()=>{
+      if (b.dataset.sure!=="1"){ b.dataset.sure="1"; b.textContent="Tap again to delete topic"; return; }
+      const id=b.dataset.tdel; addPoint("Before deleting a topic");
+      state.topics=state.topics.filter(x=>x.id!==id); delete state.custom[id]; save(); apply(); renderTopics(); rebuildEditTabs();
+    });
+  }
+  q("t-add").onclick = () => {
+    const name = q("t-name").value.trim(); if(!name){ toast("Type a name for the topic first."); q("t-name").focus(); return; }
+    const id = "t-"+Date.now().toString(36);
+    state.topics.push({id, name, sym:q("t-sym").value.trim()||"⭐"}); save(); apply(); renderTopics(); rebuildEditTabs();
+    q("e-tab").value = id; renderEdit(); q("t-name").value=""; q("t-sym").value="";
+    toast(`Created “${name}”. Add its words below.`);
+  };
+  sheet.addEventListener("click", e=>{ if(e.target===sheet) closeSettings(); });
+  sheet.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{ set("mode",b.dataset.mode); sheet.querySelectorAll("[data-mode]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.mode===S.mode)); rebuildEditTabs(); });
+  q("v-voice").onchange = e => { set("voiceURI",e.target.value); say("Hello. This is my voice."); };
+  q("v-rate").oninput = e => { S.rate=+e.target.value; save(); };
+  q("v-pitch").oninput = e => { S.pitch=+e.target.value; save(); };
+  q("v-rate").onchange = q("v-pitch").onchange = () => say("Hello. This is my voice.");
+  q("v-tap").onchange = e => set("speakOnTap",e.target.checked);
+  q("v-test").onclick = () => say(m()==="k" ? "Hi! I want to play." : "Hello. I use this device to talk.");
+  q("a-hold").onchange = e => set("holdMs",+e.target.value);
+  q("a-deb").onchange = e => set("debounceMs",+e.target.value);
+  q("a-size").oninput = e => set("scale",+e.target.value);
+  q("a-con").onchange = e => set("contrast",e.target.checked);
+  q("a-words").onchange = e => set("wordsOnly",e.target.checked);
+  q("a-board").onchange = e => { set("board", e.target.value); toast(e.target.value==="48" ? "48-button board. Words have new places now." : "24-button board."); };
+  q("a-level").onchange = e => set("level", e.target.value);
+  q("x-scan").onchange = e => set("scan",e.target.value);
+  q("x-speed").onchange = e => set("scanMs",+e.target.value);
+  q("l-lock").onchange = e => set("lock",e.target.checked);
+  for (const [id,k] of [["h-name","name"],["h-contact","contact"],["h-info","info"]]) q(id).oninput = e => { state.help[k]=e.target.value.slice(0,200); save(); };
+
+  // keeping their words safe
+  function renderSafety(){
+    const rows = [];
+    rows.push(health.idb ? ["ok","Saved on this device"] : health.idb===false ? ["warn", health.localOK ? "Saved, but with limited room on this device. Keep backup files." : "This device isn't saving changes. Save a backup file now."] : ["wait","Checking this device's storage…"]);
+    rows.push(health.persisted ? ["ok","Protected from automatic clean-up"] : ["warn", !installable() ? "This preview can't be protected from clean-up. Open Speakeasy from its own web address and install it. Keep backup files until then." : installed() ? "Not yet protected from automatic clean-up. Keep backup files." : "Install Speakeasy to protect it from automatic clean-up."]);
+    rows.push(installed() ? ["ok","Installed as an app"] : ["warn", !installable() ? "This preview can't be installed or used offline. Open Speakeasy from its own web address to install it." : isIOS ? "Not installed yet. In Safari, tap Share, then Add to Home Screen." : "Not installed yet. Use your browser's Install app option."]);
+    const lb = state.lastBackup;
+    rows.push(lb && Date.now()-lb < 14*864e5 ? ["ok",`Backup file saved ${fmtDay(lb)}`] : ["warn", lb ? `Last backup file ${fmtDay(lb)}. Time for a new one.` : "No backup file yet."]);
+    q("safeChecks").innerHTML = rows.map(([k,t])=>`<div class="chk ${k}"><span aria-hidden="true">${k==="ok"?"✅":k==="warn"?"⚠️":"⏳"}</span><span>${esc(t)}</span></div>`).join("");
+  }
+  async function renderPoints(){
+    const box = q("b-points"); let pts = [];
+    try { pts = await listPoints(); } catch {}
+    if (!pts.length){ box.innerHTML = `<p class="note">No restore points yet on this device.</p>`; return; }
+    box.innerHTML = pts.map(p=>`<div class="erow"><span class="t">${esc(fmtWhen(p.t))}<small>${esc(p.label)} · ${addedWords(p.data)} added words</small></span><button class="btn" data-pt="${p.t}">Restore</button></div>`).join("");
+    box.querySelectorAll("[data-pt]").forEach(b=>b.onclick=async()=>{
+      if (b.dataset.sure!=="1"){ b.dataset.sure="1"; b.textContent="Tap again to restore"; return; }
+      const p = pts.find(x=>String(x.t)===b.dataset.pt); if (!p) return;
+      closeSettings(); await restoreFrom(p.data, "Restored to "+fmtWhen(p.t)+".");
+    });
+  }
+  renderSafety(); renderPoints();
+  q("b-file").onclick = async () => { if (await saveBackupFile()) renderSafety(); };
+  q("b-pickbtn").onclick = () => q("b-pick").click();
+  q("b-pick").onchange = e => {
+    const f = e.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = async () => {
+      try { const st = parseBackup(r.result); closeSettings(); await restoreFrom(st, `Restored ${addedWords(st)} added words and all settings.`); }
+      catch { toast("That file isn't a Speakeasy backup. Choose a file named speakeasy-backup."); }
+    };
+    r.onerror = () => toast("That file couldn't be opened. Try again.");
+    r.readAsText(f); e.target.value = "";
+  };
+  q("b-copy").onclick = async () => {
+    const t = q("b-text"); t.value = backupText();
+    try { await navigator.clipboard.writeText(t.value); toast("Backup text copied. Paste it into an email to yourself."); }
+    catch { t.focus(); t.select(); toast("Copying is blocked here. The text is selected, so copy it by hand."); }
+  };
+  q("b-restore").onclick = async () => {
+    try { const st = parseBackup(q("b-text").value); closeSettings(); await restoreFrom(st); }
+    catch { toast("That text isn't a Speakeasy backup. Paste the whole backup and try again."); }
+  };
+
+  // edit words
+  function rebuildEditTabs(){
+    const sel = q("e-tab"), cur = sel.value; const tabs = sections();
+    sel.innerHTML = tabs.map(t=>opt(t,tabs.includes(cur)?cur:"core",esc(tabMeta(t).name))).join(""); renderEdit();
+  }
+  function renderEdit(){
+    const t = q("e-tab").value, h = hiddenSet(), list = q("e-list");
+    list.innerHTML = allItems(t).map(it=>`<div class="erow${h.has(it.id)?" hidden":""}">
+      ${it.img&&it.img!=="__idb__"?`<img src="${esc(it.img)}" alt="">`:it.art?`<span class="art">${artSVG(it)}</span>`:`<span class="s">${esc(it.sym||"")}</span>`}
+      <span class="t">${esc(it.label)}${it.say&&it.say!==it.label?`<small>says “${esc(it.say)}”</small>`:""}</span>
+      ${it.builtin?`<button class="btn" data-tog="${esc(it.id)}">${h.has(it.id)?"Show":"Hide"}</button>`:`<button class="btn danger" data-del="${esc(it.id)}">Delete</button>`}</div>`).join("");
+    list.querySelectorAll("[data-tog]").forEach(b=>b.onclick=()=>{
+      const id=b.dataset.tog; state.hidden = h.has(id) ? state.hidden.filter(x=>x!==id) : [...state.hidden,id]; save(); renderEdit(); renderBoard();
+    });
+    list.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{
+      if (b.dataset.sure!=="1"){ b.dataset.sure="1"; b.textContent="Tap again to delete"; return; }
+      addPoint("Before deleting a word");
+      state.custom[t]=(state.custom[t]||[]).filter(x=>x.id!==b.dataset.del); save(); renderEdit(); renderBoard();
+    });
+    const add = q("e-add");
+    if (t==="core"){ add.innerHTML = `<p class="note">Core words keep fixed places, so you can hide them but not move them. Add new words to another group.</p>`; return; }
+    add.innerHTML = `<div class="grid2">
+      <label>Word or phrase<input type="text" id="n-label" maxlength="60" placeholder="${t==="phrases"?"I need my headphones.":"grandma's house"}"></label>
+      <label>What it says (optional)<input type="text" id="n-say" maxlength="200" placeholder="Same as the word"></label>
+      <label>Picture (emoji)<input type="text" id="n-sym" maxlength="8" placeholder="🏡"></label>
+      <label>Or a photo<input type="file" id="n-img" accept="image/*"></label></div>
+      <div class="row" style="justify-content:flex-start"><button class="btn primary" id="n-add">Add word</button></div>`;
+    let photo = "";
+    q("n-img").onchange = e => { const f=e.target.files[0]; if(!f) return; shrink(f).then(d=>{photo=d; toast("Photo ready.");}).catch(()=>toast("That photo couldn't be opened. Try a JPG or PNG.")); };
+    q("n-add").onclick = () => {
+      const label = q("n-label").value.trim(); if(!label){ toast("Type the word first."); q("n-label").focus(); return; }
+      const pos = t==="phrases"?"social": t==="feelings"||t==="describe"||t==="colors"?"desc": t==="actions"?"verb": t==="questions"?"q": t==="social"?"social": t==="little"?"prep":"noun";
+      const grp = t==="birds" && state.birdGroup!=="all" ? state.birdGroup : undefined;
+      const item = {id:"u-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6), label, say:q("n-say").value.trim()||undefined, sym:q("n-sym").value.trim()||(photo?"":"⭐"), img:photo||undefined, pos, group:grp};
+      (state.custom[t] ||= []).push(item); save(); renderEdit(); renderBoard(); toast(`Added “${label}”.`);
+    };
+  }
+  q("e-tab").onchange = renderEdit;
+  renderEdit(); renderTopics();
+}
+function closeSettings(){ document.querySelector(".sheet")?.remove(); apply(); }
+
+function shrink(file){
+  return new Promise((res,rej)=>{
+    const r = new FileReader();
+    r.onload = () => { const img = new Image(); img.onload = () => {
+      const s=160, c=document.createElement("canvas"); c.width=c.height=s; const g=c.getContext("2d");
+      const k=Math.min(img.width,img.height); g.drawImage(img,(img.width-k)/2,(img.height-k)/2,k,k,0,0,s,s);
+      res(c.toDataURL("image/jpeg",0.8)); }; img.onerror=rej; img.src=r.result; };
+    r.onerror = rej; r.readAsDataURL(file);
+  });
+}
+
+/* ---------------- Start ---------------- */
+let lastW = window.innerWidth;
+window.addEventListener("resize", ()=>{ if (Math.abs(window.innerWidth-lastW)>80){ lastW=window.innerWidth; renderBoard(); restartScan(); } });
+apply();
+initStorage();
+async function wake(){ try{ if(document.visibilityState==="visible" && navigator.wakeLock) await navigator.wakeLock.request("screen"); }catch{} }
+wake(); document.addEventListener("visibilitychange", wake);
+try{ if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol) && document.querySelector('link[rel="manifest"]')) navigator.serviceWorker.register("sw.js").catch(()=>{}); }catch{}
+if (!synth) toast("This browser can't speak out loud. Messages will show as text.");
+})();
+</script>
+</body></html>
