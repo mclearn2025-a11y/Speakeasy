@@ -468,6 +468,18 @@ input[type=tel],input[type=email],input[type=search]{border:1.5px solid var(--li
 .pp p,.pp li{font-size:14px;line-height:1.55;max-width:65ch;margin:4px 0}
 .pp ul{margin:4px 0;padding-left:20px}
 .pp .pp-meta{color:var(--muted);font-size:13px}
+
+/* How to talk with me card (v1.7) */
+.panel.tc{max-width:900px}
+.panel.tc .tc-wrap{display:grid;gap:16px;margin-top:12px}
+@media (min-width:900px){.panel.tc .tc-wrap{grid-template-columns:minmax(260px,320px) 1fr;align-items:start}}
+.panel.tc .tc-form{display:grid;gap:10px;align-content:start}
+.panel.tc .tc-form>label{display:grid;gap:4px;font-weight:600}
+.panel.tc .tc-chks{display:grid;gap:8px}
+.panel.tc .tc-chk{display:flex;gap:8px;align-items:center;font-weight:400;min-height:32px}
+.panel.tc .tc-chk input{width:22px;height:22px}
+#printArea{display:none}
+@media print{body.printing>*:not(#printArea){display:none!important}body.printing #printArea{display:block}body.printing{background:#fff!important;padding:0!important}}
 </style>
 
 <div id="app">
@@ -1223,7 +1235,8 @@ const DEFAULT = {
   custom:{}, hidden:[], learned:{}, help:{name:"",contact:"",info:"",contacts:[],address:"",showAddress:false,shareLoc:false}, practice:{right:0,tries:0},
   packs:{birds:true}, topics:[], birdGroup:"all", facts:false, savedAt:0, lastBackup:0,
   stats:{days:{}}, guideSeen:false, modeSet:false, profileAsked:false,
-  profile:{name:"", avatar:"🙂", age:"", interests:[], check:null}, nicks:{}
+  profile:{name:"", avatar:"🙂", age:"", interests:[], check:null}, nicks:{},
+  card:{yes:"",no:"",upset:"",calm:"",dont:"",more:"",loves:true,words:true,contacts:true}, cardMade:0
 };
 function normalize(d){
   d = d && typeof d==="object" ? d : {};
@@ -1233,8 +1246,9 @@ function normalize(d){
   if (!["24","48"].includes(String(n.settings.board))) n.settings.board = "24";
   n.settings.board = String(n.settings.board);
   if (!["starter","24","all"].includes(n.settings.level)) n.settings.level = "all";
-  for (const k of ["custom","learned","help","practice","packs","stats","profile","nicks"]) if (!n[k] || typeof n[k]!=="object") n[k] = structuredClone(DEFAULT[k]);
+  for (const k of ["custom","learned","help","practice","packs","stats","profile","nicks","card"]) if (!n[k] || typeof n[k]!=="object") n[k] = structuredClone(DEFAULT[k]);
   if (!n.stats.days || typeof n.stats.days!=="object") n.stats.days = {};
+  n.card = {...structuredClone(DEFAULT.card), ...n.card};
   n.profile = {...structuredClone(DEFAULT.profile), ...n.profile}; if (!Array.isArray(n.profile.interests)) n.profile.interests = [];
   if (!["nick","both"].includes(n.settings.nickShow)) n.settings.nickShow = "both";
   if (!["say","big"].includes(n.settings.tapView)) n.settings.tapView = "say";
@@ -2388,6 +2402,7 @@ function openMenu(){
     if (k==="check") return openLevelCheck();
     if (k==="add") return addPerson();
     if (k==="dash") return openDashboard();
+    if (k==="card") return openTalkCard();
     if (k==="install") return doInstall();
     if (k==="settings") return openSettings();
     if (["words","help-set","voice","safe"].includes(k)) return openSettings(k==="help-set" ? "help" : k);
@@ -2438,6 +2453,7 @@ function openMenu(){
     ["add","➕","Add a person","Their own words and progress"],
     ["words","✏️","Edit words","Add words and photos"],
     ["help-set","🆘","Set up Help card","Name and emergency contact"],
+    ["card","🖨️","How to talk with me","A card for teachers and sitters"],
     ["voice","🔊","Voice","Pick a voice and speed"],
     ["safe","💾","Backups","Keep their words safe"],
     ...(installed() ? [] : [["install","📲","Install app","Works offline from the home screen"]]),
@@ -2463,6 +2479,7 @@ function openDashboard(){
       ["Read the caregiver guide", !!state.guideSeen, "guide"],
       ["Add emergency contacts", hasContacts(), "help"],
       ["Practice getting help", !!state.helpPracticed, "helppractice"],
+      ["Make a How to talk with me card", !!state.cardMade, "card"],
       ["Choose a voice", !!S.voiceURI, "voice"],
       ["Add their own words or photos", addedWords(state)>0, "words"],
       ["Save a backup file", backupOK, "backup"],
@@ -2505,6 +2522,7 @@ function openDashboard(){
       if (k==="profile") return openProfileEditor();
       if (k==="check") return openLevelCheck();
       if (k==="helppractice") return openHelpPractice();
+      if (k==="card") return openTalkCard();
       if (k==="up"){ setLevel(lv()+1); return; }
       if (k==="guide") openGuide("care");
       else if (k==="practice") learn.on ? stopLearn() : startLearn();
@@ -2542,6 +2560,7 @@ const GUIDE = {
     {h:"Choose a voice", b:"Pick a voice that fits them. Choose one that doesn't need the internet, so it always works.", go:"voice"},
     {h:"Set up emergency contacts", b:"Add their name and up to three people to call, with phone, email and video. The red Help button shows them with Call, Text and Video buttons. Their home address stays hidden unless you turn it on.", go:"help"},
     {h:"Practice getting help", b:"Help practice teaches what to do when they need help: show the Help card, find a safe helper, say their name and a phone number. It never really calls anyone.", show:()=>$("helpBtn"), need:()=>!off("help")},
+    {h:"Make a How to talk with me card", b:"Print a one-page card for teachers, sitters and doctors. It says how they talk, how to help, how they say yes and no, what helps them calm down, and who to call. Fill in what you like, then print it or save it as a file.", card:true},
     {h:"Add their own words and photos", b:"Add the names of people, places and favorite things. A photo of their real cup or dog works better than a cartoon.", go:"words"},
     {h:"Show only what they need", b:"In Show and hide, turn off any page or tool they don't use yet, or use Keep only to leave just one thing. Show everything brings it all back. The settings gear always stays.", go:"show"},
     {h:"Big picture and fun facts", b:"On topic pages, Big picture shows the whole photo when they tap it, with nothing covering it. Fun facts reads a short fact about each picture.", go:"topics"},
@@ -2606,6 +2625,7 @@ const FAQ = [
   ["Safety","How do I back up their words?","Open Settings, Keep their words safe, and tap Save backup file. Keep the file in your email or cloud drive.","backup save safe file",{go:"safe"}],
   ["Safety","How do I move Speakeasy to a new phone or tablet?","On the old device, save a backup file. On the new one, open Speakeasy, then Settings, Restore from file.","new device phone tablet move transfer restore",{go:"safe"}],
   ["Safety","I made a mistake. Can I undo it?","Yes. Open Settings, Keep their words safe, Restore points. Speakeasy keeps the last 7.","undo mistake restore points go back",{go:"safe"}],
+  ["Help","How do I tell a teacher or sitter how they talk?","Make a How to talk with me card. It's one page that explains their talking app, how to help them talk, how they say yes and no, what helps them calm down, and who to call. Print it, or save it as a file to email.","teacher sitter babysitter school doctor card print paper explain new helper share information sheet",{card:true}],
   ["Safety","Where is their information kept?","Only on this device. Nothing is sent to McLearn Media or anyone else, and there's no tracking. Read the full privacy policy in Settings, About.","privacy data stored where information safe policy",{go:"about"}],
   ["Safety","Does it work without internet?","Yes, once it's installed and opened online one time. Words, photos, games and voices without the needs internet label all work offline.","offline internet wifi no signal",{}],
   ["Safety","How do I install it on the home screen?","On iPhone or iPad, open it in Safari, tap Share, then Add to Home Screen. On Android or a computer, use the browser's Install app option.","install home screen app download",{}],
@@ -2628,10 +2648,10 @@ function openGuide(which="talk", first=false){
   const act = (o, btn) => {
     if (o.show){ btn.onclick = () => { const n = typeof o.show==="string" ? document.querySelector(o.show) : o.show(); close(); setTimeout(()=>spotlight(n, cur==="talk" ? o.h : ""), 150); }; return; }
     if (o.faq){ btn.onclick = () => { cur = "faq"; render(); panel.scrollTop = 0; }; return; }
-    guarded(btn, () => { close(); if (o.dash) openDashboard(); else if (o.profile) openProfileEditor(); else openSettings(o.go); });
+    guarded(btn, () => { close(); if (o.dash) openDashboard(); else if (o.card) openTalkCard(); else if (o.profile) openProfileEditor(); else openSettings(o.go); });
   };
   const actLabel = o => o.show ? "👀 Show me" : o.faq ? "❓ Ask a question" : "Take me there";
-  const hasAct = o => o.show || o.go || o.dash || o.profile || o.faq;
+  const hasAct = o => o.show || o.go || o.dash || o.profile || o.faq || o.card;
   const faqCard = (f, i) => `<div class="faq"><b>${esc(f[1])}</b><p>${esc(f[2])}</p>${hasAct(f[4])?`<span class="sa"><button class="btn" data-fa="${i}">${actLabel(f[4])}${f[4].show?"":`<span class="ring"></span>`}</button></span>`:""}</div>`;
   const groupsHTML = () => [...new Set(FAQ.map(f=>f[0]))].map(t=>`<details class="faqgrp"><summary>${esc(t)}</summary>${FAQ.map((f,i)=>f[0]===t?faqCard(f,i):"").join("")}</details>`).join("");
   const resultsHTML = () => { const q = query.trim(); if (!q) return groupsHTML(); const hits = faqMatches(q);
@@ -3048,12 +3068,152 @@ function openHelpPractice(){
   render();
 }
 
-const PRIVACY_HTML = '<p class="pp-meta">Effective October 15, 2026 · McLearn Media LLC, 109 Orr Dr, Brandon, MS 39042 · Mclearn2025@gmail.com<\/p>\n\n<h3>The short version<\/h3>\n<p>Speakeasy keeps everything on your own device. McLearn Media does not collect, see, sell or share any information about you or the person using Speakeasy. There are no accounts, no ads, no tracking and no analytics.<\/p>\n\n<h3>What Speakeasy stores, and where<\/h3>\n<p>To work, Speakeasy saves these things in the storage of the browser or app on your device:<\/p>\n<ul>\n  <li>Each person\'s profile: name, picture, age group, favorite things, level and level check answers.<\/li>\n  <li>Words, phrases and photos you add, and family nicknames.<\/li>\n  <li>The Help card: name, emergency contacts, other important info, and a home address if you enter one.<\/li>\n  <li>Settings, and counts of words used for the Dashboard.<\/li>\n<\/ul>\n<p>This information stays on that device. It is not sent to McLearn Media or to anyone else.<\/p>\n\n<h3>What leaves your device<\/h3>\n<p>Nothing leaves your device unless you choose to send it:<\/p>\n<ul>\n  <li><b>Call, Text, Video and Email buttons<\/b> on the Help card open your phone\'s own apps with a short message. You see the message and choose to send it.<\/li>\n  <li><b>Location<\/b> is added to a Help text or email only if a caregiver turns that on, and only if your device allows it.<\/li>\n  <li><b>Backup files<\/b> are saved wherever you choose to put them.<\/li>\n<\/ul>\n\n<h3>Internet use<\/h3>\n<p>Speakeasy works offline. When it is online, it checks the website it came from for updates. Like any website, that hosting service may keep basic server records, such as the device\'s internet address. Fonts, symbols and photos are built into Speakeasy, so it does not contact other companies while you use it.<\/p>\n<p>If you open Speakeasy through a Claude preview link, that page is hosted by Anthropic and loads its fonts from Google. For the most privacy, use Speakeasy from its own web address.<\/p>\n\n<h3>Children\'s privacy<\/h3>\n<p>Speakeasy is made for children and adults who communicate with pictures and words. It does not collect personal information from anyone, including children under 13. Caregivers control all of the information on the device.<\/p>\n\n<h3>Camera and microphone<\/h3>\n<p>Speakeasy does not use the camera or microphone. Photos you add are ones you choose from your device, and they stay on it.<\/p>\n\n<h3>Deleting information<\/h3>\n<ul>\n  <li>To delete one person, open their profile and tap Delete this person.<\/li>\n  <li>To delete everything, clear the browser\'s data for Speakeasy, or remove the app from the home screen and clear its data.<\/li>\n  <li>Backup files you saved are yours. Delete them wherever you keep them.<\/li>\n<\/ul>\n\n<h3>Changes to this policy<\/h3>\n<p>If Speakeasy ever offers an optional account to use the same information on more than one device, we will update this policy first. Nothing will be uploaded unless a caregiver turns that on.<\/p>\n\n<h3>Credits<\/h3>\n<p>Word symbols: Mulberry Symbols by Steve Lee (mulberrysymbols.org), CC BY-SA 4.0, plus symbols drawn by McLearn Media. Photos: Wikimedia Commons contributors under free licenses, credited in the app. Fonts: Atkinson Hyperlegible, Hanken Grotesk and Fraunces, SIL Open Font License.<\/p>\n\n<h3>Contact<\/h3>\n<p>Questions about privacy? Email McLearn Media at Mclearn2025@gmail.com.<\/p>\n';
+const PRIVACY_HTML = '<p class="pp-meta">Effective October 15, 2026 · McLearn Media LLC, 109 Orr Dr, Brandon, MS 39042 · Mclearn2025@gmail.com<\/p>\n\n<h3>The short version<\/h3>\n<p>Speakeasy keeps everything on your own device. McLearn Media does not collect, see, sell or share any information about you or the person using Speakeasy. There are no accounts, no ads, no tracking and no analytics.<\/p>\n\n<h3>What Speakeasy stores, and where<\/h3>\n<p>To work, Speakeasy saves these things in the storage of the browser or app on your device:<\/p>\n<ul>\n  <li>Each person\'s profile: name, picture, age group, favorite things, level and level check answers.<\/li>\n  <li>Words, phrases and photos you add, and family nicknames.<\/li>\n  <li>The Help card: name, emergency contacts, other important info, and a home address if you enter one.<\/li>\n  <li>The answers you type for the How to talk with me card.<\/li>\n  <li>Settings, and counts of words used for the Dashboard.<\/li>\n<\/ul>\n<p>This information stays on that device. It is not sent to McLearn Media or to anyone else.<\/p>\n\n<h3>What leaves your device<\/h3>\n<p>Nothing leaves your device unless you choose to send it:<\/p>\n<ul>\n  <li><b>Call, Text, Video and Email buttons<\/b> on the Help card open your phone\'s own apps with a short message. You see the message and choose to send it.<\/li>\n  <li><b>Location<\/b> is added to a Help text or email only if a caregiver turns that on, and only if your device allows it.<\/li>\n  <li><b>Backup files<\/b> are saved wherever you choose to put them.<\/li>\n  <li><b>How to talk with me cards<\/b> are printed or saved only when you choose, and go only where you send them.<\/li>\n<\/ul>\n\n<h3>Internet use<\/h3>\n<p>Speakeasy works offline. When it is online, it checks the website it came from for updates. Like any website, that hosting service may keep basic server records, such as the device\'s internet address. Fonts, symbols and photos are built into Speakeasy, so it does not contact other companies while you use it.<\/p>\n<p>If you open Speakeasy through a Claude preview link, that page is hosted by Anthropic and loads its fonts from Google. For the most privacy, use Speakeasy from its own web address.<\/p>\n\n<h3>Children\'s privacy<\/h3>\n<p>Speakeasy is made for children and adults who communicate with pictures and words. It does not collect personal information from anyone, including children under 13. Caregivers control all of the information on the device.<\/p>\n\n<h3>Camera and microphone<\/h3>\n<p>Speakeasy does not use the camera or microphone. Photos you add are ones you choose from your device, and they stay on it.<\/p>\n\n<h3>Deleting information<\/h3>\n<ul>\n  <li>To delete one person, open their profile and tap Delete this person.<\/li>\n  <li>To delete everything, clear the browser\'s data for Speakeasy, or remove the app from the home screen and clear its data.<\/li>\n  <li>Backup files you saved are yours. Delete them wherever you keep them.<\/li>\n<\/ul>\n\n<h3>Changes to this policy<\/h3>\n<p>If Speakeasy ever offers an optional account to use the same information on more than one device, we will update this policy first. Nothing will be uploaded unless a caregiver turns that on.<\/p>\n\n<h3>Credits<\/h3>\n<p>Word symbols: Mulberry Symbols by Steve Lee (mulberrysymbols.org), CC BY-SA 4.0, plus symbols drawn by McLearn Media. Photos: Wikimedia Commons contributors under free licenses, credited in the app. Fonts: Atkinson Hyperlegible, Hanken Grotesk and Fraunces, SIL Open Font License.<\/p>\n\n<h3>Contact<\/h3>\n<p>Questions about privacy? Email McLearn Media at Mclearn2025@gmail.com.<\/p>\n';
 function openPrivacy(){
   const {panel, close} = makeSheet("Privacy policy","pp");
   panel.innerHTML = `<div class="phead"><h2>Privacy policy</h2><button class="btn primary" id="ppClose">Close</button></div>` + PRIVACY_HTML;
   panel.querySelector("#ppClose").onclick = close;
 }
+
+/* ---------------- "How to talk with me" card (v1.7) ----------------
+   A one-page card for teachers, sitters, doctors and new helpers. Built from the profile,
+   the Help card and the words they use most. Caregivers add how they say yes and no,
+   what upsets them and what helps. Print it, or save it as a file to print or send later. */
+const CARD_FIELDS = [
+  ["yes","How I say yes","I tap Yes, nod or smile."],
+  ["no","How I say no","I tap No, push it away or turn my head."],
+  ["upset","When I'm upset, I may","cover my ears, rock or walk away."],
+  ["calm","What helps me calm down","a quiet place, my headphones, a hug if I ask."],
+  ["dont","Please don't","touch me without asking, or talk too loud."],
+  ["more","Other things to know","I love to talk about trains!"]
+];
+const CARD_CSS = `
+.tcard{--ink:#2A2420;--muted:#5E544C;--brand:#8A3A1A;--line:#D1C2B5;--soft:#FBF4EC;background:#fff;color:var(--ink);font:15px/1.45 "Atkinson Hyperlegible","Hanken Grotesk",system-ui,sans-serif;
+  max-width:760px;margin:0 auto;padding:24px;border:2px solid var(--line);border-radius:14px;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.tcard *{box-sizing:border-box}
+.tcard .tc-top{display:flex;gap:14px;align-items:center;border-bottom:3px solid var(--brand);padding-bottom:12px;margin-bottom:14px}
+.tcard .tc-av{font-size:46px;line-height:1;width:64px;height:64px;display:grid;place-items:center;background:var(--soft);border-radius:50%;flex:none}
+.tcard h1{font-family:"Fraunces",Georgia,serif;font-weight:600;color:var(--brand);font-size:28px;line-height:1.1;margin:0}
+.tcard .tc-sub{margin:4px 0 0;font-size:17px}
+.tcard .tc-voice{background:var(--soft);border-radius:10px;padding:10px 14px;margin:0 0 14px;font-size:16px}
+.tcard .tc-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px 22px}
+.tcard .tc-full{grid-column:1/-1}
+.tcard h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);margin:0 0 6px;font-weight:700}
+.tcard ol,.tcard ul{margin:0;padding-left:20px}
+.tcard li{margin:3px 0}
+.tcard p{margin:0}
+.tcard dl{margin:0;display:grid;gap:8px}
+.tcard dt{font-weight:700}
+.tcard dd{margin:0}
+.tcard .tc-chips{display:flex;flex-wrap:wrap;gap:6px}
+.tcard .tc-chips span{border:1.5px solid var(--line);border-radius:999px;padding:2px 10px;font-size:14px}
+.tcard .tc-ct{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.tcard .tc-ct div{border:1.5px solid var(--line);border-radius:10px;padding:8px 10px}
+.tcard .tc-ct b{display:block}
+.tcard .tc-foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+@media (max-width:560px){.tcard{padding:16px}.tcard .tc-cols{grid-template-columns:1fr}.tcard h1{font-size:24px}}
+@media print{.tcard{border:0;padding:0;max-width:none}.tcard .tc-cols{grid-template-columns:1fr 1fr}.tcard section,.tcard .tc-ct div{break-inside:avoid}}
+`;
+const cardOpts = () => state.card;
+function cardTips(){
+  const L = lv();
+  return [
+    "Give me time. Wait at least 10 seconds for my answer.",
+    "Talk to me, not about me. I understand more than I can say.",
+    "Point to words on my screen while you talk. That's how I learn to use it.",
+    L===1 ? "Ask yes or no questions, or give me two choices." : "Ask one question at a time.",
+    "Every message counts, even one word. Answer what I say.",
+    "Keep my talking app with me and charged. Please never take it away, even when I'm upset."
+  ];
+}
+function cardLoves(){
+  const P = state.profile, out = [];
+  for (const k of P.interests||[]){ const n = PACKS[k] ? PACKS[k].name : (INTERESTS.find(i=>i[0]===k)||[])[2]; if (n) out.push(n); }
+  for (const t of state.topics||[]) if (t && t.name) out.push(t.name);
+  return [...new Set(out)];
+}
+function cardWords(){
+  return Object.entries(state.learned).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([w])=>w.replace(/^i(?=$|['’])/,"I"));
+}
+function cardHTML(){
+  const C = state.card, H = state.help, P = state.profile;
+  const nm = H.name || P.name, loves = C.loves ? cardLoves() : [], words = C.words ? cardWords() : [];
+  const ct = C.contacts ? liveContacts().filter(c=>c.phone || c.email) : [];
+  const ans = k => (C[k]||"").trim();
+  const yes = ans("yes") || "I tap Yes on my talking app.", no = ans("no") || "I tap No on my talking app.";
+  const lines = [["How I say yes", yes], ["How I say no", no], ...CARD_FIELDS.slice(2,5).filter(f=>ans(f[0])).map(f=>[f[1], ans(f[0])])];
+  const date = new Date().toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
+  return `<article class="tcard" aria-label="How to talk with me card">
+  <div class="tc-top"><div class="tc-av" aria-hidden="true">${esc(P.avatar||"🙂")}</div><div><h1>How to talk with me</h1><p class="tc-sub">${nm?`My name is <b>${esc(nm)}</b>.`:"Thank you for taking the time to read this."}</p></div></div>
+  <p class="tc-voice">🗣️ I may not speak with my mouth, but I have a lot to say. My talking app, Speakeasy, is my voice. When I tap words, it speaks for me.</p>
+  <div class="tc-cols">
+    <section><h2>Please help me talk</h2><ol>${cardTips().map(t=>`<li>${esc(t)}</li>`).join("")}</ol></section>
+    <section><h2>About me</h2><dl>${lines.map(([t,v])=>`<div><dt>${esc(t)}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl></section>
+    ${loves.length?`<section><h2>Things I love</h2><div class="tc-chips">${loves.map(x=>`<span>${esc(x)}</span>`).join("")}</div></section>`:""}
+    ${words.length?`<section><h2>Words I use a lot</h2><div class="tc-chips">${words.map(x=>`<span>${esc(x)}</span>`).join("")}</div></section>`:""}
+    ${ans("more")?`<section class="tc-full"><h2>Other things to know</h2><p>${esc(ans("more"))}</p></section>`:""}
+    ${ct.length?`<section class="tc-full"><h2>If you have questions or I need help</h2><div class="tc-ct">${ct.map(c=>`<div><b>${esc(whoOf(c))}</b>${c.phone?`📞 ${esc(c.phone)}<br>`:""}${c.email?`✉️ ${esc(c.email)}`:""}</div>`).join("")}</div></section>`:""}
+  </div>
+  <div class="tc-foot"><span>Made with Speakeasy by McLearn Media</span><span>${esc(date)}</span></div>
+</article>`;
+}
+function cardFileText(){
+  const nm = state.help.name || state.profile.name;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to talk with ${esc(nm || "me")}</title><style>body{margin:0;padding:16px;background:#fff}@page{margin:12mm}@media print{body{padding:0}}${CARD_CSS}</style></head>
+<body>${cardHTML()}</body></html>`;
+}
+async function saveCardFile(){
+  const nm = (state.help.name || state.profile.name || "me").replace(/[^\w-]+/g,"-").replace(/^-+|-+$/g,"") || "me";
+  const name = `How-to-talk-with-${nm}.html`, blob = new Blob([cardFileText()],{type:"text/html"});
+  const done = m => { state.cardMade = Date.now(); save(); toast(m); return true; };
+  if (window.claude && typeof window.claude.use==="function"){
+    let dl = null; try { dl = await window.claude.use("downloads"); } catch {}
+    if (!dl){ toast("Saving files isn't available here. Open Speakeasy from its own web address to save the card."); return false; }
+    try { await dl.save({filename:name, data:blob}); return done("Card saved. Open the file to print it."); }
+    catch(e){ toast(e && e.code==="declined" ? "Card not saved." : "Saving files isn't available here."); return false; }
+  }
+  const file = new File([blob], name, {type:"text/html"});
+  if (matchMedia("(pointer: coarse)").matches && navigator.canShare && navigator.canShare({files:[file]})){
+    try { await navigator.share({files:[file], title:"How to talk with me"}); return done("Card sent."); }
+    catch(e){ if (e && e.name==="AbortError") return false; }
+  }
+  try { const url = URL.createObjectURL(file), a = el("a"); a.href = url; a.download = name; document.body.append(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 5000); return done("Card downloaded. Open the file to print it."); }
+  catch { toast("This device blocked the file."); return false; }
+}
+function printCard(){
+  let area = $("printArea"); if (!area){ area = el("div"); area.id = "printArea"; document.body.append(area); }
+  area.innerHTML = cardHTML();
+  document.body.classList.add("printing");
+  const end = () => { document.body.classList.remove("printing"); area.innerHTML = ""; window.removeEventListener("afterprint", end); };
+  window.addEventListener("afterprint", end);
+  state.cardMade = Date.now(); save();
+  try { window.print(); } catch { end(); toast("Printing isn't available here. Use Save card file instead."); return; }
+  setTimeout(()=>{ if (!matchMedia("print").matches) end(); }, 1500);
+}
+function openTalkCard(){
+  const {panel, close} = makeSheet("How to talk with me card","tc");
+  const C = state.card;
+  const chk = (k,t) => `<label class="tc-chk"><input type="checkbox" data-ck="${k}" ${C[k]?"checked":""}> ${esc(t)}</label>`;
+  panel.innerHTML = `<div class="phead"><h2>How to talk with me</h2><button class="btn primary" id="tcClose">Done</button></div>
+    <p class="note">A one-page card for teachers, sitters, doctors and anyone new. It explains how ${esc(state.profile.name || "they")} ${state.profile.name?"talks":"talk"} and how to help. Fill in what you like. Blank lines are left off the card.</p>
+    <div class="tc-wrap"><div class="tc-form">
+      ${CARD_FIELDS.map(([k,t,ph])=>`<label>${esc(t)}<input type="text" data-cf="${k}" value="${esc(C[k]||"")}" placeholder="${esc(ph)}" autocomplete="off"></label>`).join("")}
+      <div class="tc-chks">${chk("loves","Show favorite things")}${chk("words","Show words they use most")}${chk("contacts","Show emergency contacts")}</div>
+      <p class="note">Name and contacts come from the profile and the Help card.</p>
+      <div class="row" style="justify-content:flex-start"><button class="btn primary" id="tcPrint">🖨️ Print card</button><button class="btn" id="tcSave">💾 Save card file</button></div>
+    </div><div class="tc-prev" aria-live="polite"></div></div>`;
+  const prev = panel.querySelector(".tc-prev"), draw = () => { prev.innerHTML = cardHTML(); };
+  panel.querySelectorAll("[data-cf]").forEach(i=>i.oninput = () => { C[i.dataset.cf] = i.value; save(); draw(); });
+  panel.querySelectorAll("[data-ck]").forEach(i=>i.onchange = () => { C[i.dataset.ck] = i.checked; save(); draw(); });
+  panel.querySelector("#tcClose").onclick = close;
+  panel.querySelector("#tcPrint").onclick = printCard;
+  panel.querySelector("#tcSave").onclick = saveCardFile;
+  draw();
+}
+
+{ const st = el("style"); st.textContent = CARD_CSS; document.head.append(st); }
 /* ---------------- Start ---------------- */
 let lastW = window.innerWidth;
 window.addEventListener("resize", ()=>{ if (Math.abs(window.innerWidth-lastW)>80){ lastW=window.innerWidth; renderBoard(); restartScan(); } });

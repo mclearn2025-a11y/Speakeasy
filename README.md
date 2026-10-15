@@ -5,6 +5,10 @@ This folder is the full Speakeasy app. Put it on any web address and it becomes 
 it installs to the home screen on iPhone, iPad, Android, Windows, Mac and Chromebook, and it
 keeps talking with no internet.
 
+## New in v1.7
+
+- **How to talk with me card.** A one-page card for teachers, sitters, doctors and anyone new. It explains the talking app, gives six tips for helping them talk (fitted to their level), and shows how they say yes and no, what upsets them, what helps them calm down, their favorite things, the words they use most and who to call. Open it from Menu → How to talk with me, the Dashboard, the caregiver guide or the Questions tab. Print it, or save it as a file to print or email. Each person has their own card.
+
 ## New in v1.6
 - **32 new symbols drawn by McLearn Media** in the same style as Mulberry: every feeling word (tired, bored, silly, nervous, proud, lonely…), yes, no, like, love, and the people words I, me, you, he, she, we, they, my, your, plus that and here. 390 of 548 words now have a matching symbol.
 - **Privacy policy**: in the app (Settings → About) and at `privacy.html` for the website and app stores.
