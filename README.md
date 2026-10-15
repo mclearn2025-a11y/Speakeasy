@@ -1,9 +1,13 @@
-# Speakeasy — installable app (v1.3.1)
+# Speakeasy — installable app (v1.3.2)
 McLearn Media LLC · Brandon, MS
 
 This folder is the full Speakeasy app. Put it on any web address and it becomes a real app:
 it installs to the home screen on iPhone, iPad, Android, Windows, Mac and Chromebook, and it
 keeps talking with no internet.
+
+## New in v1.3.2
+- **Questions**: a third tab in How to use. Type a question ("no sound", "add a photo", "Nana") and get a ready-made answer with a button that goes straight to the fix. 47 answers covering every part of the app; works offline. If nothing matches, it shows every topic and the McLearn Media support email.
+- **Guides updated** for profiles, levels, topic pages, family names, Show and hide, Big picture and games. Steps for hidden features stay out of the way.
 
 ## New in v1.3.1
 - **Big picture**: on any topic page, choose what a tap does — just say the word, or say it and show the whole picture big on a clean screen. Tap anywhere to close.

@@ -423,6 +423,21 @@ textarea{width:100%;min-height:90px;font-size:12px;font-family:ui-monospace,Menl
 .bp-acts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 .bp-acts .btn{min-height:56px;font-size:18px;padding-inline:20px}
 .bigpic .credit{text-align:center;max-width:60ch}
+
+/* questions (v1.3.2) */
+.faqbox{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.faqbox input{width:100%;font-size:18px;min-height:48px}
+.faqlist{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.faq{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.faq b{font-size:15px;line-height:1.35}
+.faq p{margin:0;font-size:14px;line-height:1.5}
+.faq .sa{display:flex;gap:6px;flex-wrap:wrap}
+.faq .sa .btn{min-height:40px;padding:6px 12px;font-size:14px}
+.faq .sel{font-weight:700;-webkit-user-select:all;user-select:all}
+.faqgrp{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:0 12px}
+.faqgrp[open]{padding-bottom:10px}
+.faqgrp summary{font-weight:700;font-size:15px}
+.faqgrp .faq{border:0;border-top:1px solid var(--line);border-radius:0;padding:10px 0 4px}
 </style>
 
 <div id="app">
@@ -1985,7 +2000,7 @@ function openSettings(focus){
   const editTabs = sections();
   sheet.innerHTML = `<div class="panel">
     <div class="phead"><h2>Settings</h2><button class="btn primary" id="sClose">Done</button></div>
-    <div class="snav" role="navigation" aria-label="Settings sections"><button class="chipbtn" data-open="dash">📊 Dashboard</button><button class="chipbtn" data-open="guide">📘 How to use</button>${[["safe","Backups"],["who","Profile"],["show","Show and hide"],["look","Look"],["topics","Topics"],["voice","Voice"],["touch","Touch"],["scan","Scanning"],["help","Help card"],["words","Edit words"],["lock","Lock"],["about","About"]].map(([k,t])=>`<button class="chipbtn" data-jump="${k}">${t}</button>`).join("")}</div>
+    <div class="snav" role="navigation" aria-label="Settings sections"><button class="chipbtn" data-open="dash">📊 Dashboard</button><button class="chipbtn" data-open="guide">📘 How to use</button><button class="chipbtn" data-open="faq">❓ Questions</button>${[["safe","Backups"],["who","Profile"],["show","Show and hide"],["look","Look"],["topics","Topics"],["voice","Voice"],["touch","Touch"],["scan","Scanning"],["help","Help card"],["words","Edit words"],["lock","Lock"],["about","About"]].map(([k,t])=>`<button class="chipbtn" data-jump="${k}">${t}</button>`).join("")}</div>
 
     <div class="sec" id="sec-safe"><h3>Keep their words safe</h3>
       <div class="checks" id="safeChecks"></div>
@@ -2074,7 +2089,7 @@ function openSettings(focus){
       <div class="row" style="justify-content:flex-start"><button class="btn" id="b-copy">Copy backup text</button><button class="btn" id="b-restore">Restore from text</button></div></div>
 
     <div class="sec" id="sec-about"><h3>About and privacy</h3>
-      <p class="note">Speakeasy v1.3.1 by McLearn Media LLC. Bird illustrations are original McLearn Media artwork. Photos come from Wikimedia Commons under free licenses, credited in Settings, Photo credits. Everything you add stays on this device. Nothing is sent anywhere, and there's no tracking.</p>
+      <p class="note">Speakeasy v1.3.2 by McLearn Media LLC. Bird illustrations are original McLearn Media artwork. Photos come from Wikimedia Commons under free licenses, credited in Settings, Photo credits. Everything you add stays on this device. Nothing is sent anywhere, and there's no tracking.</p>
       <p class="note">Speakeasy is a communication tool, not therapy. A speech-language pathologist can help choose the right words, settings and goals. Using a talking device does not stop speech from developing. Research shows it often helps.</p></div>
   </div>`;
   document.body.append(sheet);
@@ -2084,7 +2099,7 @@ function openSettings(focus){
   fillVoices();
   q("sClose").onclick = closeSettings;
   sheet.querySelectorAll("[data-jump]").forEach(b=>b.onclick=()=>{ const s=q("sec-"+b.dataset.jump); if(s) s.scrollIntoView({block:"start",behavior:reduced?"auto":"smooth"}); });
-  sheet.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{ closeSettings(); b.dataset.open==="dash" ? openDashboard() : openGuide("care"); });
+  sheet.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{ closeSettings(); b.dataset.open==="dash" ? openDashboard() : openGuide(b.dataset.open==="faq" ? "faq" : "care"); });
   sheet.querySelectorAll("[data-look]").forEach(b=>b.onclick=()=>{ set("look",b.dataset.look); sheet.querySelectorAll("[data-look]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.look===S.look)); });
   const syncFav = (k,on) => { const I = state.profile.interests; state.profile.interests = on ? [...new Set([...I,k])] : I.filter(x=>x!==k); };
   q("p-birds").onchange = e => { state.packs.birds = e.target.checked; syncFav("birds", e.target.checked); save(); apply(); rebuildEditTabs(); };
@@ -2312,6 +2327,7 @@ function openMenu(){
     if (k==="help") return $("helpBtn").onclick();
     if (k==="guide-talk") return openGuide("talk");
     if (k==="guide-care") return openGuide("care");
+    if (k==="guide-faq") return openGuide("faq");
     if (k==="people") return openPeople();
     if (k==="profile") return openProfileEditor();
     if (k==="check") return openLevelCheck();
@@ -2355,7 +2371,8 @@ function openMenu(){
   group("People", [["people","👥","Who's talking", REG.list.length>1 ? `${REG.list.length} people on this device` : "Switch between people"]]);
   group("How to use", [
     ["guide-talk","👋","How to talk","Simple steps for the user"],
-    ["guide-care","📘","Caregiver guide","Set up, teach and keep safe"]
+    ["guide-care","📘","Caregiver guide","Set up, teach and keep safe"],
+    ["guide-faq","❓","Questions","Type a question, get an answer"]
   ]);
   group("Help", [["help","🆘","Help card","Shows and says who to call","sos"]]);
   group("Caregivers 🔒", [
@@ -2445,53 +2462,148 @@ function openDashboard(){
 const GUIDE = {
   talk: [
     {h:"Tap a word. Speakeasy says it.", b:"Every button is a word. Tap one and you will hear it.", show:()=>board.querySelector(".tile:not(.empty)")},
-    {h:"Tap more words to make a sentence.", b:"Your words line up at the top, like I want more.", show:()=>$("msg")},
-    {h:"Tap Speak to say it all.", b:"The Speak button says your whole sentence out loud. You can also tap the sentence.", show:()=>$("speakBtn")},
-    {h:"Fix a mistake.", b:"The back arrow takes away the last word. The X clears everything.", show:()=>$("delBtn")},
-    {h:"Find more words at the top.", b:"Tap Birds, Groups, Phrases or Keyboard to see more words.", show:()=>$("tabs")},
-    {h:"Change a word.", b:"Tap the plus-minus button to change a word, like want to wants or wanted.", show:()=>$("formBtn"), need:()=>lv()>1},
-    {h:"Need help? Tap the red Help button.", b:"It shows who you are and who to call, and says it out loud.", show:()=>$("helpBtn")},
-    {h:"Tap your name to switch.", b:"If more than one person uses this device, tap your name and picture at the top.", show:()=>$("whoBtn"), need:()=>REG.list.length>1},
-    {h:"Open the Menu to go anywhere.", b:"The Menu has every part of Speakeasy in one place.", show:()=>$("menuBtn")}
+    {h:"Tap more words to make a sentence.", b:"Your words line up at the top, like I want more.", show:()=>$("msg"), need:()=>!off("msgbar")},
+    {h:"Tap Speak to say it all.", b:"The Speak button says your whole sentence out loud. You can also tap the sentence.", show:()=>$("speakBtn"), need:()=>!off("msgbar")},
+    {h:"Fix a mistake.", b:"The back arrow takes away the last word. The X clears everything.", show:()=>$("delBtn"), need:()=>!off("msgbar")},
+    {h:"Find more words at the top.", b:"Tap the buttons at the top, like Groups or Phrases, to see more words.", show:()=>$("tabs"), need:()=>tabsFor().length>1},
+    {h:"Look at your favorite things.", b:"Your topic pages have real pictures. Tap one to hear its name.", show:()=>document.querySelector(`.tab[data-tab="${CSS.escape(topicTabs()[0]||"")}"]`), need:()=>topicTabs().some(t=>tabsFor().includes(t))},
+    {h:"See it big.", b:"Turn on Big picture on a topic page. Then tap a picture to see all of it, big. Tap anywhere to go back.", need:()=>topicTabs().length>0 && !off("bigview")},
+    {h:"Play a game.", b:"On a topic page, tap the game button. Listen to the name, then tap the right picture.", need:()=>topicTabs().length>0 && !off("games")},
+    {h:"Change a word.", b:"Tap the plus-minus button to change a word, like want to wants or wanted.", show:()=>$("formBtn"), need:()=>lv()>1 && !off("endings")},
+    {h:"Need help? Tap the red Help button.", b:"It shows who you are and who to call, and says it out loud.", show:()=>$("helpBtn"), need:()=>!off("help")},
+    {h:"Tap your name to switch.", b:"If more than one person uses this device, tap your name and picture at the top.", show:()=>$("whoBtn"), need:()=>REG.list.length>1 && !off("people")},
+    {h:"Open the Menu to go anywhere.", b:"The Menu has every part of Speakeasy in one place.", show:()=>$("menuBtn"), need:()=>!off("menu")}
   ],
   care: [
-    {h:"Make a profile for each person", b:"Everyone who uses Speakeasy gets a profile with their name, age group and favorite things. Their words, voice, level and progress stay separate. Tap the name at the top to switch people.", go:"who"},
+    {h:"Make a profile for each person", b:"Everyone who uses Speakeasy gets a profile with their name, picture, age group and favorite things. Their words, voice, level and progress stay separate. Tap the name at the top to switch people.", profile:true},
     {h:"Find the right level", b:"Level 1 Beginner has 12 big words. Level 2 Middle has all 24 core words, every word group and the keyboard. Level 3 Advanced has 48 words and every tool. The level check suggests where to start. Move up when it feels easy. Words never disappear, and core words never move.", go:"who"},
+    {h:"Pick their favorite topics", b:"In the profile, pick topic pages like Dogs, Space, Trees or the 50 states. Each one has real photos, names, fun facts and its own game. Type anything else they love, and it gets its own page for your words and photos.", profile:true},
+    {h:"Use the names they know", b:"Does grandma go by Nana or Gigi? Type it in the profile under What they call family. Speakeasy says that name, and the button can show it alone or with the usual word underneath.", profile:true},
     {h:"Show them how it works", b:"When you talk to them, tap the same words on the screen as you say them. This is called modeling, and it's the fastest way people learn to use a talking app. Don't ask them to copy you. Just show.", show:()=>board.querySelector(".tile:not(.empty)")},
     {h:"Choose a voice", b:"Pick a voice that fits them. Choose one that doesn't need the internet, so it always works.", go:"voice"},
     {h:"Fill in the Help card", b:"Add their name and an emergency contact. This shows when they tap the red Help button.", go:"help"},
     {h:"Add their own words and photos", b:"Add the names of people, places and favorite things. A photo of their real cup or dog works better than a cartoon.", go:"words"},
-    {h:"Make a topic they love", b:"Love trains or dinosaurs? Make a whole page for it, with its own words and photos.", go:"topics"},
-    {h:"Practice and play", b:"Practice says a word and they find it on the board. The bird game shows three birds and they pick the right one. Every round ends in a win.", show:()=>$("learnBtn")},
+    {h:"Show only what they need", b:"In Show and hide, turn off any page or tool they don't use yet, or use Keep only to leave just one thing. Show everything brings it all back. The settings gear always stays.", go:"show"},
+    {h:"Big picture and fun facts", b:"On topic pages, Big picture shows the whole photo when they tap it, with nothing covering it. Fun facts reads a short fact about each picture.", go:"topics"},
+    {h:"Practice and play", b:"Practice says a word and they find it on the board. Each topic page has a game that shows three pictures, and they pick the right one. Every round ends in a win.", show:()=>$("learnBtn")},
     {h:"Turn on scanning if tapping is hard", b:"Scanning lights up one choice at a time, and they choose with one big button or a switch. Listening scanning reads each choice out loud.", go:"scan"},
     {h:"Keep their words safe", b:"Save a backup file after big changes and keep it in your email or cloud drive. Install Speakeasy on the home screen so it works without internet.", go:"safe"},
     {h:"Lock the settings", b:"With the caregiver lock on, settings open only when you hold the gear for 2 seconds. That keeps changes safe from curious fingers.", go:"lock"},
-    {h:"Check the Dashboard", b:"See the words they use most, how often they talk, practice scores, and what to set up next.", dash:true}
+    {h:"Check the Dashboard", b:"See the words they use most, how often they talk, practice scores, and what to set up next. It tells you when they may be ready for the next level.", dash:true},
+    {h:"Stuck on something?", b:"Open the Questions tab at the top of this guide and type what you need, like no sound or add a photo.", faq:true}
   ]
 };
+/* Questions: ready-made answers found by the words in the question. Works offline. */
+const FAQ = [
+  ["Talking","How do I make a sentence?","Tap words one after another. They line up in the bar at the top. Then tap Speak, or tap the sentence itself, to say it all.","sentence words message bar build",{show:"#msg"}],
+  ["Talking","How do I fix a mistake?","The back arrow takes away the last word. The X clears the whole message.","delete undo mistake wrong remove erase clear back arrow",{show:"#delBtn"}],
+  ["Talking","There's no sound. What do I do?","Turn the device volume up. On an iPhone or iPad, check the silent switch on the side. Then open Settings, Voice, and tap Test voice. If you picked a voice marked needs internet, choose another one.","sound silent quiet mute volume voice talk speak hear nothing",{go:"voice"}],
+  ["Talking","How do I change the voice or how fast it talks?","Open Settings, Voice. Pick a voice, then use the Speed and Pitch sliders. Tap Test voice to hear it.","voice speed slow fast pitch change sound",{go:"voice"}],
+  ["Talking","It says each word when I tap it. Can I turn that off?","Yes. Open Settings, Voice, and turn off Say each word when tapped. Then it only talks when you tap Speak.","each word tapped quiet turn off",{go:"voice"}],
+  ["Talking","How do I change a word, like want to wanted?","Tap the word, then tap the plus-minus button next to the message. Pick the word you want. This shows at Level 2 and up.","endings wanted wants plural tense change word plus minus",{show:"#formBtn"}],
+  ["Talking","Where is the keyboard?","Tap Keyboard at the top. Type letters, then tap a suggested word or the space key. The keyboard shows at Level 2 and up.","keyboard type spell letters typing",{}],
+  ["Talking","What are Phrases?","Phrases are whole sentences, ready to say with one tap, like I need a break.","phrases sentences quick ready",{}],
+  ["Talking","What are Word groups?","Word groups hold more words by topic, like Feelings, Food and People. Tap a group to open it. Their favorite groups come first.","groups folders feelings food people more words",{}],
+  ["Talking","How do I find where a word is?","Tap the magnifying glass at the top and type the word. Speakeasy takes you to it and makes it glow, so it's easier to find next time.","find search where word lost",{show:"#findBtn"}],
+  ["Talking","Why does it say I like the word eye?","That's on purpose. Some voices read I as capital I. Speakeasy always says it as the word I. The screen still shows I.","capital eye letter i pronounce",{}],
+  ["Topics","What are topic pages?","Topic pages are about things they love, like Birds, Dogs, Space or Trains. Each has real photos, names, fun facts and a game. Pick them in the profile.","topic pages birds dogs favorites interests packs",{profile:true}],
+  ["Topics","How do I add a topic like horses?","Open the profile, go to Favorite things, type the topic and tap Add. Then add its words and photos in Settings, Edit words.","add topic new custom own horses tractors make page",{profile:true}],
+  ["Topics","How do I add my own photo?","Open Settings, Edit words. Pick the page, type the word, tap Or a photo, and choose a picture from your phone. Then tap Add word.","photo picture own camera upload add image",{go:"words"}],
+  ["Topics","How do I see a picture bigger?","On a topic page, turn on Big picture. Then tap any picture to see all of it on a clean screen. Tap anywhere to go back.","big bigger large zoom full picture covered see whole",{go:"topics"}],
+  ["Topics","What are fun facts?","On a topic page, turn on Fun facts. When they tap a picture, Speakeasy says a short fact about it.","fun facts learn fact",{}],
+  ["Topics","How do I turn a topic page on or off?","Open Settings, Topics, and check or uncheck it. You can also change favorites in the profile.","turn off topic remove hide page birds",{go:"topics"}],
+  ["Topics","Why do I see a drawing or a symbol instead of a photo?","A few items don't have a free photo yet, so they show a drawing or symbol. You can add your own photo of anything in Edit words.","drawing symbol emoji missing photo no picture",{}],
+  ["Topics","Who took these photos?","They come from Wikimedia Commons under free licenses. Each photographer is named under the big picture and in Settings, Topics, Photo credits.","credits photographer license copyright photos",{go:"topics"}],
+  ["Games","How do the games work?","On a topic page, tap the game button. Speakeasy says a name and shows three pictures. Tap the right one to hear YES! After two misses, the right one glows, so every round ends in a win.","game play bird game how win",{}],
+  ["Games","How do I leave a game?","Tap the X at the top left. When the caregiver lock is on, hold the X for one second.","leave exit get out game close quit stuck end stop playing",{}],
+  ["Games","How do I practice finding words?","Tap Practice, the target button at the top. Speakeasy says a word, and they find it on the board. Tap Done to stop.","practice learn find target",{show:"#learnBtn"}],
+  ["People","How do I add another person?","Tap the name at the top, then hold Add a person for 2 seconds. Each person gets their own words, voice, level and progress.","add person child student another user profile second",{}],
+  ["People","How do I switch between people?","Tap the name and picture at the top, then tap the person.","switch change person user profile who",{show:"#whoBtn"}],
+  ["People","How do I change a name, age or favorites?","Open the Menu and hold Edit profile, or open Settings, Profile and level, Edit profile.","edit profile name age favorites change",{profile:true}],
+  ["People","How do I use Nana instead of grandma?","Open the profile and fill in What they call family. Speakeasy says their name for that person. Choose Their name or Both names for the buttons.","nickname nana gigi grandma grandpa mommy daddy family names",{profile:true}],
+  ["People","How do I delete a person?","Open that person's profile and tap Delete this person twice. Save a backup file first if you might want their words back.","delete remove person profile",{profile:true}],
+  ["Levels","What do the levels mean?","Level 1 Beginner has 12 big words. Level 2 Middle has all 24 core words, every word group and the keyboard. Level 3 Advanced has 48 words and every tool. Levels show and hide words. They never delete them.","level levels beginner middle advanced 1 2 3",{go:"who"}],
+  ["Levels","What is the level check?","It takes about 2 minutes. They try 3 picture games, then you answer 4 questions. It suggests a starting level. It is not a test score or a diagnosis.","level check test quiz assessment suggest",{go:"who"}],
+  ["Levels","When should we move up a level?","When the words they have feel easy. The Dashboard tells you when they use most of their words often. You can move up or down anytime.","move up next level ready harder easier",{dash:true}],
+  ["Levels","Some buttons are missing. Where did they go?","Level 1 hides the keyboard, word endings and Find to keep things simple. A caregiver may also have turned things off in Show and hide.","missing gone disappeared hidden buttons where",{go:"show"}],
+  ["Caregivers","How do I open Settings?","Hold the gear button at the top right for 2 seconds. That's the caregiver lock, so kids don't change things by accident.","settings gear open lock hold cant",{}],
+  ["Caregivers","How do I turn things off or keep only one thing?","Open Settings, Show and hide. Uncheck anything they don't need, or pick something in Keep only. Show everything brings it all back.","show hide turn off disable remove only one simple fewer",{go:"show"}],
+  ["Caregivers","What is the Dashboard?","It shows setup steps, how often they talk, the words they use most, practice scores and backup status. Open the Menu and hold Dashboard.","dashboard progress stats report",{dash:true}],
+  ["Caregivers","How do I set up the Help card?","Open Settings, Help card. Add their name, an emergency contact and anything a helper should know.","help card emergency contact sos red",{go:"help"}],
+  ["Caregivers","Can they use a switch instead of tapping?","Yes. Open Settings, Switch and listening access, and turn on scanning. Choices light up one at a time. They choose with the big button, the Space key or a Bluetooth switch.","switch scanning access motor tap hard",{go:"scan"}],
+  ["Caregivers","Can Speakeasy read the choices out loud?","Yes. Turn on Listening scanning in Settings, Switch and listening access. It reads each choice as it lights up.","listening blind low vision read aloud",{go:"scan"}],
+  ["Caregivers","They tap things by accident. What helps?","Open Settings, Touch and access. Turn on Hold to choose, or Ignore repeat taps. Bigger buttons help too.","accident accidental taps double tap hold size",{go:"touch"}],
+  ["Caregivers","How do I make buttons bigger or easier to see?","Open Settings, Touch and access. Use the Button size slider, High contrast, or Words only.","bigger buttons size contrast see vision",{go:"touch"}],
+  ["Caregivers","Can I turn off the moving sparkles?","Yes. Open Settings, Look and feel, and pick Calm. That turns off all movement.","sparkle animation calm moving distracting",{go:"look"}],
+  ["Safety","How do I back up their words?","Open Settings, Keep their words safe, and tap Save backup file. Keep the file in your email or cloud drive.","backup save safe file",{go:"safe"}],
+  ["Safety","How do I move Speakeasy to a new phone or tablet?","On the old device, save a backup file. On the new one, open Speakeasy, then Settings, Restore from file.","new device phone tablet move transfer restore",{go:"safe"}],
+  ["Safety","I made a mistake. Can I undo it?","Yes. Open Settings, Keep their words safe, Restore points. Speakeasy keeps the last 7.","undo mistake restore points go back",{go:"safe"}],
+  ["Safety","Where is their information kept?","Only on this device. Nothing is sent to McLearn Media or anyone else, and there's no tracking.","privacy data stored where information safe",{}],
+  ["Safety","Does it work without internet?","Yes, once it's installed and opened online one time. Words, photos, games and voices without the needs internet label all work offline.","offline internet wifi no signal",{}],
+  ["Safety","How do I install it on the home screen?","On iPhone or iPad, open it in Safari, tap Share, then Add to Home Screen. On Android or a computer, use the browser's Install app option.","install home screen app download",{}],
+  ["Safety","Do I need to download updates?","No. Speakeasy updates by itself the next time it's opened with internet. Their words and settings stay.","update new version download",{}]
+];
+const STOPWORDS = new Set("a an the i my me to do how can is it its what why where when does on in of and or for with this that you your be are am not dont don't won't wont cant can't there their they them we our please help want".split(" "));
+function faqMatches(text){
+  const words = text.toLowerCase().replace(/[^a-z0-9\s']/g," ").split(/\s+/).filter(w=>w.length>1 && !STOPWORDS.has(w)).map(w=>w.replace(/(ing|es|s)$/,"")).filter(w=>w.length>1);
+  if (!words.length) return [];
+  return FAQ.map(f=>{ const keys = f[3].toLowerCase(), hay = (f[1]+" "+f[2]+" "+f[3]).toLowerCase(); let sc = 0;
+      for (const w of words){ if (keys.includes(w)) sc += 3; else if (f[1].toLowerCase().includes(w)) sc += 2; else if (hay.includes(w)) sc += 1; } return {f, sc}; })
+    .filter(x=>x.sc>=2).sort((a,b)=>b.sc-a.sc).slice(0,6).map(x=>x.f);
+}
+
+const SUPPORT_EMAIL = "Mclearn2025@gmail.com";   // McLearn Media support
 function openGuide(which="talk", first=false){
   const {panel, close} = makeSheet("How to use Speakeasy","guide");
-  let cur = which;
+  let cur = which, query = "";
+  // where a step or answer can take you; settings and the profile need the caregiver hold when the lock is on
+  const act = (o, btn) => {
+    if (o.show){ btn.onclick = () => { const n = typeof o.show==="string" ? document.querySelector(o.show) : o.show(); close(); setTimeout(()=>spotlight(n, cur==="talk" ? o.h : ""), 150); }; return; }
+    if (o.faq){ btn.onclick = () => { cur = "faq"; render(); panel.scrollTop = 0; }; return; }
+    guarded(btn, () => { close(); if (o.dash) openDashboard(); else if (o.profile) openProfileEditor(); else openSettings(o.go); });
+  };
+  const actLabel = o => o.show ? "👀 Show me" : o.faq ? "❓ Ask a question" : "Take me there";
+  const hasAct = o => o.show || o.go || o.dash || o.profile || o.faq;
+  const faqCard = (f, i) => `<div class="faq"><b>${esc(f[1])}</b><p>${esc(f[2])}</p>${hasAct(f[4])?`<span class="sa"><button class="btn" data-fa="${i}">${actLabel(f[4])}${f[4].show?"":`<span class="ring"></span>`}</button></span>`:""}</div>`;
+  const groupsHTML = () => [...new Set(FAQ.map(f=>f[0]))].map(t=>`<details class="faqgrp"><summary>${esc(t)}</summary>${FAQ.map((f,i)=>f[0]===t?faqCard(f,i):"").join("")}</details>`).join("");
+  const resultsHTML = () => { const q = query.trim(); if (!q) return groupsHTML(); const hits = faqMatches(q);
+    return hits.length ? hits.map(f=>faqCard(f, FAQ.indexOf(f))).join("")
+      : `<div class="faq"><b>We don't have an answer for that yet.</b><p>Try other words, like voice, photo, level, backup or game. Or open a topic below.</p></div>${groupsHTML()}`; };
+  const bindFa = () => panel.querySelectorAll("[data-fa]").forEach(b=>act(FAQ[+b.dataset.fa][4], b));
   const render = () => {
     if (cur==="care" && !state.guideSeen){ state.guideSeen = true; save(); }
     panel.classList.toggle("kid", cur==="talk");
-    const steps = GUIDE[cur].filter(s=>!s.need || s.need());
+    const steps = cur==="faq" ? [] : GUIDE[cur].filter(s=>!s.need || s.need());
+    let body = "";
+    if (cur==="faq"){
+      body = `<div class="faqbox"><label for="gq" class="note" style="color:var(--ink);font-weight:600">Type your question</label>
+        <input type="search" id="gq" value="${esc(query)}" placeholder="Like: no sound, add a photo, change the level" autocomplete="off" enterkeyhint="search"></div>
+        <div id="gRes" class="faqlist">${resultsHTML()}</div>
+        <div class="faq"><b>Still stuck?</b><p>Email McLearn Media at <span class="sel">${esc(SUPPORT_EMAIL)}</span> and tell us what happened.</p><span class="sa"><button class="btn" id="gCopy">Copy email address</button></span></div>`;
+    } else {
+      body = `<ol class="steps">${steps.map((s,i)=>`<li class="step"><span class="num" aria-hidden="true">${i+1}</span><span class="sh">${esc(s.h)}</span><span class="sb">${esc(s.b)}</span>
+        <span class="sa">${cur==="talk"?`<button class="btn" data-say="${i}">🔊 Read it to me</button>`:""}${hasAct(s)?`<button class="btn" data-go="${i}">${actLabel(s)}${s.show||s.faq?"":`<span class="ring"></span>`}</button>`:""}</span></li>`).join("")}</ol>
+        ${cur==="care"?`<p class="note" style="margin-top:12px">${S.lock?"Take me there buttons open settings, so hold them for 2 seconds. ":""}Speakeasy is a communication tool, not therapy. A speech-language pathologist can help choose the right words, settings and goals.</p>`:""}`;
+    }
     panel.innerHTML = `<div class="phead"><h2>How to use</h2><button class="btn primary" id="gClose">${first?"Start talking":"Close"}</button></div>
       ${first?`<p class="note">Welcome to Speakeasy. Here's how it works. You can open this again anytime from the Menu.</p>`:""}
-      <div class="row" style="justify-content:flex-start;margin-block:8px"><span class="seg" role="group" aria-label="Who this guide is for">
-        <button data-g="talk" aria-pressed="${cur==="talk"}">For the user</button><button data-g="care" aria-pressed="${cur==="care"}">For caregivers</button></span></div>
-      <ol class="steps">${steps.map((s,i)=>`<li class="step"><span class="num" aria-hidden="true">${i+1}</span><span class="sh">${esc(s.h)}</span><span class="sb">${esc(s.b)}</span>
-        <span class="sa">${cur==="talk"?`<button class="btn" data-say="${i}">🔊 Read it to me</button>`:""}${s.show?`<button class="btn" data-show="${i}">👀 Show me</button>`:""}${(s.go||s.dash)?`<button class="btn" data-go="${i}">Take me there<span class="ring"></span></button>`:""}</span></li>`).join("")}</ol>
-      ${cur==="care"?`<p class="note" style="margin-top:12px">${S.lock?"Take me there buttons open settings, so hold them for 2 seconds. ":""}Speakeasy is a communication tool, not therapy. A speech-language pathologist can help choose the right words, settings and goals.</p>`:""}`;
+      <div class="row" style="justify-content:flex-start;margin-block:8px"><span class="seg" role="group" aria-label="Guide sections">
+        <button data-g="talk" aria-pressed="${cur==="talk"}">For the user</button><button data-g="care" aria-pressed="${cur==="care"}">For caregivers</button><button data-g="faq" aria-pressed="${cur==="faq"}">Questions</button></span></div>
+      ${body}`;
     panel.querySelector("#gClose").onclick = close;
     panel.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>{ cur=b.dataset.g; render(); panel.scrollTop=0; });
     panel.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>{ const s=steps[+b.dataset.say]; say(`${s.h} ${s.b}`); });
-    panel.querySelectorAll("[data-show]").forEach(b=>b.onclick=()=>{ const s=steps[+b.dataset.show], talk=cur==="talk"; close(); setTimeout(()=>spotlight(s.show(), talk ? s.h : ""), 150); });
-    panel.querySelectorAll("[data-go]").forEach(b=>{ const s=steps[+b.dataset.go]; guarded(b, ()=>{ close(); if (s.dash) openDashboard(); else openSettings(s.go); }); });
+    panel.querySelectorAll("[data-go]").forEach(b=>act(steps[+b.dataset.go], b));
+    bindFa();
+    const gq = panel.querySelector("#gq");
+    if (gq){
+      gq.oninput = e => { query = e.target.value; panel.querySelector("#gRes").innerHTML = resultsHTML(); bindFa(); };
+      panel.querySelector("#gCopy").onclick = async () => { try { await navigator.clipboard.writeText(SUPPORT_EMAIL); toast("Email address copied."); } catch { const r=document.createRange(); r.selectNodeContents(panel.querySelector(".sel")); const sl=getSelection(); sl.removeAllRanges(); sl.addRange(r); toast("Copying is blocked here. The address is selected."); } };
+    }
   };
   render();
+  if (cur==="faq") setTimeout(()=>panel.querySelector("#gq")?.focus(), 80);
 }
-
 
 /* ---------------- People, levels and the level check (v1.2) ----------------
    Everyone gets a profile: name, picture, age group, favorite things and a level.
