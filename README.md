@@ -1,9 +1,17 @@
-# Speakeasy — installable app (v1.2.0)
+# Speakeasy — installable app (v1.3.0)
 McLearn Media LLC · Brandon, MS
 
 This folder is the full Speakeasy app. Put it on any web address and it becomes a real app:
 it installs to the home screen on iPhone, iPad, Android, Windows, Mac and Chromebook, and it
 keeps talking with no internet.
+
+## New in v1.3
+- **12 topic pages to pick in each profile**, each with real photos, names, fun facts, groups and its own game: Birds, Dogs, Things that go, Trees, U.S. states, Houses and buildings, Dinosaurs, Sea animals, Space, Bugs, Sports and Musical instruments (440 items, 419 with real photos).
+- **Their own topic**: type anything ("Tractors") in the profile and it gets its own page for your words and photos.
+- **Family nicknames**: type what they call each family member (Nana, Paw Paw, Mommy). Speakeasy says that name, and the button can show it alone or with the usual word underneath.
+- **Show and hide**: caregivers can turn off any page or tool, or keep only one thing, and turn everything back on anytime. The settings gear always stays.
+- **Cleaner topic pages**: the button bar sits on its own row, so it never covers the pictures.
+- Topic pack content lives in `tools/packs.txt`; photos are refreshed by the GitHub Action.
 
 ## New in v1.2
 - **A profile for each person** — name, picture, age group and favorite things. Each person has their own words, voice, level, progress and backups. Tap the name at the top to switch people.
