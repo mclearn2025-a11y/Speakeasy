@@ -35,6 +35,8 @@ def plain(s, limit=140):
 
 
 birds = json.load(open("tools/birds.json", encoding="utf8"))
+if os.path.exists("tools/topics.json"):
+    birds += json.load(open("tools/topics.json", encoding="utf8"))   # the other topic packs
 os.makedirs("photos", exist_ok=True)
 credits, missing = {}, []
 
@@ -89,7 +91,11 @@ for b in birds:
         data = get(ii.get("thumburl") or ii["url"], binary=True)
         if not data:
             missing.append((b["name"], "download failed")); continue
-        im = Image.open(io.BytesIO(data)).convert("RGB")
+        im = Image.open(io.BytesIO(data))
+        if im.mode in ("RGBA", "LA", "P"):
+            im = im.convert("RGBA"); bg = Image.new("RGB", im.size, "white"); bg.paste(im, mask=im.split()[-1]); im = bg
+        else:
+            im = im.convert("RGB")
         im.thumbnail((560, 560))
         out = b["id"] + ".jpg"
         im.save(os.path.join("photos", out), "JPEG", quality=80, optimize=True, progressive=True)
@@ -105,12 +111,12 @@ for b in birds:
 
 json.dump(credits, open("photos/credits.json", "w", encoding="utf8"), indent=1, ensure_ascii=False)
 with open("photos/CREDITS.md", "w", encoding="utf8") as f:
-    f.write("# Bird photo credits\n\nSpeakeasy's bird photos come from Wikimedia Commons under free licenses. "
+    f.write("# Photo credits\n\nSpeakeasy's photos come from Wikimedia Commons under free licenses. "
             "Each photo is resized; nothing else is changed.\n\n| Bird | Photographer | License | Source |\n|---|---|---|---|\n")
     for c in credits.values():
         f.write(f"| {c['name']} | {c['artist'].replace('|', '/')} | {c['license']} | {c['source']} |\n")
     if missing:
-        f.write("\n## Birds shown as drawings\n\n" + "".join(f"- {n}: {why}\n" for n, why in missing))
+        f.write("\n## Shown as a drawing or emoji\n\n" + "".join(f"- {n}: {why}\n" for n, why in missing))
 print(f"\n{len(credits)} photos saved, {len(missing)} birds keep their drawing")
 for n, why in missing:
     print("  -", n, ":", why)

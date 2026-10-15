@@ -1,4 +1,4 @@
-name: Build bird photos
+name: Build topic photos
 
 # Downloads real, freely licensed bird photos from Wikimedia Commons into photos/,
 # with photographer credits. Run it again from the Actions tab to refresh them.
@@ -8,6 +8,7 @@ on:
     branches: [main]
     paths:
       - "tools/birds.json"
+      - "tools/topics.json"
       - "tools/fetch_bird_photos.py"
       - ".github/workflows/bird-photos.yml"
 
@@ -29,6 +30,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
           git add photos
-          git diff --cached --quiet || git commit -m "Add real bird photos from Wikimedia Commons with credits"
+          git diff --cached --quiet || git commit -m "Add real topic photos from Wikimedia Commons with credits"
           git pull --rebase origin main
           git push origin HEAD:main

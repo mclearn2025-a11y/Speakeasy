@@ -1,0 +1,342 @@
+# Speakeasy topic packs — McLearn Media LLC
+# Pack line: @key|Name|emoji|noun used in games ("one" = "Which one is…")|plural|Game name|group:Name:emoji,...
+# Item line: Label|Wikipedia page for the photo|group|fallback emoji|fun fact
+# Add new items at the END of a pack: photo ids come from position.
+
+@dogs|Dogs|🐕|dog|dogs|Dog game|small:Small dogs:🐕,medium:Medium dogs:🐶,big:Big dogs:🦮
+Labrador Retriever|Labrador Retriever|big|🐕|Labs love to swim. They are one of the most popular dogs in America.
+Golden Retriever|Golden Retriever|big|🦮|Golden retrievers are gentle, and many work as helper dogs.
+German Shepherd|German Shepherd|big|🐕|German shepherds are smart, and many work with police.
+Beagle|Beagle|medium|🐶|Beagles have a strong nose and love to follow smells.
+Bulldog|Bulldog|medium|🐶|Bulldogs have wrinkly faces and love to nap.
+Poodle|Poodle|medium|🐩|Poodles have curly fur and are very smart.
+Dachshund|Dachshund|small|🐕|Dachshunds have long bodies and short legs. Some people call them wiener dogs.
+Chihuahua|Chihuahua (dog)|small|🐕|Chihuahuas are one of the smallest dog breeds in the world.
+Siberian Husky|Siberian Husky|big|🐺|Huskies can pull sleds across the snow for many miles.
+Boxer|Boxer (dog)|big|🐕|Boxers are playful and bounce around when they are happy.
+Pug|Pug|small|🐶|Pugs have flat faces and curly tails, and they snore.
+Rottweiler|Rottweiler|big|🐕|Rottweilers are strong dogs that like to protect their family.
+Yorkshire Terrier|Yorkshire Terrier|small|🐕|Yorkies are tiny dogs with long, silky hair.
+Border Collie|Border Collie|medium|🐕|Border collies are great at herding sheep.
+Great Dane|Great Dane|big|🐕|Great Danes are one of the tallest dog breeds.
+Dalmatian|Dalmatian (dog)|big|🐕|Dalmatian puppies are born white. Their spots come later.
+Corgi|Pembroke Welsh Corgi|small|🐕|Corgis have short legs and were bred to herd cows.
+Shih Tzu|Shih Tzu|small|🐕|The Shih Tzu is often called the lion dog.
+Boston Terrier|Boston Terrier|small|🐕|Boston terriers have black and white coats that look like a tuxedo.
+Australian Shepherd|Australian Shepherd|medium|🐕|Australian shepherds can have eyes of two different colors.
+Saint Bernard|St. Bernard (dog)|big|🐕|Saint Bernards helped rescue people lost in the snowy mountains.
+Bloodhound|Bloodhound|big|🐕|Bloodhounds have one of the best noses of any dog.
+Greyhound|Greyhound|big|🐕|Greyhounds are the fastest dogs. They can run about 40 miles per hour.
+Shiba Inu|Shiba Inu|medium|🐕|Shiba Inus come from Japan and look a little like foxes.
+Cocker Spaniel|American Cocker Spaniel|medium|🐕|Cocker spaniels have long, floppy ears.
+Bernese Mountain Dog|Bernese Mountain Dog|big|🐕|Bernese mountain dogs have thick black, white and brown coats.
+Maltese|Maltese dog|small|🐕|Maltese dogs are small and have long white hair.
+Basset Hound|Basset Hound|medium|🐕|Basset hounds have very long ears that hang near the ground.
+Pit Bull|American Pit Bull Terrier|medium|🐕|Pit bulls are strong and loyal, and they love their people.
+Newfoundland|Newfoundland dog|big|🐕|Newfoundlands have webbed feet and are great swimmers.
+
+@vehicles|Things that go|🚗|one|vehicles|Things that go game|road:On the road:🚗,help:Helpers:🚒,work:Work trucks:🚜,rails:Trains:🚆,sky:In the sky:✈️,water:On the water:⛵
+Car|Car|road|🚗|Cars have four wheels and take people almost everywhere.
+Pickup truck|Pickup truck|road|🛻|Pickup trucks have an open back for carrying big things.
+Bus|Bus|road|🚌|A bus can carry lots of people at the same time.
+School bus|School bus|road|🚌|School buses in America are yellow so they are easy to see.
+Motorcycle|Motorcycle|road|🏍️|Motorcycles have two wheels and an engine.
+Bicycle|Bicycle|road|🚲|You make a bicycle go by pushing the pedals.
+Taxi|Taxicab|road|🚕|You pay a taxi to drive you where you want to go.
+Race car|Formula One car|road|🏎️|Race cars are built to go very fast on a track.
+Semi truck|Semi-trailer truck|road|🚛|Big semi trucks carry food and other things across the country.
+Ice cream truck|Ice cream van|road|🍦|Ice cream trucks play music so people know they are coming.
+Fire truck|Fire engine|help|🚒|Fire trucks carry hoses and ladders to put out fires.
+Ambulance|Ambulance|help|🚑|Ambulances rush sick or hurt people to the hospital.
+Police car|Police car|help|🚓|Police cars have lights and sirens to get through traffic.
+Garbage truck|Garbage truck|work|🚛|Garbage trucks pick up trash and take it away.
+Tow truck|Tow truck|help|🛻|Tow trucks pull cars that are broken down.
+Dump truck|Dump truck|work|🚚|Dump trucks tip their back up to pour out dirt and rocks.
+Excavator|Excavator|work|🏗️|Excavators dig big holes with a long arm and a bucket.
+Bulldozer|Bulldozer|work|🚜|Bulldozers push dirt with a big flat blade.
+Cement mixer|Concrete mixer|work|🚛|Cement mixers keep their drum spinning so the cement doesn't get hard.
+Tractor|Tractor|work|🚜|Farmers use tractors to plow fields and pull heavy things.
+Forklift|Forklift|work|🏗️|Forklifts lift heavy boxes with two long forks.
+Crane|Mobile crane|work|🏗️|Cranes lift very heavy things high into the air.
+Monster truck|Monster truck|road|🛻|Monster trucks have giant tires and can jump over cars.
+Steam train|Steam locomotive|rails|🚂|Steam trains burn coal or wood to make steam that turns the wheels.
+Freight train|Freight train|rails|🚆|Freight trains pull long lines of cars full of goods.
+Bullet train|Shinkansen|rails|🚄|Bullet trains in Japan can go faster than 180 miles per hour.
+Subway|Rapid transit|rails|🚇|Subway trains often run in tunnels under the city.
+Airplane|Airliner|sky|✈️|Big airplanes carry hundreds of people around the world.
+Helicopter|Helicopter|sky|🚁|Helicopters can fly straight up and stay in one spot in the air.
+Hot air balloon|Hot air balloon|sky|🎈|Hot air rises, and that lifts the balloon into the sky.
+Rocket|Rocket|sky|🚀|Rockets are powerful enough to go into space.
+Sailboat|Sailboat|water|⛵|Sailboats use the wind to move across the water.
+Cruise ship|Cruise ship|water|🛳️|Cruise ships are like big hotels that float.
+Tugboat|Tugboat|water|🚢|Tugboats are small but strong. They push and pull big ships.
+Submarine|Submarine|water|🌊|Submarines can travel deep under the water.
+Canoe|Canoe|water|🛶|You move a canoe by paddling.
+
+@trees|Trees|🌳|tree|trees|Tree game|leaf:Leafy trees:🌳,ever:Evergreen trees:🌲,warm:Warm places:🌴
+Oak|Oak|leaf|🌳|Oak trees grow acorns, and squirrels love to eat them.
+Maple|Maple|leaf|🍁|Maple syrup comes from the sap of maple trees.
+Southern Magnolia|Magnolia grandiflora|leaf|🌸|The magnolia is Mississippi's state tree and state flower.
+Pine|Pine|ever|🌲|Pine trees have needles instead of flat leaves, and they grow pine cones.
+Palm tree|Arecaceae|warm|🌴|Palm trees grow in warm places, often near the beach.
+Coconut palm|Coconut|warm|🥥|Coconuts grow high up on coconut palm trees.
+Weeping willow|Salix babylonica|leaf|🌳|Weeping willow branches hang down toward the ground.
+Birch|Birch|leaf|🌳|Many birch trees have white bark that peels like paper.
+Redwood|Sequoia sempervirens|ever|🌲|Coast redwoods are the tallest trees in the world.
+Giant sequoia|Sequoiadendron giganteum|ever|🌲|Giant sequoias are the biggest trees on Earth.
+Apple tree|Malus domestica|leaf|🍎|Apple trees bloom with flowers in spring and grow apples in fall.
+Cherry blossom|Cherry blossom|leaf|🌸|Cherry trees are covered in pink and white flowers in spring.
+Fir|Fir|ever|🎄|Many families use fir trees as Christmas trees.
+Spruce|Spruce|ever|🌲|Spruce needles are sharp and grow all the way around each branch.
+Cedar|Cedrus|ever|🌲|Cedar wood has a strong, nice smell.
+Baobab|Adansonia|warm|🌳|Baobab trees store water in their huge trunks.
+Banyan|Banyan|warm|🌳|Banyan trees grow roots down from their branches.
+Dogwood|Cornus florida|leaf|🌸|Dogwood trees have white or pink flowers in spring.
+Bald cypress|Taxodium distichum|leaf|🌳|Bald cypress trees grow in swamps, and their knees poke up out of the water.
+Pecan|Pecan|leaf|🌰|Pecan nuts are used to make pecan pie.
+Olive tree|Olive|warm|🫒|Some olive trees live for more than a thousand years.
+Joshua tree|Yucca brevifolia|warm|🌵|Joshua trees grow in the desert in the southwest United States.
+Aspen|Populus tremuloides|leaf|🌳|Aspen leaves shake and flutter in even a light wind.
+Elm|Elm|leaf|🌳|Elm trees were once planted along many city streets.
+Sweetgum|Liquidambar styraciflua|leaf|🌳|Sweetgum trees drop spiky seed balls.
+Holly|Ilex opaca|ever|🌿|Holly trees keep their shiny green leaves and red berries in winter.
+
+@states|U.S. states|🗺️|state|states|States game|south:South:🌾,northeast:Northeast:🍂,midwest:Midwest:🌽,west:West:🏔️
+Alabama|Alabama|south|🗺️|The capital is Montgomery. Its nickname is the Yellowhammer State.
+Alaska|Alaska|west|🗺️|The capital is Juneau. Its nickname is the Last Frontier.
+Arizona|Arizona|west|🗺️|The capital is Phoenix. Its nickname is the Grand Canyon State.
+Arkansas|Arkansas|south|🗺️|The capital is Little Rock. Its nickname is the Natural State.
+California|California|west|🗺️|The capital is Sacramento. Its nickname is the Golden State.
+Colorado|Colorado|west|🗺️|The capital is Denver. Its nickname is the Centennial State.
+Connecticut|Connecticut|northeast|🗺️|The capital is Hartford. Its nickname is the Constitution State.
+Delaware|Delaware|south|🗺️|The capital is Dover. Its nickname is the First State.
+Florida|Florida|south|🗺️|The capital is Tallahassee. Its nickname is the Sunshine State.
+Georgia|Georgia (U.S. state)|south|🗺️|The capital is Atlanta. Its nickname is the Peach State.
+Hawaii|Hawaii|west|🗺️|The capital is Honolulu. Its nickname is the Aloha State.
+Idaho|Idaho|west|🗺️|The capital is Boise. Its nickname is the Gem State.
+Illinois|Illinois|midwest|🗺️|The capital is Springfield. Its nickname is the Prairie State.
+Indiana|Indiana|midwest|🗺️|The capital is Indianapolis. Its nickname is the Hoosier State.
+Iowa|Iowa|midwest|🗺️|The capital is Des Moines. Its nickname is the Hawkeye State.
+Kansas|Kansas|midwest|🗺️|The capital is Topeka. Its nickname is the Sunflower State.
+Kentucky|Kentucky|south|🗺️|The capital is Frankfort. Its nickname is the Bluegrass State.
+Louisiana|Louisiana|south|🗺️|The capital is Baton Rouge. Its nickname is the Pelican State.
+Maine|Maine|northeast|🗺️|The capital is Augusta. Its nickname is the Pine Tree State.
+Maryland|Maryland|south|🗺️|The capital is Annapolis. Its nickname is the Old Line State.
+Massachusetts|Massachusetts|northeast|🗺️|The capital is Boston. Its nickname is the Bay State.
+Michigan|Michigan|midwest|🗺️|The capital is Lansing. Its nickname is the Great Lakes State.
+Minnesota|Minnesota|midwest|🗺️|The capital is Saint Paul. Its nickname is the North Star State.
+Mississippi|Mississippi|south|🗺️|The capital is Jackson. Its nickname is the Magnolia State.
+Missouri|Missouri|midwest|🗺️|The capital is Jefferson City. Its nickname is the Show-Me State.
+Montana|Montana|west|🗺️|The capital is Helena. Its nickname is the Treasure State.
+Nebraska|Nebraska|midwest|🗺️|The capital is Lincoln. Its nickname is the Cornhusker State.
+Nevada|Nevada|west|🗺️|The capital is Carson City. Its nickname is the Silver State.
+New Hampshire|New Hampshire|northeast|🗺️|The capital is Concord. Its nickname is the Granite State.
+New Jersey|New Jersey|northeast|🗺️|The capital is Trenton. Its nickname is the Garden State.
+New Mexico|New Mexico|west|🗺️|The capital is Santa Fe. Its nickname is the Land of Enchantment.
+New York|New York (state)|northeast|🗺️|The capital is Albany. Its nickname is the Empire State.
+North Carolina|North Carolina|south|🗺️|The capital is Raleigh. Its nickname is the Tar Heel State.
+North Dakota|North Dakota|midwest|🗺️|The capital is Bismarck. Its nickname is the Peace Garden State.
+Ohio|Ohio|midwest|🗺️|The capital is Columbus. Its nickname is the Buckeye State.
+Oklahoma|Oklahoma|south|🗺️|The capital is Oklahoma City. Its nickname is the Sooner State.
+Oregon|Oregon|west|🗺️|The capital is Salem. Its nickname is the Beaver State.
+Pennsylvania|Pennsylvania|northeast|🗺️|The capital is Harrisburg. Its nickname is the Keystone State.
+Rhode Island|Rhode Island|northeast|🗺️|The capital is Providence. Its nickname is the Ocean State.
+South Carolina|South Carolina|south|🗺️|The capital is Columbia. Its nickname is the Palmetto State.
+South Dakota|South Dakota|midwest|🗺️|The capital is Pierre. Its nickname is the Mount Rushmore State.
+Tennessee|Tennessee|south|🗺️|The capital is Nashville. Its nickname is the Volunteer State.
+Texas|Texas|south|🗺️|The capital is Austin. Its nickname is the Lone Star State.
+Utah|Utah|west|🗺️|The capital is Salt Lake City. Its nickname is the Beehive State.
+Vermont|Vermont|northeast|🗺️|The capital is Montpelier. Its nickname is the Green Mountain State.
+Virginia|Virginia|south|🗺️|The capital is Richmond. Its nickname is the Old Dominion.
+Washington|Washington (state)|west|🗺️|The capital is Olympia. Its nickname is the Evergreen State.
+West Virginia|West Virginia|south|🗺️|The capital is Charleston. Its nickname is the Mountain State.
+Wisconsin|Wisconsin|midwest|🗺️|The capital is Madison. Its nickname is the Badger State.
+Wyoming|Wyoming|west|🗺️|The capital is Cheyenne. Its nickname is the Equality State.
+
+@buildings|Houses and buildings|🏠|building|buildings|Building game|homes:Homes:🏠,places:Places we go:🏫,famous:Famous places:🗼
+House|House|homes|🏠|A house is a building where a family lives.
+Apartment building|Apartment|homes|🏢|In an apartment building, many families live in homes stacked on top of each other.
+Log cabin|Log cabin|homes|🛖|Log cabins are built from whole tree trunks.
+Igloo|Igloo|homes|🧊|Igloos are built from blocks of snow.
+Tipi|Tipi|homes|⛺|Tipis are cone-shaped tents used by many Native nations of the Great Plains.
+Treehouse|Tree house|homes|🌳|A treehouse is built up in the branches of a tree.
+Houseboat|Houseboat|homes|🚤|A houseboat is a home that floats on the water.
+Hut|Hut|homes|🛖|A hut is a small, simple home.
+Castle|Castle|places|🏰|Castles had thick stone walls to keep people safe.
+Skyscraper|Skyscraper|places|🏙️|Skyscrapers are so tall they seem to scrape the sky.
+Lighthouse|Lighthouse|places|💡|Lighthouses shine a bright light to guide ships at night.
+Barn|Barn|places|🐄|Barns keep farm animals and hay safe from the weather.
+School|Schoolhouse|places|🏫|Kids go to school to learn and see their friends.
+Hospital|Hospital|places|🏥|Doctors and nurses help sick people at the hospital.
+Library|Library|places|📚|You can borrow books from the library for free.
+Fire station|Fire station|places|🚒|Firefighters and fire trucks wait at the fire station.
+Church|Church (building)|places|⛪|Many people go to church to worship and sing.
+Stadium|Stadium|places|🏟️|Thousands of fans cheer at big games in a stadium.
+Windmill|Windmill|places|🌬️|Windmills use the wind to turn their big blades.
+Eiffel Tower|Eiffel Tower|famous|🗼|The Eiffel Tower is in Paris, France, and it is made of iron.
+White House|White House|famous|🏛️|The president of the United States lives and works in the White House.
+Empire State Building|Empire State Building|famous|🏙️|The Empire State Building in New York City has 102 floors.
+Great Pyramid|Great Pyramid of Giza|famous|🔺|The Great Pyramid in Egypt was built more than 4,000 years ago.
+Taj Mahal|Taj Mahal|famous|🕌|The Taj Mahal in India is made of white marble.
+Space Needle|Space Needle|famous|🗼|The Space Needle in Seattle looks like a flying saucer on a tall tower.
+Golden Gate Bridge|Golden Gate Bridge|famous|🌉|The Golden Gate Bridge in San Francisco is painted orange.
+
+@dinosaurs|Dinosaurs|🦖|one|dinosaurs|Dinosaur game|meat:Meat eaters:🦖,plant:Plant eaters:🦕,other:Sea and sky:🌊
+Tyrannosaurus rex|Tyrannosaurus|meat|🦖|T. rex had teeth as long as bananas.
+Triceratops|Triceratops|plant|🦕|Triceratops had three horns on its face.
+Stegosaurus|Stegosaurus|plant|🦕|Stegosaurus had big plates on its back and spikes on its tail.
+Brachiosaurus|Brachiosaurus|plant|🦕|Brachiosaurus had a very long neck to eat leaves from tall trees.
+Velociraptor|Velociraptor|meat|🦖|The real Velociraptor was about the size of a turkey and had feathers.
+Spinosaurus|Spinosaurus|meat|🦖|Spinosaurus had a big sail on its back and hunted fish.
+Ankylosaurus|Ankylosaurus|plant|🦕|Ankylosaurus had armor and a club at the end of its tail.
+Diplodocus|Diplodocus|plant|🦕|Diplodocus had a very long, thin tail.
+Parasaurolophus|Parasaurolophus|plant|🦕|Parasaurolophus had a long crest on its head that may have made loud sounds.
+Pteranodon|Pteranodon|other|🦅|Pteranodon flew in the sky. It was a flying reptile, not a dinosaur.
+Allosaurus|Allosaurus|meat|🦖|Allosaurus was a big hunter that lived long before T. rex.
+Iguanodon|Iguanodon|plant|🦕|Iguanodon had a spike on each thumb.
+Pachycephalosaurus|Pachycephalosaurus|plant|🦕|Pachycephalosaurus had a very thick, dome-shaped head.
+Apatosaurus|Apatosaurus|plant|🦕|Apatosaurus was longer than a school bus.
+Dilophosaurus|Dilophosaurus|meat|🦖|Dilophosaurus had two crests on top of its head.
+Compsognathus|Compsognathus|meat|🦖|Compsognathus was a small dinosaur about the size of a chicken.
+Mosasaurus|Mosasaurus|other|🌊|Mosasaurus was a giant sea reptile, not a dinosaur.
+Plesiosaurus|Plesiosaurus|other|🌊|Plesiosaurus swam with four big flippers. It was a sea reptile.
+Archaeopteryx|Archaeopteryx|other|🪶|Archaeopteryx had feathers and wings, like a bird with teeth.
+Carnotaurus|Carnotaurus|meat|🦖|Carnotaurus had two horns above its eyes, like a bull.
+Giganotosaurus|Giganotosaurus|meat|🦖|Giganotosaurus was one of the biggest meat-eating dinosaurs.
+Argentinosaurus|Argentinosaurus|plant|🦕|Argentinosaurus was one of the biggest animals ever to walk on land.
+Therizinosaurus|Therizinosaurus|plant|🦕|Therizinosaurus had giant claws about 3 feet long.
+Edmontosaurus|Edmontosaurus|plant|🦕|Edmontosaurus had a wide, flat mouth like a duck's bill.
+Baryonyx|Baryonyx|meat|🦖|Baryonyx had a long snout and ate fish.
+
+@sea|Sea animals|🐬|animal|sea animals|Sea animal game|mammals:Whales and friends:🐋,fish:Fish:🐟,other:Other sea life:🐙
+Bottlenose dolphin|Common bottlenose dolphin|mammals|🐬|Dolphins talk to each other with clicks and whistles.
+Blue whale|Blue whale|mammals|🐋|The blue whale is the biggest animal that has ever lived.
+Orca|Orca|mammals|🐳|Orcas are also called killer whales, but they are really a kind of dolphin.
+Humpback whale|Humpback whale|mammals|🐋|Humpback whales sing long songs under the water.
+Narwhal|Narwhal|mammals|🦄|A narwhal's long tusk is really a tooth.
+Beluga|Beluga whale|mammals|🐳|Beluga whales are white and make lots of chirps and whistles.
+Manatee|Manatee|mammals|🌊|Manatees are gentle and are sometimes called sea cows.
+Sea otter|Sea otter|mammals|🦦|Sea otters hold hands while they sleep so they don't float apart.
+Sea lion|Sea lion|mammals|🦭|Sea lions bark and can walk on their flippers.
+Walrus|Walrus|mammals|🦭|Walruses use their long tusks to pull themselves onto the ice.
+Great white shark|Great white shark|fish|🦈|Great white sharks have rows of sharp teeth that keep growing back.
+Hammerhead shark|Hammerhead shark|fish|🦈|Hammerhead sharks have a head shaped like a hammer.
+Clownfish|Amphiprioninae|fish|🐠|Clownfish live safely inside sea anemones.
+Seahorse|Seahorse|fish|🌊|With seahorses, the dads carry the babies.
+Pufferfish|Tetraodontidae|fish|🐡|Pufferfish puff up like a ball when they are scared.
+Stingray|Stingray|fish|🌊|Stingrays are flat and glide through the water like birds.
+Sea turtle|Sea turtle|other|🐢|Sea turtles swim far and come back to the beach to lay eggs.
+Octopus|Octopus|other|🐙|An octopus has eight arms and three hearts.
+Jellyfish|Jellyfish|other|🪼|Jellyfish have no brain, bones or heart.
+Starfish|Starfish|other|⭐|A starfish can grow a new arm if it loses one.
+Crab|Crab|other|🦀|Crabs walk sideways.
+Lobster|Lobster|other|🦞|Lobsters have big claws and a hard shell.
+Squid|Squid|other|🦑|Squid squirt ink to hide from danger.
+Coral|Coral|other|🪸|Coral reefs are built by tiny animals and are home to lots of fish.
+Shrimp|Shrimp|other|🦐|Shrimp swim backward by flipping their tails.
+
+@space|Space|🚀|one|space pictures|Space game|planets:Planets:🪐,sky:In the sky:⭐,explore:Exploring:🚀
+Sun|Sun|sky|☀️|The Sun is a star. It gives Earth light and heat.
+Moon|Moon|sky|🌙|The Moon goes around Earth about once a month.
+Mercury|Mercury (planet)|planets|🪐|Mercury is the planet closest to the Sun.
+Venus|Venus|planets|🪐|Venus is the hottest planet.
+Earth|Earth|planets|🌍|Earth is our home. It is the only planet we know of that has life.
+Mars|Mars|planets|🔴|Mars is called the red planet because of its rusty red dust.
+Jupiter|Jupiter|planets|🪐|Jupiter is the biggest planet. It has a giant storm called the Great Red Spot.
+Saturn|Saturn|planets|🪐|Saturn has beautiful rings made of ice and rock.
+Uranus|Uranus|planets|🪐|Uranus spins on its side.
+Neptune|Neptune|planets|🪐|Neptune is the windiest planet.
+Pluto|Pluto|planets|⚪|Pluto is a dwarf planet, far away past Neptune.
+Stars|Star|sky|⭐|Stars are giant balls of hot gas, like our Sun.
+Comet|Comet|sky|☄️|Comets are balls of ice and dust with long, glowing tails.
+Asteroid|Asteroid|sky|🪨|Asteroids are space rocks that go around the Sun.
+Milky Way|Milky Way|sky|🌌|The Milky Way is our galaxy. It has billions of stars.
+Black hole|Black hole|sky|⚫|A black hole pulls so hard that not even light can get out.
+Northern lights|Aurora|sky|🌌|The northern lights are colors that dance across the night sky.
+Big Dipper|Big Dipper|sky|✨|The Big Dipper is a group of stars shaped like a big spoon.
+Astronaut|Astronaut|explore|🧑‍🚀|Astronauts are people who travel to space.
+Moon rocket|Saturn V|explore|🚀|The Saturn V rocket carried astronauts to the Moon.
+Space shuttle|Space Shuttle|explore|🚀|The space shuttle launched like a rocket and landed like a plane.
+Space station|International Space Station|explore|🛰️|Astronauts live and work on the space station, high above Earth.
+Moon landing|Apollo 11|explore|👣|In 1969, astronauts walked on the Moon for the first time.
+Mars rover|Curiosity (rover)|explore|🤖|Mars rovers are robots that drive around on Mars.
+Space telescope|Hubble Space Telescope|explore|🔭|The Hubble telescope takes pictures of faraway space.
+Satellite|Satellite|explore|🛰️|Satellites go around Earth and help with phones, TV and weather.
+
+@bugs|Bugs|🐞|one|bugs|Bug game|fly:Wings:🦋,crawl:Crawlers:🐜
+Monarch butterfly|Monarch butterfly|fly|🦋|Monarch butterflies fly thousands of miles to Mexico each fall.
+Ladybug|Coccinellidae|fly|🐞|Ladybugs eat tiny bugs that hurt plants.
+Honey bee|Western honey bee|fly|🐝|Honey bees make honey and dance to show each other where flowers are.
+Dragonfly|Dragonfly|fly|🪰|Dragonflies can fly forward, backward and even upside down.
+Firefly|Firefly|fly|✨|Fireflies make their own light to glow at night.
+Moth|Moth|fly|🦋|Most moths fly at night and are drawn to lights.
+Housefly|Housefly|fly|🪰|Houseflies taste with their feet.
+Mosquito|Mosquito|fly|🦟|Only mother mosquitoes bite.
+Wasp|Wasp|fly|🐝|Some wasps build paper nests from chewed wood.
+Cicada|Cicada|fly|🪲|Cicadas make loud buzzing sounds on summer days.
+Ant|Ant|crawl|🐜|Ants can carry things much heavier than their own bodies.
+Grasshopper|Grasshopper|crawl|🦗|Grasshoppers can jump very far with their strong back legs.
+Cricket|Cricket (insect)|crawl|🦗|Crickets chirp by rubbing their wings together.
+Caterpillar|Caterpillar|crawl|🐛|A caterpillar turns into a butterfly or a moth.
+Praying mantis|Mantis|crawl|🙏|A praying mantis can turn its head to look over its shoulder.
+Beetle|Beetle|crawl|🪲|There are more kinds of beetles than any other animal.
+Rhinoceros beetle|Dynastinae|crawl|🪲|Rhinoceros beetles have a horn like a rhino.
+Stick insect|Phasmatodea|crawl|🌿|Stick insects look just like twigs, so they can hide.
+Spider|Spider|crawl|🕷️|Spiders have eight legs, so they are not insects.
+Snail|Snail|crawl|🐌|Snails carry their homes on their backs.
+Earthworm|Earthworm|crawl|🪱|Earthworms help plants grow by mixing the soil.
+Pill bug|Armadillidiidae|crawl|🐞|Pill bugs roll up into a ball when they feel scared.
+
+@sports|Sports|⚽|sport|sports|Sports game|ball:Ball sports:⚽,move:Moving sports:🏃,water:Water and snow:🏊
+Basketball|Basketball|ball|🏀|In basketball, you score by throwing the ball through a hoop.
+Football|American football|ball|🏈|Football teams try to carry or throw the ball into the end zone.
+Soccer|Association football|ball|⚽|In soccer, most players can't use their hands.
+Baseball|Baseball|ball|⚾|In baseball, you hit the ball and run around the bases.
+Softball|Softball|ball|🥎|Softball is like baseball with a bigger ball.
+Tennis|Tennis|ball|🎾|Tennis players hit the ball over a net with a racket.
+Golf|Golf|ball|⛳|In golf, you try to get the ball in the hole with as few hits as you can.
+Volleyball|Volleyball|ball|🏐|Volleyball players hit the ball over a high net with their hands.
+Bowling|Ten-pin bowling|ball|🎳|In bowling, you roll a heavy ball to knock down ten pins.
+Wheelchair basketball|Wheelchair basketball|ball|🏀|Wheelchair basketball players race up and down the court in sports wheelchairs.
+Hockey|Ice hockey|water|🏒|Hockey players skate on ice and hit a puck with a stick.
+Swimming|Swimming (sport)|water|🏊|Swimmers race through the water in a pool.
+Surfing|Surfing|water|🏄|Surfers ride ocean waves on a board.
+Skiing|Skiing|water|⛷️|Skiers slide down snowy mountains.
+Snowboarding|Snowboarding|water|🏂|Snowboarders ride down snowy hills on one board.
+Figure skating|Figure skating|water|⛸️|Figure skaters spin and jump on the ice.
+Fishing|Recreational fishing|water|🎣|People fish with a rod, a line and a hook.
+Running|Track and field|move|🏃|Runners race to see who is fastest.
+Gymnastics|Gymnastics|move|🤸|Gymnasts flip, tumble and balance.
+Cycling|Cycling|move|🚴|Cyclists race on bikes.
+Skateboarding|Skateboarding|move|🛹|Skateboarders roll and do tricks on a board with wheels.
+Karate|Karate|move|🥋|Karate is a martial art that started in Japan.
+Cheerleading|Cheerleading|move|📣|Cheerleaders cheer, dance and do flips to support their team.
+Dancing|Dance|move|💃|Dancing is moving your body to music.
+Yoga|Yoga|move|🧘|Yoga helps you stretch, breathe and feel calm.
+
+@music|Musical instruments|🎸|instrument|instruments|Music game|strings:Strings:🎻,wind:Blow:🎺,beat:Beat and keys:🥁
+Piano|Piano|beat|🎹|A piano has 88 black and white keys.
+Guitar|Guitar|strings|🎸|You play a guitar by strumming or picking its strings.
+Drums|Drum kit|beat|🥁|A drum set has drums and cymbals to play the beat.
+Violin|Violin|strings|🎻|You play a violin with a bow.
+Cello|Cello|strings|🎻|The cello is like a big violin that you play sitting down.
+Ukulele|Ukulele|strings|🎸|The ukulele is a small, four-string guitar that is popular in Hawaii.
+Banjo|Banjo|strings|🪕|Banjos make a bright, twangy sound.
+Harp|Harp|strings|🎶|You play a harp by plucking its strings with your fingers.
+Bass guitar|Bass guitar|strings|🎸|The bass guitar plays the low notes in a band.
+Trumpet|Trumpet|wind|🎺|You play a trumpet by buzzing your lips into it.
+Trombone|Trombone|wind|🎺|A trombone has a slide that moves to change the notes.
+Tuba|Tuba|wind|🎺|The tuba is the biggest brass instrument, and it plays very low notes.
+Saxophone|Saxophone|wind|🎷|The saxophone is popular in jazz music.
+Flute|Western concert flute|wind|🪈|You play a flute by blowing across a small hole.
+Clarinet|Clarinet|wind|🎶|A clarinet uses a thin reed that shakes to make sound.
+Harmonica|Harmonica|wind|🎶|A harmonica fits in your pocket. You blow out and breathe in to play it.
+Bagpipes|Bagpipes|wind|🎶|Bagpipes are loud. They are played in Scotland and many other places.
+Recorder|Recorder (musical instrument)|wind|🪈|Many kids learn to play the recorder at school.
+Accordion|Accordion|wind|🪗|You squeeze an accordion in and out to play it.
+Xylophone|Xylophone|beat|🎶|You hit the bars of a xylophone with mallets.
+Tambourine|Tambourine|beat|🪘|Shake a tambourine and its little metal jingles ring.
+Maracas|Maraca|beat|🪇|Maracas are filled with beans or beads that rattle when you shake them.
+Triangle|Triangle (musical instrument)|beat|🔺|The triangle makes a ding sound when you tap it.
+Pipe organ|Pipe organ|beat|⛪|Some pipe organs have thousands of pipes.
+Keyboard|Electronic keyboard|beat|🎹|An electronic keyboard can sound like lots of different instruments.
