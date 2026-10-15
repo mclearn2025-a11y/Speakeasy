@@ -438,6 +438,22 @@ textarea{width:100%;min-height:90px;font-size:12px;font-family:ui-monospace,Menl
 .faqgrp[open]{padding-bottom:10px}
 .faqgrp summary{font-weight:700;font-size:15px}
 .faqgrp .faq{border:0;border-top:1px solid var(--line);border-radius:0;padding:10px 0 4px}
+
+/* emergency contacts and help practice (v1.4) */
+input[type=tel],input[type=email],input[type=search]{border:1.5px solid var(--line);border-radius:var(--r-sm);padding:8px 10px;min-height:40px;box-sizing:border-box}
+.hc-contacts{display:flex;flex-direction:column;gap:10px}
+.hc-c{background:var(--card);border:2px solid var(--line);border-radius:var(--r-lg);padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.hc-c .hcwho{font-family:var(--font-tile);font-weight:700;font-size:clamp(20px,5vw,30px);line-height:1.2}
+.hc-c .num{font-family:var(--font-tile);font-weight:700;font-size:clamp(24px,6.5vw,38px);letter-spacing:.03em;-webkit-user-select:all;user-select:all}
+.hc-c .acts{display:flex;gap:8px;flex-wrap:wrap}
+.hc-c .acts a{flex:1 1 110px;min-height:56px;display:flex;align-items:center;justify-content:center;gap:6px;border-radius:var(--r-md);font-weight:700;font-size:18px;text-decoration:none;border:2px solid var(--line);background:var(--bg);color:var(--ink)}
+.hc-c .acts a.call{background:var(--verb-bg);border-color:var(--verb-bd)}
+.cfs{border:1px solid var(--line);border-radius:var(--r-md);padding:8px 12px 12px;margin:0;min-width:0}
+.cfs legend{font-weight:700;font-size:13px;padding:0 4px}
+.chk-opts.long{grid-template-columns:1fr}
+.chk-opts.long button{min-height:72px;flex-direction:row;justify-content:flex-start;gap:12px;padding:10px 14px;text-align:left}
+.chk-opts.long button .big{font-size:36px}
+.chk-opts button.hintok{box-shadow:0 0 0 5px var(--brand2)}
 </style>
 
 <div id="app">
@@ -1177,7 +1193,7 @@ function syncReg(){ const P = state.profile||{}; let e = REG.list.find(x=>x.id==
 const DEFAULT = {
   settings:{photos:"photos",look:"sparkle",mode:"k",voiceURI:"",rate:0.9,pitch:1,speakOnTap:true,holdMs:0,debounceMs:300,scale:1.1,contrast:false,wordsOnly:false,
             board:"24",level:"all",scan:"off",scanMs:1500,lock:true},
-  custom:{}, hidden:[], learned:{}, help:{name:"",contact:"",info:""}, practice:{right:0,tries:0},
+  custom:{}, hidden:[], learned:{}, help:{name:"",contact:"",info:"",contacts:[],address:"",showAddress:false,shareLoc:false}, practice:{right:0,tries:0},
   packs:{birds:true}, topics:[], birdGroup:"all", facts:false, savedAt:0, lastBackup:0,
   stats:{days:{}}, guideSeen:false, modeSet:false, profileAsked:false,
   profile:{name:"", avatar:"🙂", age:"", interests:[], check:null}, nicks:{}
@@ -1196,6 +1212,11 @@ function normalize(d){
   if (!["nick","both"].includes(n.settings.nickShow)) n.settings.nickShow = "both";
   if (!["say","big"].includes(n.settings.tapView)) n.settings.tapView = "say";
   if (![1,2,3].includes(n.settings.lvl)) n.settings.lvl = n.settings.level==="starter" ? 1 : n.settings.board==="48" ? 3 : 2;
+  if (!Array.isArray(n.help.contacts)) n.help.contacts = [];
+  if (!n.help.contacts.length && n.help.contact){   // the old single contact moves into contact 1
+    const mm = String(n.help.contact).match(/(\+?\d[\d\s().-]{6,}\d)/);
+    n.help.contacts.push({name: mm ? n.help.contact.replace(mm[0],"").replace(/[\s,:;-]+$/,"").trim() : n.help.contact, relation:"", phone: mm ? mm[0].trim() : "", email:"", video:""}); }
+  while (n.help.contacts.length < 3) n.help.contacts.push({name:"",relation:"",phone:"",email:"",video:""});
   if (!Array.isArray(n.hidden)) n.hidden = []; if (!Array.isArray(n.topics)) n.topics = [];
   return n;
 }
@@ -1288,7 +1309,7 @@ const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platfor
 const installable = () => !!document.querySelector('link[rel="manifest"]') && "serviceWorker" in navigator && /^https?:$/.test(location.protocol);
 const installed = () => { try { return matchMedia("(display-mode: standalone)").matches || navigator.standalone===true; } catch { return false; } };
 const addedWords = d => Object.values((d&&d.custom)||{}).reduce((n,a)=>n+((a&&a.length)||0),0);
-const needsBackup = () => (addedWords(state) > 0 || state.topics.length > 0 || state.help.contact) && (!state.lastBackup || Date.now()-state.lastBackup > 14*864e5);
+const needsBackup = () => (addedWords(state) > 0 || state.topics.length > 0 || state.help.contact || (state.help.contacts||[]).some(c=>c.phone)) && (!state.lastBackup || Date.now()-state.lastBackup > 14*864e5);
 function backupText(){ return JSON.stringify({kind:BACKUP_KIND, version:1, app:"Speakeasy", created:new Date().toISOString(), state}); }
 function backupName(){ const d=new Date(), p=n=>String(n).padStart(2,"0"); return `speakeasy-backup-${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}.json`; }
 function markBackedUp(){ state.lastBackup = Date.now(); save(); updateSafetyDot(); }
@@ -1375,7 +1396,7 @@ function hiddenSet(){ return new Set(state.hidden); }
 function builtinItems(t){
   if (t==="core") return CORE;
   if (PACKS[t]) return PACKS[t].items;
-  if (t==="phrases") return PHRASES[m()].map((p,i)=>({id:`ph-${m()}-${i}`,label:p,sym:PHRASE_SYM[m()][i],pos:"social",builtin:true}));
+  if (t==="phrases") return [...aboutMe(), ...PHRASES[m()].map((p,i)=>({id:`ph-${m()}-${i}`,label:p,sym:PHRASE_SYM[m()][i],pos:"social",builtin:true}))];
   const c = CATS[t]; if(!c) return [];
   return c.items.filter(it=>!it.m || it.m===m()).map(nickOf);
 }
@@ -1956,24 +1977,7 @@ document.addEventListener("keydown", e=>{
 });
 
 /* ---------------- Help card ---------------- */
-$("helpBtn").onclick = () => {
-  stopScan();
-  const H = state.help, kid = m()==="k";
-  const line1 = kid ? "I need help. I can't talk right now." : "I can't speak right now. I use this device to communicate.";
-  const line2 = kid ? "Please find a grown-up I know." : "Please be patient and read my screen.";
-  const card = el("div","helpcard"); card.setAttribute("role","dialog"); card.setAttribute("aria-label","Help card");
-  card.innerHTML = `<p class="big">${esc(line1)}</p><p class="info">${esc(line2)}</p>
-    ${H.name?`<p class="info">My name is <b>${esc(H.name)}</b>.</p>`:""}
-    ${H.contact?`<div><p class="info">Please contact:</p><div class="contact">${esc(H.contact)}</div></div>`:""}
-    ${H.info?`<p class="info">${esc(H.info)}</p>`:""}
-    ${(!H.name&&!H.contact)?`<p class="info" style="color:var(--muted)">Caregivers: add a name and emergency contact in Settings, Help card.</p>`:""}
-    <div class="acts"><button class="btn primary" id="hcSay">🔊 Say this</button><button class="btn" id="hcClose">Close</button></div>`;
-  document.body.append(card);
-  const text = [line1,line2,H.name?`My name is ${H.name}.`:"",H.contact?`Please contact ${H.contact}.`:"",H.info].filter(Boolean).join(" ");
-  card.querySelector("#hcSay").onclick = () => say(text);
-  card.querySelector("#hcClose").onclick = () => { card.remove(); restartScan(); };
-  say(text);
-};
+$("helpBtn").onclick = () => openHelpCard();
 
 /* ---------------- Settings (caregiver lock: hold the gear) ---------------- */
 const gear = $("gearBtn"); let gearT=null;
@@ -2068,12 +2072,20 @@ function openSettings(focus){
       <div class="row"><label for="x-speed">Time on each choice</label><input type="range" id="x-speed" min="800" max="4000" step="100" value="${S.scanMs}"></div>
       <p class="note">Scanning highlights one choice at a time. Choose with the big button at the bottom, the Space key, or a Bluetooth switch set to send Space. Listening scanning reads each choice aloud, for users who are blind or have low vision.</p></div>
 
-    <div class="sec" id="sec-help"><h3>Help card</h3>
-      <div class="grid2">
-        <label>Name<input type="text" id="h-name" value="${esc(state.help.name)}" autocomplete="off"></label>
-        <label>Emergency contact<input type="text" id="h-contact" value="${esc(state.help.contact)}" placeholder="Name and phone number" autocomplete="off"></label></div>
+    <div class="sec" id="sec-help"><h3>Help card and emergency contacts</h3>
+      <div class="grid2"><label>Their name<input type="text" id="h-name" value="${esc(state.help.name)}" autocomplete="off"></label></div>
+      ${state.help.contacts.map((c,i)=>`<fieldset class="cfs"><legend>Contact ${i+1}${i===0?" (try first)":""}</legend><div class="grid2">
+        <label>Name<input type="text" data-c="${i}" data-f="name" maxlength="60" value="${esc(c.name)}" autocomplete="off"></label>
+        <label>Who they are<input type="text" data-c="${i}" data-f="relation" maxlength="40" value="${esc(c.relation)}" placeholder="Mom, Nana, Coach" autocomplete="off"></label>
+        <label>Phone<input type="tel" data-c="${i}" data-f="phone" maxlength="30" value="${esc(c.phone)}" autocomplete="off"></label>
+        <label>Email<input type="email" data-c="${i}" data-f="email" maxlength="120" value="${esc(c.email)}" autocomplete="off"></label>
+        <label>Video call<input type="text" data-c="${i}" data-f="video" maxlength="200" value="${esc(c.video)}" placeholder="FaceTime number or a Zoom link" autocomplete="off"></label></div></fieldset>`).join("")}
       <label class="grid2" style="grid-template-columns:1fr">Other important info<input type="text" id="h-info" value="${esc(state.help.info)}" placeholder="For example: I'm autistic. Loud noise is painful for me."></label>
-      <p class="note">This shows on the red Help button. It stays on this device only.</p></div>
+      <label class="grid2" style="grid-template-columns:1fr">Home address<input type="text" id="h-addr" maxlength="200" value="${esc(state.help.address)}" autocomplete="off"></label>
+      <div class="row"><label for="h-showaddr">Show home address on the Help card</label><input type="checkbox" id="h-showaddr" ${state.help.showAddress?"checked":""}></div>
+      <div class="row"><label for="h-loc">Add their location to Help texts and emails</label><input type="checkbox" id="h-loc" ${state.help.shareLoc?"checked":""}></div>
+      <p class="note">The red Help button shows these people with Call, Text, Video and Email buttons, so they or a helper can reach someone fast. The home address stays hidden unless you turn it on, because anyone who picks up the device could see it. Location is added only when they tap Text or Email, and only if the device allows it. Everything stays on this device. Calls and texts need a phone with service.</p>
+      <div class="row" style="justify-content:flex-start"><button class="btn" id="h-practice">🎯 Try Help practice</button></div></div>
 
     <div class="sec" id="sec-words"><h3>Edit words</h3>
       <div class="row"><label for="e-tab">Word group</label><select id="e-tab">${editTabs.map(t=>opt(t,"core",esc(tabMeta(t).name))).join("")}</select></div>
@@ -2089,7 +2101,7 @@ function openSettings(focus){
       <div class="row" style="justify-content:flex-start"><button class="btn" id="b-copy">Copy backup text</button><button class="btn" id="b-restore">Restore from text</button></div></div>
 
     <div class="sec" id="sec-about"><h3>About and privacy</h3>
-      <p class="note">Speakeasy v1.3.2 by McLearn Media LLC. Bird illustrations are original McLearn Media artwork. Photos come from Wikimedia Commons under free licenses, credited in Settings, Photo credits. Everything you add stays on this device. Nothing is sent anywhere, and there's no tracking.</p>
+      <p class="note">Speakeasy v1.4 by McLearn Media LLC. Bird illustrations are original McLearn Media artwork. Photos come from Wikimedia Commons under free licenses, credited in Settings, Photo credits. Everything you add stays on this device. Nothing is sent anywhere, and there's no tracking.</p>
       <p class="note">Speakeasy is a communication tool, not therapy. A speech-language pathologist can help choose the right words, settings and goals. Using a talking device does not stop speech from developing. Research shows it often helps.</p></div>
   </div>`;
   document.body.append(sheet);
@@ -2163,7 +2175,11 @@ function openSettings(focus){
   q("x-scan").onchange = e => set("scan",e.target.value);
   q("x-speed").onchange = e => set("scanMs",+e.target.value);
   q("l-lock").onchange = e => set("lock",e.target.checked);
-  for (const [id,k] of [["h-name","name"],["h-contact","contact"],["h-info","info"]]) q(id).oninput = e => { state.help[k]=e.target.value.slice(0,200); save(); };
+  for (const [id,k] of [["h-name","name"],["h-info","info"],["h-addr","address"]]) q(id).oninput = e => { state.help[k]=e.target.value.slice(0,200); save(); };
+  sheet.querySelectorAll("[data-c]").forEach(i=>i.oninput = e => { state.help.contacts[+i.dataset.c][i.dataset.f] = e.target.value.slice(0,200); save(); });
+  q("h-showaddr").onchange = e => { state.help.showAddress = e.target.checked; save(); };
+  q("h-loc").onchange = e => { state.help.shareLoc = e.target.checked; save(); };
+  q("h-practice").onclick = () => { closeSettings(); openHelpPractice(); };
 
   // keeping their words safe
   function renderSafety(){
@@ -2324,6 +2340,7 @@ function openMenu(){
     if (k==="game") return openGame("birds");
     if (k==="practice") return learn.on ? stopLearn() : startLearn();
     if (k==="find") return $("findBtn").onclick();
+    if (k==="helppractice") return openHelpPractice();
     if (k==="help") return $("helpBtn").onclick();
     if (k==="guide-talk") return openGuide("talk");
     if (k==="guide-care") return openGuide("care");
@@ -2342,7 +2359,7 @@ function openMenu(){
   };
   const group = (title, items, opts={}) => {
     items = items.filter(x=>(!(["core","groups","phrases","keyboard"].includes(x[0]) || isTopic(x[0])) || tabsFor().includes(x[0])) && (x[0]!=="find" || lv()>1)
-      && !(x[0].startsWith("game:") && off("games")) && !(["find","practice","help","people"].includes(x[0]) && off(x[0])));
+      && !(x[0].startsWith("game:") && off("games")) && !(["find","practice","help","people"].includes(x[0]) && off(x[0])) && !(x[0]==="helppractice" && off("help")));
     const sec = el("div","sec"); sec.append(el("h3",null,title));
     if (opts.care) sec.append(el("p","note", S.lock ? "For caregivers. Hold a button for 2 seconds to open it." : "For caregivers."));
     const grid = el("div","mgrid");
@@ -2366,7 +2383,8 @@ function openMenu(){
   group("Play and learn", [
     ...topicTabs().filter(t=>PACKS[t]).map(t=>["game:"+t,"🎮",PACKS[t].game, PACKS[t].noun==="one" ? "Find the right picture" : `Find the right ${PACKS[t].noun}`]),
     ["practice","🎯", learn.on ? "Stop practice" : "Practice", learn.on ? "Practice is on now" : "Find words on the board"],
-    ["find","🔍","Find a word","See where a word lives"]
+    ["find","🔍","Find a word","See where a word lives"],
+    ["helppractice","🆘","Help practice","Learn how to get help"]
   ]);
   group("People", [["people","👥","Who's talking", REG.list.length>1 ? `${REG.list.length} people on this device` : "Switch between people"]]);
   group("How to use", [
@@ -2405,7 +2423,8 @@ function openDashboard(){
       ["Make their profile", !!(state.profile.name && state.profile.age), "profile"],
       ["Do the level check", !!state.profile.check, "check"],
       ["Read the caregiver guide", !!state.guideSeen, "guide"],
-      ["Fill in the Help card", !!(state.help.name && state.help.contact), "help"],
+      ["Add emergency contacts", hasContacts(), "help"],
+      ["Practice getting help", !!state.helpPracticed, "helppractice"],
       ["Choose a voice", !!S.voiceURI, "voice"],
       ["Add their own words or photos", addedWords(state)>0, "words"],
       ["Save a backup file", backupOK, "backup"],
@@ -2447,6 +2466,7 @@ function openDashboard(){
       close();
       if (k==="profile") return openProfileEditor();
       if (k==="check") return openLevelCheck();
+      if (k==="helppractice") return openHelpPractice();
       if (k==="up"){ setLevel(lv()+1); return; }
       if (k==="guide") openGuide("care");
       else if (k==="practice") learn.on ? stopLearn() : startLearn();
@@ -2470,7 +2490,8 @@ const GUIDE = {
     {h:"See it big.", b:"Turn on Big picture on a topic page. Then tap a picture to see all of it, big. Tap anywhere to go back.", need:()=>topicTabs().length>0 && !off("bigview")},
     {h:"Play a game.", b:"On a topic page, tap the game button. Listen to the name, then tap the right picture.", need:()=>topicTabs().length>0 && !off("games")},
     {h:"Change a word.", b:"Tap the plus-minus button to change a word, like want to wants or wanted.", show:()=>$("formBtn"), need:()=>lv()>1 && !off("endings")},
-    {h:"Need help? Tap the red Help button.", b:"It shows who you are and who to call, and says it out loud.", show:()=>$("helpBtn"), need:()=>!off("help")},
+    {h:"Need help? Tap the red Help button.", b:"It shows who you are and who to call, and says it out loud. A helper can tap Call or Text.", show:()=>$("helpBtn"), need:()=>!off("help")},
+    {h:"Practice getting help.", b:"On the Help card, tap Practice. You will learn what to do if you are lost.", need:()=>!off("help")},
     {h:"Tap your name to switch.", b:"If more than one person uses this device, tap your name and picture at the top.", show:()=>$("whoBtn"), need:()=>REG.list.length>1 && !off("people")},
     {h:"Open the Menu to go anywhere.", b:"The Menu has every part of Speakeasy in one place.", show:()=>$("menuBtn"), need:()=>!off("menu")}
   ],
@@ -2481,7 +2502,8 @@ const GUIDE = {
     {h:"Use the names they know", b:"Does grandma go by Nana or Gigi? Type it in the profile under What they call family. Speakeasy says that name, and the button can show it alone or with the usual word underneath.", profile:true},
     {h:"Show them how it works", b:"When you talk to them, tap the same words on the screen as you say them. This is called modeling, and it's the fastest way people learn to use a talking app. Don't ask them to copy you. Just show.", show:()=>board.querySelector(".tile:not(.empty)")},
     {h:"Choose a voice", b:"Pick a voice that fits them. Choose one that doesn't need the internet, so it always works.", go:"voice"},
-    {h:"Fill in the Help card", b:"Add their name and an emergency contact. This shows when they tap the red Help button.", go:"help"},
+    {h:"Set up emergency contacts", b:"Add their name and up to three people to call, with phone, email and video. The red Help button shows them with Call, Text and Video buttons. Their home address stays hidden unless you turn it on.", go:"help"},
+    {h:"Practice getting help", b:"Help practice teaches what to do when they need help: show the Help card, find a safe helper, say their name and a phone number. It never really calls anyone.", show:()=>$("helpBtn"), need:()=>!off("help")},
     {h:"Add their own words and photos", b:"Add the names of people, places and favorite things. A photo of their real cup or dog works better than a cartoon.", go:"words"},
     {h:"Show only what they need", b:"In Show and hide, turn off any page or tool they don't use yet, or use Keep only to leave just one thing. Show everything brings it all back. The settings gear always stays.", go:"show"},
     {h:"Big picture and fun facts", b:"On topic pages, Big picture shows the whole photo when they tap it, with nothing covering it. Fun facts reads a short fact about each picture.", go:"topics"},
@@ -2529,7 +2551,13 @@ const FAQ = [
   ["Caregivers","How do I open Settings?","Hold the gear button at the top right for 2 seconds. That's the caregiver lock, so kids don't change things by accident.","settings gear open lock hold cant",{}],
   ["Caregivers","How do I turn things off or keep only one thing?","Open Settings, Show and hide. Uncheck anything they don't need, or pick something in Keep only. Show everything brings it all back.","show hide turn off disable remove only one simple fewer",{go:"show"}],
   ["Caregivers","What is the Dashboard?","It shows setup steps, how often they talk, the words they use most, practice scores and backup status. Open the Menu and hold Dashboard.","dashboard progress stats report",{dash:true}],
-  ["Caregivers","How do I set up the Help card?","Open Settings, Help card. Add their name, an emergency contact and anything a helper should know.","help card emergency contact sos red",{go:"help"}],
+  ["Help","How do I add emergency contacts?","Open Settings, Help card and emergency contacts. Add up to three people with phone, email and a video call link. Contact 1 is the one to try first.","emergency contacts help card sos red phone call add people",{go:"help"}],
+  ["Help","How does the Help card work?","Tap the red Help button. It shows their name and the people to call, with Call, Text, Video and Email buttons, and says it out loud. A helper can tap Call to reach someone right away.","help card button how work sos lost",{show:"#helpBtn"}],
+  ["Help","The Call or Text button doesn't work.","Calls and texts need a phone with service. On a tablet or computer without service, use Video or Email instead. In the Claude preview, these buttons may not work. Open Speakeasy from its own web address.","call text not working doesnt tablet phone service",{}],
+  ["Help","Should I show their home address?","Only if you're comfortable with anyone who picks up the device seeing it. It's off by default. Phone numbers are usually enough to get them home safely.","address home show hidden privacy",{go:"help"}],
+  ["Help","Can it send their location?","Yes, if you turn on Add their location in the Help card settings. It's added only when they tap Text or Email, and only if the device allows it.","location gps map where share",{go:"help"}],
+  ["Help","What is Help practice?","A short game that teaches what to do when they need help: show the Help card, find a safe helper, say their name and a phone number. It never really calls anyone.","help practice learn teach lost safety game",{}],
+  ["Help","Can Speakeasy call 911 by itself?","No. It can't call anyone by itself or tell when someone is in trouble. A person has to tap Call. In an emergency, call 911.","911 emergency automatic call police",{}],
   ["Caregivers","Can they use a switch instead of tapping?","Yes. Open Settings, Switch and listening access, and turn on scanning. Choices light up one at a time. They choose with the big button, the Space key or a Bluetooth switch.","switch scanning access motor tap hard",{go:"scan"}],
   ["Caregivers","Can Speakeasy read the choices out loud?","Yes. Turn on Listening scanning in Settings, Switch and listening access. It reads each choice as it lights up.","listening blind low vision read aloud",{go:"scan"}],
   ["Caregivers","They tap things by accident. What helps?","Open Settings, Touch and access. Turn on Hold to choose, or Ignore repeat taps. Bigger buttons help too.","accident accidental taps double tap hold size",{go:"touch"}],
@@ -2869,6 +2897,115 @@ function moveUpHint(){
   const shown = CORE.filter(it=>coreShown(it) && !it.label.includes(" ")).map(it=>it.label.toLowerCase());
   const used = shown.filter(w=>(state.learned[w]||0)>=3).length;
   return shown.length && used/shown.length >= 0.75 ? {used, shown:shown.length} : null;
+}
+
+
+/* ---------------- Emergency contacts and Help practice (v1.4) ----------------
+   Up to three people to call, with phone, email and video. The Help card gives a helper
+   one-tap Call, Text, Video and Email. Home address stays hidden unless a caregiver turns it on.
+   Help practice teaches what to do, and never really calls anyone. */
+const dialable = p => String(p||"").replace(/[^\d+]/g,"");
+const spokenNumber = p => String(p||"").replace(/\D/g,"").split("").join(" ");
+const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+const liveContacts = () => (state.help.contacts||[]).filter(c=>c.phone || c.email || c.video);
+const hasContacts = () => liveContacts().length > 0;
+const whoOf = c => c.relation && c.name ? `${cap(c.relation)} (${c.name})` : cap(c.relation || c.name || "My contact");
+const callName = c => c.relation ? `my ${c.relation}` : (c.name || "my contact");
+const videoHref = v => /^https?:\/\//i.test(v) ? v : "facetime:" + String(v).replace(/\s/g,"");
+
+// "About me" phrases they can say to a helper, made from the Help card
+function aboutMe(){
+  const H = state.help, out = [];
+  const add = (id, label, sym, sayIt) => out.push({id:"me-"+id, label, sym, pos:"social", builtin:true, say:sayIt});
+  if (H.name) add("name", `My name is ${H.name}.`, "🙋");
+  liveContacts().filter(c=>c.phone).forEach((c,i)=>{ const t = `${cap(c.relation || c.name)}'s phone number is ${c.phone}.`; add("ph"+i, t, "📞", t.replace(c.phone, spokenNumber(c.phone))); });
+  const first = liveContacts().find(c=>c.phone); if (first) add("call", `Please call ${callName(first)}.`, "🙏");
+  if (H.showAddress && H.address) add("addr", `I live at ${H.address}.`, "🏠");
+  if (H.info) add("info", H.info, "ℹ️");
+  return out;
+}
+
+function openHelpCard(){
+  stopScan();
+  const H = state.help, kid = m()==="k", C = liveContacts();
+  const line1 = kid ? "I need help. I can't talk right now." : "I can't speak right now. I use this device to communicate.";
+  const line2 = kid ? "Please find a grown-up I know." : "Please be patient and read my screen.";
+  const msgText = H.name ? `This is ${H.name}'s talking app. ${H.name} needs help and can't speak right now.` : "This is a message from a talking app. The person with me needs help and can't speak right now.";
+  const card = el("div","helpcard"); card.setAttribute("role","dialog"); card.setAttribute("aria-label","Help card");
+  const contactHTML = c => `<div class="hc-c"><div class="hcwho">${esc(whoOf(c))}</div>${c.phone?`<div class="num">${esc(c.phone)}</div>`:""}
+    <div class="acts">${c.phone?`<a class="call" href="tel:${esc(dialable(c.phone))}">📞 Call</a><a class="msg" data-num="${esc(dialable(c.phone))}" href="sms:${esc(dialable(c.phone))}?&body=${encodeURIComponent(msgText)}">💬 Text</a>`:""}${c.video?`<a href="${esc(videoHref(c.video))}" target="_blank" rel="noopener">🎥 Video</a>`:""}${c.email?`<a class="mail" data-mail="${esc(c.email)}" href="mailto:${esc(c.email)}?subject=${encodeURIComponent("Help needed")}&body=${encodeURIComponent(msgText)}">✉️ Email</a>`:""}</div></div>`;
+  card.innerHTML = `<p class="big">${esc(line1)}</p><p class="info">${esc(line2)}</p>
+    ${H.name?`<p class="info">My name is <b>${esc(H.name)}</b>.</p>`:""}
+    ${C.length?`<p class="info">Please contact:</p><div class="hc-contacts">${C.map(contactHTML).join("")}</div>`:""}
+    ${!C.length && H.contact?`<div><p class="info">Please contact:</p><div class="contact">${esc(H.contact)}</div></div>`:""}
+    ${H.showAddress && H.address?`<p class="info">I live at <b>${esc(H.address)}</b>.</p>`:""}
+    ${H.info?`<p class="info">${esc(H.info)}</p>`:""}
+    ${(!H.name && !C.length && !H.contact)?`<p class="info" style="color:var(--muted)">Caregivers: add a name and emergency contacts in Settings, Help card.</p>`:""}
+    <p class="note" id="hcLoc">${C.length?"Call and Text need a phone with service.":""}</p>
+    <div class="acts"><button class="btn primary" id="hcSay">🔊 Say this</button><button class="btn" id="hcPractice">🎯 Practice</button><button class="btn" id="hcClose">Close</button></div>`;
+  document.body.append(card);
+  const first = C.find(c=>c.phone);
+  const text = [line1, line2, H.name?`My name is ${H.name}.`:"", first?`Please call ${callName(first)} at ${spokenNumber(first.phone)}.`:(H.contact?`Please contact ${H.contact}.`:""), H.showAddress&&H.address?`I live at ${H.address}.`:"", H.info].filter(Boolean).join(" ");
+  card.querySelector("#hcSay").onclick = () => say(text);
+  card.querySelector("#hcClose").onclick = () => { card.remove(); restartScan(); };
+  card.querySelector("#hcPractice").onclick = () => { card.remove(); openHelpPractice(); };
+  // add their location to texts and emails, only when a caregiver turned it on
+  if (H.shareLoc && C.length && navigator.geolocation){
+    try { navigator.geolocation.getCurrentPosition(pos => {
+      const link = `https://maps.google.com/?q=${pos.coords.latitude.toFixed(5)},${pos.coords.longitude.toFixed(5)}`, body = encodeURIComponent(`${msgText} My location: ${link}`);
+      card.querySelectorAll("a.msg").forEach(a=>a.href = `sms:${a.dataset.num}?&body=${body}`);
+      card.querySelectorAll("a.mail").forEach(a=>a.href = `mailto:${a.dataset.mail}?subject=${encodeURIComponent("Help needed")}&body=${body}`);
+      const n = card.querySelector("#hcLoc"); if (n) n.textContent = "Call and Text need a phone with service. Their location is added to texts and emails.";
+    }, ()=>{}, {timeout:8000, maximumAge:60000}); } catch {}
+  }
+  say(text);
+}
+
+function openHelpPractice(){
+  const {panel, close} = makeSheet("Help practice","check");
+  const H = state.help, nm = H.name || state.profile.name, c = liveContacts().find(x=>x.phone), who = c ? (c.relation || c.name) : "";
+  const rounds = [
+    {ask:"You are lost and need help. What do you do?", ok:"Show my Help card", ch:[["🆘","Show my Help card"],["🏃","Run away"],["🙈","Hide"]], yes:"Yes! Show your Help card to a helper."},
+    {ask:"Who is a good helper to show your card?", ok:"Police officer", ch:[["👮","Police officer"],["🚗","A stranger in a car"],["🙈","Nobody"]], yes:"Yes! Police officers, store workers and moms with kids can help you."}
+  ];
+  if (nm) rounds.push({ask:"A helper asks your name. Tap your answer.", ok:`My name is ${nm}.`, ch:[["🙋",`My name is ${nm}.`],["🧃","I want juice."],["👋","Bye."]]});
+  if (who){
+    rounds.push({ask:"Who can you call for help?", ok:cap(who), ch:[["📞",cap(who)],["🍕","Pizza"],["🐶","Dog"]]});
+    rounds.push({ask:`Tap Call to call ${who}.`, ok:"Call", note:"This is practice. It won't really call.", ch:[["📞","Call"],["🎮","Play a game"],["😴","Sleep"]], yes:`Yes! In real life, that calls ${who}.`});
+    const ph = `${cap(who)}'s phone number is ${c.phone}.`;
+    rounds.push({ask:"A helper asks for a phone number. Tap the right one.", ok:ph, sayOk:ph.replace(c.phone, spokenNumber(c.phone)), ch:[["📱",ph],["🎵","I like music."],["😴","I'm tired."]]});
+  }
+  rounds.push({ask:"Where is your Help button?", ok:"The red Help button", ch:[["🆘","The red Help button"],["⚙️","The gear"],["⭐","Core words"]]});
+  let i = 0, stars = 0, misses = 0, busy = false;
+  const render = () => {
+    if (i >= rounds.length){
+      state.helpPracticed = Date.now(); state.practice.right += stars; save();
+      panel.innerHTML = `<div class="phead"><h2>Help practice</h2><button class="btn" id="pClose">Close</button></div>
+        <div class="chk-task" style="align-items:center;text-align:center"><p class="chk-ask">🌟 You did it!</p><p class="note" style="color:var(--ink);font-size:17px">You know how to get help.</p>
+        <div class="row" style="justify-content:center"><button class="btn primary" id="pAgain">Play again</button></div></div>`;
+      say("You did it! You know how to get help.");
+      panel.querySelector("#pClose").onclick = close;
+      panel.querySelector("#pAgain").onclick = () => { i = 0; stars = 0; render(); };
+      return;
+    }
+    const r = rounds[i], ch = shuffle(r.ch), long = ch.some(x=>x[1].length>18);
+    misses = 0; busy = false;
+    panel.innerHTML = `<div class="phead"><h2>Help practice ${i+1} of ${rounds.length}</h2><button class="btn" id="pClose">Close</button></div>
+      <div class="chk-task"><p class="chk-ask">${esc(r.ask)}</p>${r.note?`<p class="note" style="text-align:center">${esc(r.note)}</p>`:""}
+      <div class="chk-opts${long?" long":""}">${ch.map(([s,t])=>`<button data-t="${esc(t)}"><span class="big">${s}</span>${esc(t)}</button>`).join("")}</div>
+      <div class="row" style="justify-content:space-between"><button class="btn" id="pHear">🔊 Hear it again</button><button class="btn" id="pSkip">Skip</button></div></div>`;
+    say(r.ask);
+    panel.querySelector("#pClose").onclick = close;
+    panel.querySelector("#pHear").onclick = () => say(r.ask);
+    panel.querySelector("#pSkip").onclick = () => { i++; render(); };
+    panel.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{
+      if (busy) return;
+      if (b.dataset.t===r.ok){ busy = true; stars++; b.classList.add("ok"); burst(b,14); say(r.yes || ("Yes! " + (r.sayOk || r.ok))); setTimeout(()=>{ i++; render(); }, 1700); }
+      else { misses++; say("Let's try again. " + r.ask);
+        if (misses>=2) panel.querySelector(`[data-t="${CSS.escape(r.ok)}"]`)?.classList.add("hintok"); }
+    });
+  };
+  render();
 }
 
 /* ---------------- Start ---------------- */

@@ -1,9 +1,17 @@
-# Speakeasy — installable app (v1.3.2)
+# Speakeasy — installable app (v1.4.0)
 McLearn Media LLC · Brandon, MS
 
 This folder is the full Speakeasy app. Put it on any web address and it becomes a real app:
 it installs to the home screen on iPhone, iPad, Android, Windows, Mac and Chromebook, and it
 keeps talking with no internet.
+
+## New in v1.4
+- **Three emergency contacts** with name, who they are, phone, email and a video call link (FaceTime or Zoom). The red Help card shows each one with one-tap Call, Text, Video and Email buttons, and says who to call out loud, reading phone numbers digit by digit.
+- **Home address** stays hidden unless a caregiver turns it on. **Location** can be added to Help texts and emails, only if turned on and allowed by the device.
+- **About me phrases**: "My name is…", "Mom's phone number is…", "Please call my mom." appear at the top of Phrases.
+- **Help practice**: a short game that teaches what to do when lost — show the Help card, pick a safe helper, say your name and a phone number. It never really calls anyone.
+- Old single emergency contacts move into Contact 1 automatically. Guides, Questions and the Dashboard cover the new features.
+- `_headers` for Cloudflare Pages: the app shell is always checked for updates; photos are cached for 30 days.
 
 ## New in v1.3.2
 - **Questions**: a third tab in How to use. Type a question ("no sound", "add a photo", "Nana") and get a ready-made answer with a button that goes straight to the fix. 47 answers covering every part of the app; works offline. If nothing matches, it shows every topic and the McLearn Media support email.
@@ -43,6 +51,12 @@ keeps talking with no internet.
 
 ## Put it online (free, about 5 minutes)
 Pick one:
+
+**Cloudflare Pages (recommended — updates itself from GitHub)**
+1. Sign in at dash.cloudflare.com → Workers & Pages → Create → Pages → Connect to Git.
+2. Pick the `Speakeasy` repository. Framework preset: **None**. Build command: leave empty. Build output directory: `/`.
+3. Save and Deploy. Every new version pushed to GitHub goes live by itself.
+4. Optional: Custom domains → add something like `speakeasy.mclearnmedia.com`.
 
 **Netlify Drop (easiest)**
 1. Go to app.netlify.com/drop
