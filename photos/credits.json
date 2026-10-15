@@ -1,0 +1,392 @@
+{
+ "bird-3": {
+  "file": "bird-3.jpg",
+  "name": "Northern Mockingbird",
+  "artist": "Rhododendrites",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Mockingbird_in_Bay_Ridge_(85082).jpg",
+  "w": 560,
+  "h": 400
+ },
+ "bird-4": {
+  "file": "bird-4.jpg",
+  "name": "House Sparrow",
+  "artist": "Rhododendrites",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:House_sparrow_male_in_Prospect_Park_(53532).jpg",
+  "w": 560,
+  "h": 436
+ },
+ "bird-5": {
+  "file": "bird-5.jpg",
+  "name": "House Finch",
+  "artist": "Rhododendrites",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:House_finch_(33688)2.jpg",
+  "w": 560,
+  "h": 440
+ },
+ "bird-9": {
+  "file": "bird-9.jpg",
+  "name": "Tufted Titmouse",
+  "artist": "Rhododendrites",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Tufted_titmouse_(84917).jpg",
+  "w": 560,
+  "h": 408
+ },
+ "bird-10": {
+  "file": "bird-10.jpg",
+  "name": "Mourning Dove",
+  "artist": "Rhododendrites",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Mourning_dove_perched_(61179).jpg",
+  "w": 560,
+  "h": 424
+ },
+ "bird-12": {
+  "file": "bird-12.jpg",
+  "name": "European Starling",
+  "artist": "Charles J. Sharp",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Common_starling_(Sturnus_vulgaris)_breeding_male_Marken.jpg",
+  "w": 560,
+  "h": 373
+ },
+ "bird-14": {
+  "file": "bird-14.jpg",
+  "name": "Common Grackle",
+  "artist": "Rhododendrites",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Common_grackle_in_PP_(36732).jpg",
+  "w": 560,
+  "h": 420
+ },
+ "bird-15": {
+  "file": "bird-15.jpg",
+  "name": "Brown Thrasher",
+  "artist": "Rhododendrites",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Brown_thrasher_in_CP_(02147).jpg",
+  "w": 560,
+  "h": 374
+ },
+ "bird-18": {
+  "file": "bird-18.jpg",
+  "name": "White-breasted Nuthatch",
+  "artist": "Rhododendrites",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:White-breasted_nuthatch_(26471).jpg",
+  "w": 560,
+  "h": 421
+ },
+ "bird-19": {
+  "file": "bird-19.jpg",
+  "name": "Downy Woodpecker",
+  "artist": "Cephas",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Dryobates_pubescens_UL_03.jpg",
+  "w": 560,
+  "h": 560
+ },
+ "bird-34": {
+  "file": "bird-34.jpg",
+  "name": "Common Raven",
+  "artist": "Frank Schulenburg",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Corvus_corax_clarionensis,_Point_Reyes_National_Seashore.jpg",
+  "w": 560,
+  "h": 373
+ },
+ "bird-36": {
+  "file": "bird-36.jpg",
+  "name": "Bald Eagle",
+  "artist": "Andy Morffew from Itchen Abbas, Hampshire, UK",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Bald_eagle_about_to_fly_in_Alaska_(2016).jpg",
+  "w": 560,
+  "h": 448
+ },
+ "bird-38": {
+  "file": "bird-38.jpg",
+  "name": "Red-tailed Hawk",
+  "artist": "Becky Matsubara from El Sobrante, California",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Red-tailed_Hawk_(45812546121).jpg",
+  "w": 560,
+  "h": 373
+ },
+ "bird-50": {
+  "file": "bird-50.jpg",
+  "name": "Burrowing Owl",
+  "artist": "Charles J. Sharp",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Southern_burrowing_owl_(Athene_cunicularia_cunicularia)_Colonia.jpg",
+  "w": 560,
+  "h": 373
+ },
+ "bird-52": {
+  "file": "bird-52.jpg",
+  "name": "Secretary Bird",
+  "artist": "Sumeet Moghe",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Secretary_bird_Mara_for_WC.jpg",
+  "w": 560,
+  "h": 448
+ },
+ "bird-54": {
+  "file": "bird-54.jpg",
+  "name": "Wood Duck",
+  "artist": "Chuck Homler d/b/a FocusOnwWildlife",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Wood_Duck_Wissahickon_Creek.png",
+  "w": 560,
+  "h": 373
+ },
+ "bird-55": {
+  "file": "bird-55.jpg",
+  "name": "Canada Goose",
+  "artist": "USFWS Mountain-Prairie",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Canada_goose_on_Seedskadee_NWR_(27826185489).jpg",
+  "w": 560,
+  "h": 426
+ },
+ "bird-56": {
+  "file": "bird-56.jpg",
+  "name": "Mute Swan",
+  "artist": "Sanchezn",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:CygneVaires.jpg",
+  "w": 560,
+  "h": 373
+ },
+ "bird-57": {
+  "file": "bird-57.jpg",
+  "name": "Black Swan",
+  "artist": "Charles J. Sharp",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Black_swan_(Cygnus_atratus)_Scottsdale.jpg",
+  "w": 560,
+  "h": 560
+ },
+ "bird-59": {
+  "file": "bird-59.jpg",
+  "name": "American Coot",
+  "artist": "Rhododendrites",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:American_coot_in_Prospect_Park_(06152).jpg",
+  "w": 560,
+  "h": 429
+ },
+ "bird-60": {
+  "file": "bird-60.jpg",
+  "name": "Great Blue Heron",
+  "artist": "DallasPenner",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:GreatBlueHeronInARiver.jpg",
+  "w": 560,
+  "h": 373
+ },
+ "bird-61": {
+  "file": "bird-61.jpg",
+  "name": "Great Egret",
+  "artist": "Chuck Homler (FocusOnWildlife.Me)",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Great_Egret_(Ardea_alba)_in_Breeding_Plumage,_Cape_May_County,_New_Jersey,_USA_(cropped).png",
+  "w": 560,
+  "h": 463
+ },
+ "bird-62": {
+  "file": "bird-62.jpg",
+  "name": "Snowy Egret",
+  "artist": "Chuck Homler d/b/a Focus On Wildlife",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Snowy_Egret_(Egretta_thula)_Edwin_B_Forsythe_NWR,_Galloway,_NJ,_USA.jpg",
+  "w": 560,
+  "h": 373
+ },
+ "bird-66": {
+  "file": "bird-66.jpg",
+  "name": "Sandhill Crane",
+  "artist": "HappiestFish",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Greater_sandhill_crane_couple.jpg",
+  "w": 560,
+  "h": 373
+ },
+ "bird-68": {
+  "file": "bird-68.jpg",
+  "name": "American Flamingo",
+  "artist": "JeffreyGammon",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:American_Flamingo_JG.jpg",
+  "w": 560,
+  "h": 420
+ },
+ "bird-75": {
+  "file": "bird-75.jpg",
+  "name": "Killdeer",
+  "artist": "Charles Homler d/b/a FocusOnWildlife",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Killdeer_Heislerville.png",
+  "w": 560,
+  "h": 400
+ },
+ "bird-77": {
+  "file": "bird-77.jpg",
+  "name": "King Penguin",
+  "artist": "Godot13",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:SGI-2016-South_Georgia_(Fortuna_Bay)%E2%80%93King_penguin_(Aptenodytes_patagonicus)_04.jpg",
+  "w": 477,
+  "h": 560
+ },
+ "bird-81": {
+  "file": "bird-81.jpg",
+  "name": "Herring Gull",
+  "artist": "Chuck Homler d/b/a Focus On Wildlife",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Herring_Gull_Very_Close.jpg",
+  "w": 560,
+  "h": 373
+ },
+ "bird-82": {
+  "file": "bird-82.jpg",
+  "name": "Laughing Gull",
+  "artist": "Cephas",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Leucophaeus_atricilla_Caye_Caulker_04.JPG",
+  "w": 560,
+  "h": 373
+ },
+ "bird-86": {
+  "file": "bird-86.jpg",
+  "name": "Arctic Tern",
+  "artist": "Charles J. Sharp",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Arctic_tern_(Sterna_paradisaea)_Flatey_3.jpg",
+  "w": 560,
+  "h": 373
+ },
+ "bird-87": {
+  "file": "bird-87.jpg",
+  "name": "Sanderling",
+  "artist": "Chuck Homler, Focus On Wildlife",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Sanderling_(Calidris_alba)_in_Breeding_Plumage_in_the_Delaware_Bay_-_Heislerville_WMA_-_Cumberland_County_-_New_Jersey_-_May_2026.jpg",
+  "w": 560,
+  "h": 373
+ },
+ "bird-88": {
+  "file": "bird-88.jpg",
+  "name": "Scarlet Macaw",
+  "artist": "Charles J. Sharp",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Scarlet_macaw_(Ara_macao_cyanopterus)_Copan.jpg",
+  "w": 560,
+  "h": 373
+ },
+ "bird-90": {
+  "file": "bird-90.jpg",
+  "name": "Hyacinth Macaw",
+  "artist": "Giles Laurent",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:008_Hyacinth_macaw_couple_kissing_under_Pink_Ip%C3%AA_tree_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent.jpg",
+  "w": 448,
+  "h": 560
+ },
+ "bird-97": {
+  "file": "bird-97.jpg",
+  "name": "Toco Toucan",
+  "artist": "Giles Laurent",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:006_Toco_toucan_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent.jpg",
+  "w": 560,
+  "h": 373
+ },
+ "bird-106": {
+  "file": "bird-106.jpg",
+  "name": "Superb Fairywren",
+  "artist": "JJ Harrison ( https://www.jjharrison.com.au/ )",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Malurus_cyaneus_cyanochlamys_.jpg",
+  "w": 560,
+  "h": 373
+ },
+ "bird-111": {
+  "file": "bird-111.jpg",
+  "name": "Hoopoe",
+  "artist": "Greg Schechter from San Francisco, USA",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Israel._Eurasian_Hoopoe_(6497645007).jpg",
+  "w": 560,
+  "h": 373
+ },
+ "bird-118": {
+  "file": "bird-118.jpg",
+  "name": "Emu",
+  "artist": "JJ Harrison ( https://www.jjharrison.com.au/ )",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Emu_1_-_Tidbinbilla.jpg",
+  "w": 560,
+  "h": 448
+ },
+ "bird-120": {
+  "file": "bird-120.jpg",
+  "name": "Greater Roadrunner",
+  "artist": "Polinova",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Greater_Roadrunner_Tingley_Beach.jpg",
+  "w": 560,
+  "h": 373
+ },
+ "bird-123": {
+  "file": "bird-123.jpg",
+  "name": "Helmeted Guineafowl",
+  "artist": "Charles J. Sharp",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Reichenow%27s_helmeted_guineafowl_(Numida_meleagris_reichenowi)_Serengeti.jpg",
+  "w": 560,
+  "h": 373
+ }
+}
