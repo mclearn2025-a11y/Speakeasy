@@ -351,12 +351,53 @@ textarea{width:100%;min-height:90px;font-size:12px;font-family:ui-monospace,Menl
 @keyframes spot{50%{box-shadow:0 0 0 10px var(--soft)}}
 @media (max-width:640px){ .ibtn:not(.menu) .txt{display:none} }
 @media (max-width:420px){ .top .mode{display:none} .top{gap:6px} .ibtn.menu .txt{display:none} }
+
+/* people, levels, level check (v1.2) */
+.who{display:inline-flex;align-items:center;gap:6px;height:44px;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:0 10px 0 4px;font-weight:700;font-size:14px;min-width:0;max-width:220px;flex:0 1 auto}
+.who .av{width:36px;height:36px;border-radius:50%;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:22px;flex:none}
+.who .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.who .lv{flex:none;font-size:11px;font-weight:700;letter-spacing:.04em;background:var(--ink);color:var(--bg);border-radius:999px;padding:2px 7px}
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.pcard{display:flex;flex-direction:column;align-items:center;gap:4px;border:2px solid var(--line);background:var(--card);border-radius:var(--r-lg);padding:14px 10px;font-weight:700;font-size:16px;min-width:0;overflow-wrap:anywhere}
+.pcard .av{font-size:46px;line-height:1.1}
+.pcard small{font-weight:500;color:var(--muted);font-size:12px}
+.pcard[aria-current="true"]{border-color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand);background:var(--soft)}
+.avs{display:flex;flex-wrap:wrap;gap:6px}
+.avs button{width:48px;height:48px;border-radius:50%;border:2px solid var(--line);background:var(--card);font-size:26px;padding:0}
+.avs button[aria-pressed="true"]{border-color:var(--brand);background:var(--soft)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chipbtn small{font-weight:400;opacity:.8}
+.lvls{display:grid;gap:8px}
+.lvl{display:flex;flex-direction:column;gap:2px;text-align:left;border:2px solid var(--line);background:var(--card);border-radius:var(--r-md);padding:10px 12px}
+.lvl b{font-size:15px}
+.lvl small{color:var(--muted);font-size:13px;line-height:1.4}
+.lvl[aria-pressed="true"]{border-color:var(--brand);background:var(--soft)}
+.lvl .rec{font-size:11px;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.06em}
+.chk-task{display:flex;flex-direction:column;gap:12px}
+.chk-ask{font-family:var(--font-tile);font-weight:700;font-size:clamp(24px,6.5vw,34px);text-align:center;text-wrap:balance;margin:6px 0 0}
+.chk-opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.chk-opts button{border:2px solid var(--line);background:var(--card);border-radius:var(--r-lg);min-height:112px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-family:var(--font-tile);font-weight:700;font-size:17px;min-width:0}
+.chk-opts button .big{font-size:50px;line-height:1}
+.chk-opts.words button{font-size:28px}
+.chk-opts button.ok{border-color:var(--verb-bd);background:var(--verb-bg)}
+.chk-built{min-height:54px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:center;background:var(--card);border:2px dashed var(--line);border-radius:var(--r-md);padding:6px}
+.qa{display:flex;flex-direction:column;gap:6px}
+.qa .q{font-weight:700;font-size:15px}
+.qa .opts{display:flex;flex-wrap:wrap;gap:6px}
+.qa .opts button{border:1.5px solid var(--line);background:var(--card);border-radius:var(--r-md);padding:8px 12px;text-align:left;font-size:14px;min-height:44px}
+.qa .opts button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+.dots{display:flex;gap:6px;justify-content:center;margin-block:4px}
+.dots i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--brand)}
+.btn:disabled{opacity:.45;cursor:default}
+@media (max-width:640px){ .who .nm{display:none} .who{padding-right:8px} }
+@media (max-width:420px){ .brand{display:none} .who .lv{display:none} .who{padding:0 3px} .ibtn{min-width:42px;padding:0 8px} }
 </style>
 
 <div id="app">
   <div class="top">
     <span class="brand">Speakeasy</span>
-    <span class="mode" id="modeChip">Kids</span>
+    <button class="who" id="whoBtn" aria-label="Who's talking. Tap to switch."><span class="av" id="whoAv" aria-hidden="true">🙂</span><span class="nm" id="whoNm"></span><span class="lv" id="whoLv">L2</span></button>
     <span class="spacer"></span>
     <button class="ibtn help" id="helpBtn" aria-label="Help card"><span aria-hidden="true">🆘</span><span class="txt">Help</span></button>
     <button class="ibtn" id="findBtn" aria-label="Find a word"><span aria-hidden="true">🔍</span><span class="txt">Find</span></button>
@@ -908,7 +949,14 @@ const GROUP_ORDER = {
   k:["feelings","social","questions","actions","describe","little","food","play","people","places","body","school","animals","clothes","colors","numbers","time","daily"],
   a:["feelings","social","questions","actions","describe","little","food","people","places","health","body","daily","work","time","clothes","colors","numbers","animals"]
 };
-const groupKeys = () => GROUP_ORDER[m()].filter(k=>CATS[k] && CATS[k].modes.includes(m()));
+const allGroupKeys = () => GROUP_ORDER[m()].filter(k=>CATS[k] && CATS[k].modes.includes(m()));
+// Feelings and social words first, then their favorites, then the rest. Level 1 shows a smaller set.
+const groupKeys = () => {
+  const fav = new Set((state.profile.interests||[]).map(i=>INTEREST_GROUP[i]).filter(Boolean));
+  let ks = allGroupKeys(); if (lv()===1) ks = ks.filter(k=>L1_GROUPS.has(k) || fav.has(k));
+  const lead = ks.filter(k=>k==="feelings"||k==="social");
+  return [...lead, ...ks.filter(k=>fav.has(k) && !lead.includes(k)), ...ks.filter(k=>!fav.has(k) && !lead.includes(k))];
+};
 for (const [k,c] of Object.entries(CATS)) c.items.forEach((it,i)=>{ it.id=k+"-"+i; it.builtin=true; });
 
 const PHRASES = {
@@ -947,7 +995,11 @@ let photoDB = (()=>{ try { return JSON.parse(localStorage.getItem(PKEY)) || {}; 
 const savePhotos = () => { try { localStorage.setItem(PKEY, JSON.stringify(photoDB)); } catch {} };
 let photoBlocked = false, photoQ = [], photoBusy = 0;
 const photosOn = () => S.photos !== "off";
-function photoWanted(it){ return it.art && photosOn() && !photoBlocked && !(photoDB[it.id] && (photoDB[it.id].src || photoDB[it.id].none)); }
+/* Real bird photos built into Speakeasy (photos/), from Wikimedia Commons under free licenses. They work offline.
+   Birds without a free photo keep their drawing; online lookups stay as a backup. */
+const BUNDLED = {"bird-0":{"f":"bird-0.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-1":{"f":"bird-1.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-2":{"f":"bird-2.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-3":{"f":"bird-3.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-4":{"f":"bird-4.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-5":{"f":"bird-5.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-6":{"f":"bird-6.jpg","a":"Rodney Campbell","l":"CC BY 2.0"},"bird-7":{"f":"bird-7.jpg","a":"Sandysphotos2009","l":"CC BY 2.0"},"bird-8":{"f":"bird-8.jpg","a":"Dan Pancamo","l":"CC BY-SA 2.0"},"bird-9":{"f":"bird-9.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-10":{"f":"bird-10.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-11":{"f":"bird-11.jpg","a":"william_stephens","l":"CC BY 4.0"},"bird-12":{"f":"bird-12.jpg","a":"Charles J. Sharp","l":"CC BY-SA 4.0"},"bird-13":{"f":"bird-13.jpg","a":"Chuck Homler, Focus On Wildlife","l":"CC BY-SA 4.0"},"bird-14":{"f":"bird-14.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-15":{"f":"bird-15.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-16":{"f":"bird-16.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-17":{"f":"bird-17.jpg","a":"Cephas","l":"CC BY-SA 3.0"},"bird-18":{"f":"bird-18.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-19":{"f":"bird-19.jpg","a":"Cephas","l":"CC BY-SA 4.0"},"bird-20":{"f":"bird-20.jpg","a":"Ken Thomas","l":"Public domain"},"bird-21":{"f":"bird-21.jpg","a":"Joshlaymon","l":"CC BY-SA 3.0"},"bird-22":{"f":"bird-22.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-23":{"f":"bird-23.jpg","a":"jeffreyw","l":"CC BY 2.0"},"bird-24":{"f":"bird-24.jpg","a":"Andreas Trepte","l":"CC BY-SA 2.5"},"bird-25":{"f":"bird-25.jpg","a":"JJ Cadiz, Cajay","l":"CC BY 3.0"},"bird-26":{"f":"bird-26.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-27":{"f":"bird-27.jpg","a":"Dan Pancamo","l":"CC BY-SA 2.0"},"bird-28":{"f":"bird-28.jpg","a":"Dakota L.","l":"CC BY 4.0"},"bird-29":{"f":"bird-29.jpg","a":"TonyCastro","l":"CC BY-SA 4.0"},"bird-30":{"f":"bird-30.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-31":{"f":"bird-31.jpg","a":"Charles J. Sharp","l":"CC BY-SA 4.0"},"bird-32":{"f":"bird-32.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-33":{"f":"bird-33.jpg","a":"Unknown photographer","l":"CC BY-SA 3.0"},"bird-34":{"f":"bird-34.jpg","a":"Frank Schulenburg","l":"CC BY-SA 4.0"},"bird-35":{"f":"bird-35.jpg","a":"Paul Danese","l":"CC BY-SA 4.0"},"bird-36":{"f":"bird-36.jpg","a":"Andy Morffew from Itchen Abbas, Hampshire, UK","l":"CC BY 2.0"},"bird-37":{"f":"bird-37.jpg","a":"Giles Laurent","l":"CC BY-SA 4.0"},"bird-38":{"f":"bird-38.jpg","a":"Becky Matsubara from El Sobrante, California","l":"CC BY 2.0"},"bird-39":{"f":"bird-39.jpg","a":"Mykola Swarnyk","l":"CC BY-SA 3.0"},"bird-40":{"f":"bird-40.jpg","a":"Chuck Homler / Focus On Wildlife","l":"CC BY-SA 4.0"},"bird-41":{"f":"bird-41.jpg","a":"Mykola Swarnyk","l":"CC BY-SA 3.0"},"bird-42":{"f":"bird-42.jpg","a":"Channel City Camera Club from Santa Barbara, US","l":"CC BY 2.0"},"bird-43":{"f":"bird-43.jpg","a":"Charles J. Sharp","l":"CC BY-SA 4.0"},"bird-44":{"f":"bird-44.jpg","a":"Charles J. Sharp","l":"CC BY-SA 4.0"},"bird-45":{"f":"bird-45.jpg","a":"Greg Hume","l":"CC BY-SA 3.0"},"bird-46":{"f":"bird-46.jpg","a":"USFWS Mountain-Prairie","l":"Public domain"},"bird-47":{"f":"bird-47.jpg","a":"Chuck Homler d/b/a Focus On Wildlife","l":"CC BY-SA 3.0"},"bird-48":{"f":"bird-48.jpg","a":"Wolfgang Wander","l":"CC BY-SA 3.0"},"bird-49":{"f":"bird-49.jpg","a":"Mdf","l":"CC BY-SA 3.0"},"bird-50":{"f":"bird-50.jpg","a":"Charles J. Sharp","l":"CC BY-SA 4.0"},"bird-51":{"f":"bird-51.jpg","a":"http://www.birdphotos.com","l":"CC BY 3.0"},"bird-52":{"f":"bird-52.jpg","a":"Sumeet Moghe","l":"CC BY-SA 4.0"},"bird-53":{"f":"bird-53.jpg","a":"This picture was realized by Richard Bartz by using a Canon EF 70-300mm f/4-5.6 IS USM Lens","l":"CC BY-SA 2.5"},"bird-54":{"f":"bird-54.jpg","a":"Chuck Homler d/b/a FocusOnwWildlife","l":"CC BY-SA 4.0"},"bird-55":{"f":"bird-55.jpg","a":"USFWS Mountain-Prairie","l":"Public domain"},"bird-56":{"f":"bird-56.jpg","a":"Sanchezn","l":"CC BY-SA 3.0"},"bird-57":{"f":"bird-57.jpg","a":"Charles J. Sharp","l":"CC BY-SA 4.0"},"bird-58":{"f":"bird-58.jpg","a":"John Picken from Chicago, USA","l":"CC BY 2.0"},"bird-59":{"f":"bird-59.jpg","a":"Rhododendrites","l":"CC BY-SA 4.0"},"bird-60":{"f":"bird-60.jpg","a":"DallasPenner","l":"CC BY-SA 4.0"},"bird-61":{"f":"bird-61.jpg","a":"Chuck Homler (FocusOnWildlife.Me)","l":"CC BY-SA 4.0"},"bird-62":{"f":"bird-62.jpg","a":"Chuck Homler d/b/a Focus On Wildlife","l":"CC BY-SA 4.0"},"bird-63":{"f":"bird-63.jpg","a":"Terry Foote","l":"CC BY-SA 3.0"},"bird-64":{"f":"bird-64.jpg","a":"User:Mwanner","l":"CC BY-SA 3.0"},"bird-65":{"f":"bird-65.jpg","a":"Googie man ( talk )","l":"CC BY-SA 3.0"},"bird-66":{"f":"bird-66.jpg","a":"HappiestFish","l":"CC BY 4.0"},"bird-67":{"f":"bird-67.jpg","a":"Sasata","l":"CC BY-SA 3.0"},"bird-68":{"f":"bird-68.jpg","a":"JeffreyGammon","l":"CC BY 4.0"},"bird-69":{"f":"bird-69.jpg","a":"JeffreyGammon","l":"CC BY-SA 4.0"},"bird-70":{"f":"bird-70.jpg","a":"Frank Schulenburg","l":"CC BY-SA 4.0"},"bird-71":{"f":"bird-71.jpg","a":"Manjith Kainickara","l":"CC BY-SA 2.0"},"bird-72":{"f":"bird-72.jpg","a":"Mdf","l":"CC BY-SA 3.0"},"bird-73":{"f":"bird-73.jpg","a":"Tim from Ithaca","l":"CC BY 2.0"},"bird-74":{"f":"bird-74.jpg","a":"Francis C. Franklin","l":"CC BY-SA 3.0"},"bird-75":{"f":"bird-75.jpg","a":"Charles Homler d/b/a FocusOnWildlife","l":"CC BY-SA 4.0"},"bird-76":{"f":"bird-76.jpg","a":"Ian Duffy from UK","l":"CC BY 2.0"},"bird-77":{"f":"bird-77.jpg","a":"Godot13","l":"CC BY-SA 4.0"},"bird-78":{"f":"bird-78.jpg","a":"Nrg800","l":"CC BY-SA 3.0"},"bird-79":{"f":"bird-79.jpg","a":"JJ Harrison ( https://www.jjharrison.com.au/ )","l":"CC BY-SA 3.0"},"bird-80":{"f":"bird-80.jpg","a":"Charles J. Sharp","l":"CC BY-SA 4.0"},"bird-81":{"f":"bird-81.jpg","a":"Chuck Homler d/b/a Focus On Wildlife","l":"CC BY-SA 4.0"},"bird-82":{"f":"bird-82.jpg","a":"Cephas","l":"CC BY-SA 4.0"},"bird-83":{"f":"bird-83.jpg","a":"JJ Harrison ( https://www.jjharrison.com.au/ )","l":"CC BY-SA 3.0"},"bird-85":{"f":"bird-85.jpg","a":"Andrew Turner from Washington, DC, United States","l":"CC BY 2.0"},"bird-86":{"f":"bird-86.jpg","a":"Charles J. Sharp","l":"CC BY-SA 4.0"},"bird-87":{"f":"bird-87.jpg","a":"Chuck Homler, Focus On Wildlife","l":"CC BY-SA 4.0"},"bird-88":{"f":"bird-88.jpg","a":"Charles J. Sharp","l":"CC BY-SA 4.0"},"bird-89":{"f":"bird-89.jpg","a":"Luc Viatour","l":"CC BY 2.0"},"bird-90":{"f":"bird-90.jpg","a":"Giles Laurent","l":"CC BY-SA 4.0"},"bird-91":{"f":"bird-91.jpg","a":"Florettesokeng","l":"CC BY-SA 4.0"},"bird-92":{"f":"bird-92.jpg","a":"JJ Harrison ( https://www.jjharrison.com.au/ )","l":"CC BY-SA 3.0"},"bird-94":{"f":"bird-94.jpg","a":"Photo by: Ganatron – paulweberphoto.com","l":"CC BY-SA 4.0"},"bird-95":{"f":"bird-95.jpg","a":"Charles J. Sharp","l":"CC BY-SA 4.0"},"bird-96":{"f":"bird-96.jpg","a":"Charles J. Sharp","l":"CC BY-SA 4.0"},"bird-97":{"f":"bird-97.jpg","a":"Giles Laurent","l":"CC BY-SA 4.0"},"bird-98":{"f":"bird-98.jpg","a":"Charles J. Sharp","l":"CC BY-SA 4.0"},"bird-99":{"f":"bird-99.jpg","a":"Shantanu Kuveskar","l":"CC BY-SA 4.0"},"bird-100":{"f":"bird-100.jpg","a":"lwolfartist","l":"CC BY 2.0"},"bird-101":{"f":"bird-101.jpg","a":"Photo by: Paulweberphoto - paulweberphoto.com","l":"CC BY 4.0"},"bird-102":{"f":"bird-102.jpg","a":"Kandukuru Nagarjun from Bangalore, India","l":"CC BY 2.0"},"bird-103":{"f":"bird-103.jpg","a":"Andrea Lawardi","l":"CC BY 2.0"},"bird-104":{"f":"bird-104.jpg","a":"Bob Owen","l":"CC BY 2.0"},"bird-105":{"f":"bird-105.jpg","a":"Maungatautari Ecological Island Trust","l":"Public domain"},"bird-106":{"f":"bird-106.jpg","a":"JJ Harrison ( https://www.jjharrison.com.au/ )","l":"CC BY-SA 4.0"},"bird-107":{"f":"bird-107.jpg","a":"Martybugs ( talk )","l":"CC BY-SA 3.0"},"bird-108":{"f":"bird-108.jpg","a":"Francis C. Franklin","l":"CC BY-SA 3.0"},"bird-109":{"f":"bird-109.jpg","a":"Francis Franklin","l":"CC BY-SA 3.0"},"bird-110":{"f":"bird-110.jpg","a":"Andy Morffew from Itchen Abbas, Hampshire, UK","l":"CC BY 2.0"},"bird-111":{"f":"bird-111.jpg","a":"Greg Schechter from San Francisco, USA","l":"CC BY 2.0"},"bird-112":{"f":"bird-112.jpg","a":"Tony Wood","l":"CC BY 2.0"},"bird-113":{"f":"bird-113.jpg","a":"Andrei Niemimäki from Turku, Finland","l":"CC BY-SA 2.0"},"bird-114":{"f":"bird-114.jpg","a":"Andrei Niemimäki from Turku, Finland","l":"CC BY-SA 2.0"},"bird-117":{"f":"bird-117.jpg","a":"Yathin S Krishnappa","l":"CC BY-SA 4.0"},"bird-118":{"f":"bird-118.jpg","a":"JJ Harrison ( https://www.jjharrison.com.au/ )","l":"CC BY-SA 4.0"},"bird-119":{"f":"bird-119.jpg","a":"Summerdrought","l":"CC BY-SA 4.0"},"bird-120":{"f":"bird-120.jpg","a":"Polinova","l":"CC BY-SA 4.0"},"bird-121":{"f":"bird-121.jpg","a":"Matt Tillett from Cumberland, MD, USA","l":"CC BY 2.0"},"bird-122":{"f":"bird-122.jpg","a":"Estormiz","l":"CC0"},"bird-123":{"f":"bird-123.jpg","a":"Charles J. Sharp","l":"CC BY-SA 4.0"}};
+const photoSrcOf = it => BUNDLED[it.id] ? "photos/" + BUNDLED[it.id].f : (photoDB[it.id] && photoDB[it.id].src) || "";
+function photoWanted(it){ if (BUNDLED[it.id]) return false; return it.art && photosOn() && !photoBlocked && !(photoDB[it.id] && (photoDB[it.id].src || photoDB[it.id].none)); }
 async function fetchPhoto(it){
   const title = (PHOTO_TITLE[it.label] || it.label).replace(/ /g,"_");
   const r = await fetch("https://en.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(title));
@@ -970,16 +1022,16 @@ function pumpPhotos(){
   }
 }
 function attachPhoto(it, host){
-  const d = photoDB[it.id]; if (!d || !d.src || !photosOn() || !host || host.querySelector("img.photo")) return;
-  const img = el("img","photo"); img.alt = ""; img.decoding = "async"; img.referrerPolicy = "no-referrer";
+  const src = photoSrcOf(it); if (!src || !photosOn() || !host || host.querySelector("img.photo")) return;
+  const img = el("img","photo"); img.alt = ""; img.decoding = "async"; img.referrerPolicy = "no-referrer"; img.loading = "lazy";
   img.onload = () => img.classList.add("on");
   img.onerror = () => img.remove();
-  img.src = d.src; host.append(img);
+  img.src = src; host.append(img);
 }
 let photoIO = null;
 function watchPhoto(it, host){
   if (!it.art || !photosOn()) return;
-  if (photoDB[it.id] && photoDB[it.id].src){ attachPhoto(it, host); return; }
+  if (photoSrcOf(it)){ attachPhoto(it, host); return; }
   if (photoBlocked) return;
   if (!photoIO && "IntersectionObserver" in window){
     photoIO = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ photoIO.unobserve(e.target); const x=e.target._photo; if(x){ photoQ.push(x); pumpPhotos(); } } }), {rootMargin:"300px"});
@@ -990,6 +1042,7 @@ function watchPhoto(it, host){
 function markBlocked(){ const fl=$("factLine"); if (fl && !fl.dataset.touched) fl.textContent = "Showing drawings. Real bird photos load when Speakeasy is installed and online."; }
 const stripTags = h => { const d = new DOMParser().parseFromString(h||"", "text/html"); return (d.body.textContent||"").replace(/\s+/g," ").trim(); };
 async function photoCredit(it){
+  if (BUNDLED[it.id]){ const b = BUNDLED[it.id]; return `Photo: ${b.a} · ${b.l} · Wikimedia Commons`; }
   const d = photoDB[it.id]; if (!d || !d.src || !d.file) return "";
   if (d.credit) return d.credit;
   try{
@@ -1056,12 +1109,21 @@ function formsOf(w){
    3) restore points (the last 7) to undo mistakes
    4) backup files the family keeps somewhere else */
 const LS = "speakeasy.v1";
+/* People on this device. The first person keeps the original storage keys, so nothing moves for existing users. */
+const PREG = "speakeasy.people";
+const readReg = () => { try { const r = JSON.parse(localStorage.getItem(PREG)); return r && Array.isArray(r.list) && r.active ? r : null; } catch { return null; } };
+let REG = readReg() || {active:"main", list:[]};
+const lsKey = id => id==="main" ? LS : LS+":"+id;
+const idbKey = id => id==="main" ? "state" : "state:"+id;
+function writeReg(){ try { localStorage.setItem(PREG, JSON.stringify(REG)); } catch {} }
+function syncReg(){ const P = state.profile||{}; let e = REG.list.find(x=>x.id===REG.active); if (!e){ e = {id:REG.active}; REG.list.push(e); } e.name = P.name||""; e.avatar = P.avatar||"🙂"; e.lvl = state.settings.lvl||2; writeReg(); }
 const DEFAULT = {
   settings:{photos:"photos",look:"sparkle",mode:"k",voiceURI:"",rate:0.9,pitch:1,speakOnTap:true,holdMs:0,debounceMs:300,scale:1.1,contrast:false,wordsOnly:false,
             board:"24",level:"all",scan:"off",scanMs:1500,lock:true},
   custom:{}, hidden:[], learned:{}, help:{name:"",contact:"",info:""}, practice:{right:0,tries:0},
   packs:{birds:true}, topics:[], birdGroup:"all", facts:false, savedAt:0, lastBackup:0,
-  stats:{days:{}}, guideSeen:false, modeSet:false
+  stats:{days:{}}, guideSeen:false, modeSet:false, profileAsked:false,
+  profile:{name:"", avatar:"🙂", age:"", interests:[], check:null}
 };
 function normalize(d){
   d = d && typeof d==="object" ? d : {};
@@ -1071,12 +1133,14 @@ function normalize(d){
   if (!["24","48"].includes(String(n.settings.board))) n.settings.board = "24";
   n.settings.board = String(n.settings.board);
   if (!["starter","24","all"].includes(n.settings.level)) n.settings.level = "all";
-  for (const k of ["custom","learned","help","practice","packs","stats"]) if (!n[k] || typeof n[k]!=="object") n[k] = structuredClone(DEFAULT[k]);
+  for (const k of ["custom","learned","help","practice","packs","stats","profile"]) if (!n[k] || typeof n[k]!=="object") n[k] = structuredClone(DEFAULT[k]);
   if (!n.stats.days || typeof n.stats.days!=="object") n.stats.days = {};
+  n.profile = {...structuredClone(DEFAULT.profile), ...n.profile}; if (!Array.isArray(n.profile.interests)) n.profile.interests = [];
+  if (![1,2,3].includes(n.settings.lvl)) n.settings.lvl = n.settings.level==="starter" ? 1 : n.settings.board==="48" ? 3 : 2;
   if (!Array.isArray(n.hidden)) n.hidden = []; if (!Array.isArray(n.topics)) n.topics = [];
   return n;
 }
-function load(){ try { return JSON.parse(localStorage.getItem(LS)) || {}; } catch { return {}; } }
+function load(){ try { return JSON.parse(localStorage.getItem(lsKey(REG.active))) || {}; } catch { return {}; } }
 const saved = load();
 const localStripped = !!saved._stripped;
 const state = normalize(saved);
@@ -1096,8 +1160,9 @@ function stripPhotos(st){ const c = JSON.parse(JSON.stringify(st)); for (const k
 function save(){
   state.savedAt = Date.now();
   let json; try { json = JSON.stringify(state); } catch { return; }
-  try { localStorage.setItem(LS, json); health.localOK = true; }
-  catch { health.localOK = false; try { localStorage.setItem(LS, JSON.stringify(stripPhotos(state))); } catch {} }
+  try { localStorage.setItem(lsKey(REG.active), json); health.localOK = true; }
+  catch { health.localOK = false; try { localStorage.setItem(lsKey(REG.active), JSON.stringify(stripPhotos(state))); } catch {} }
+  syncReg();
   clearTimeout(idbTimer); idbTimer = setTimeout(flushIDB, 250);
   if (!health.localOK && health.idb===false) warnSave();
   updateSafetyDot();
@@ -1126,15 +1191,15 @@ function idbDo(store, mode, fn){
 async function flushIDB(){
   clearTimeout(idbTimer); idbTimer = null;
   if (!idb) return;
-  try { await idbDo("kv","readwrite", st => st.put(JSON.parse(JSON.stringify(state)), "state")); health.idb = true; }
+  try { await idbDo("kv","readwrite", st => st.put(JSON.parse(JSON.stringify(state)), idbKey(REG.active))); health.idb = true; idbDo("kv","readwrite", st => st.put(JSON.parse(JSON.stringify(REG)), "people")).catch(()=>{}); }
   catch { health.idb = false; if (!health.localOK) warnSave(); }
 }
-async function listPoints(){ if (!idb) return []; const all = await idbDo("points","readonly", st => st.getAll()); return (all||[]).sort((a,b)=>b.t-a.t); }
+async function listPoints(){ if (!idb) return []; const all = await idbDo("points","readonly", st => st.getAll()); return (all||[]).filter(p=>(p.pid||"main")===REG.active).sort((a,b)=>b.t-a.t); }
 async function addPoint(label){
   if (!idb) return;
   const data = JSON.parse(JSON.stringify(state)), t = Date.now();     // copy now, before anything else changes
   try {
-    await idbDo("points","readwrite", st => st.put({t, label, data}));
+    await idbDo("points","readwrite", st => st.put({t, label, data, pid:REG.active}));
     const pts = await listPoints();
     for (const p of pts.slice(7)) await idbDo("points","readwrite", st => st.delete(p.t));
   } catch {}
@@ -1144,7 +1209,8 @@ async function initStorage(){
   idb = await openIDB(); health.idb = !!idb;
   if (idb){
     try {
-      const fromDB = await idbDo("kv","readonly", st => st.get("state"));
+      if (!readReg()){ const r = await idbDo("kv","readonly", st => st.get("people")); if (r && Array.isArray(r.list) && r.active){ REG = r; writeReg(); } }
+      const fromDB = await idbDo("kv","readonly", st => st.get(idbKey(REG.active)));
       if (fromDB && ((fromDB.savedAt||0) > (state.savedAt||0) || localStripped)) { adopt(fromDB); apply(); }
       else await flushIDB();                     // first run, or moving data over from an older version
       const pts = await listPoints();
@@ -1239,9 +1305,9 @@ function coreShown(it, h=hiddenSet()){
   if (S.level==="24") return ORIGINAL24.has(it.id);
   return true;
 }
-function sections(){ return ["core", ...topicTabs(), ...groupKeys(), "phrases"]; }
+function sections(){ return ["core", ...topicTabs(), ...allGroupKeys(), "phrases"]; }
 function topicTabs(){ return [...Object.keys(PACKS).filter(k=>state.packs[k]!==false), ...state.topics.map(x=>x.id)]; }
-function tabsFor(){ const base=MODE_TABS[m()], at = m()==="k" ? 1 : 3; return [...base.slice(0,at), ...topicTabs(), ...base.slice(at)]; }
+function tabsFor(){ const base=MODE_TABS[m()], at = m()==="k" ? 1 : 3; const t = [...base.slice(0,at), ...topicTabs(), ...base.slice(at)]; return lv()===1 ? t.filter(x=>x!=="keyboard") : t; }
 function tabMeta(t){ return TAB_META[t] || CATS[t] || PACKS[t] || state.topics.find(x=>x.id===t) || {name:t,sym:"⭐"}; }
 const pictured = it => !!(it.sym || it.art || (it.img && it.img!=="__idb__"));
 
@@ -1262,9 +1328,10 @@ function apply(){
   root.style.setProperty("--scale", S.scale);
   root.dataset.contrast = S.contrast ? "on" : "off";
   document.body.classList.toggle("words-only", S.wordsOnly);
-  $("modeChip").textContent = m()==="k" ? "Kids" : "Adults";
+  renderWho();
   document.body.classList.toggle("sparkle", S.look==="sparkle");
   if (!tabsFor().includes(tab)) tab = "core";
+  if (sub && !groupKeys().includes(sub)) sub = null;
   renderTabs(); renderStrip(); renderBoard(); renderBanner();
   $("switchBar").hidden = S.scan==="off";
   restartScan();
@@ -1440,7 +1507,7 @@ function activate(node){
     msg.push({id:it.id, label:it.label, say:it.say, sym:it.sym, img:it.img, art:it.art?it:null, pos:it.pos});
     const fl = $("factLine");
     if (it.fact && fl){ fl.dataset.touched="1"; fl.replaceChildren(el("b",null,it.label+". "), document.createTextNode(it.fact));
-      if (photoDB[it.id] && photoDB[it.id].src && photosOn()){ const cr=el("small","credit","Photo: Wikimedia Commons"); fl.append(cr); photoCredit(it).then(t=>{ if(t) cr.textContent=t; }); } }
+      if (photoSrcOf(it) && photosOn()){ const cr=el("small","credit","Photo: Wikimedia Commons"); fl.append(cr); photoCredit(it).then(t=>{ if(t) cr.textContent=t; }); } }
     if (it.fact && state.facts) say(`${it.label}. ${it.fact}`);
     else if (S.speakOnTap) say(it.say||it.label);
     track("taps"); bump(it.label); renderStrip(); pop(node);
@@ -1830,7 +1897,7 @@ function openSettings(focus){
   const editTabs = sections();
   sheet.innerHTML = `<div class="panel">
     <div class="phead"><h2>Settings</h2><button class="btn primary" id="sClose">Done</button></div>
-    <div class="snav" role="navigation" aria-label="Settings sections"><button class="chipbtn" data-open="dash">📊 Dashboard</button><button class="chipbtn" data-open="guide">📘 How to use</button>${[["safe","Backups"],["who","Mode"],["look","Look"],["topics","Topics"],["voice","Voice"],["touch","Touch"],["scan","Scanning"],["help","Help card"],["words","Edit words"],["lock","Lock"],["about","About"]].map(([k,t])=>`<button class="chipbtn" data-jump="${k}">${t}</button>`).join("")}</div>
+    <div class="snav" role="navigation" aria-label="Settings sections"><button class="chipbtn" data-open="dash">📊 Dashboard</button><button class="chipbtn" data-open="guide">📘 How to use</button>${[["safe","Backups"],["who","Profile"],["look","Look"],["topics","Topics"],["voice","Voice"],["touch","Touch"],["scan","Scanning"],["help","Help card"],["words","Edit words"],["lock","Lock"],["about","About"]].map(([k,t])=>`<button class="chipbtn" data-jump="${k}">${t}</button>`).join("")}</div>
 
     <div class="sec" id="sec-safe"><h3>Keep their words safe</h3>
       <div class="checks" id="safeChecks"></div>
@@ -1838,15 +1905,16 @@ function openSettings(focus){
         <button class="btn primary" id="b-file">💾 Save backup file</button>
         <button class="btn" id="b-pickbtn">Restore from file</button>
         <input type="file" id="b-pick" accept=".json,application/json" hidden></div>
-      <p class="note">A backup file holds every word, photo and setting. Save one after big changes and keep it somewhere else, like your email or cloud drive. To move to a new phone or tablet, open Speakeasy there and choose Restore from file.</p>
+      <p class="note">A backup file holds this person's profile, words, photos and settings. Save one after big changes and keep it somewhere else, like your email or cloud drive. To move to a new phone or tablet, open Speakeasy there and choose Restore from file.</p>
       <details id="b-pointsbox"><summary>Restore points</summary>
         <p class="note">Speakeasy saves a restore point each day it's opened and before big changes, and keeps the last 7. Use one to undo a mistake.</p>
         <div class="elist" id="b-points"></div></details></div>
 
-    <div class="sec" id="sec-who"><h3>Who's using Speakeasy</h3>
-      <div class="row"><span class="seg" role="group" aria-label="Mode">
-        <button data-mode="k" aria-pressed="${m()==="k"}">Kids</button><button data-mode="a" aria-pressed="${m()==="a"}">Adults</button></span></div>
-      <p class="note">Both modes keep the same core words in the same places, so a child who grows into Adults mode keeps their muscle memory.</p></div>
+    <div class="sec" id="sec-who"><h3>Profile and level</h3>
+      <div class="erow"><span class="s">${esc(state.profile.avatar||"🙂")}</span><span class="t">${esc(state.profile.name||"No name yet")}<small>${state.profile.age?esc(ageOf(state.profile.age)[1]):"Age group not set"} · ${state.profile.interests.length} favorite things</small></span><button class="btn" id="pf-edit">Edit profile</button></div>
+      <div class="lvls">${[1,2,3].map(n=>`<button class="lvl" data-lvl="${n}" aria-pressed="${lv()===n}">${state.profile.check&&state.profile.check.suggested===n?`<span class="rec">Suggested by the level check</span>`:""}<b>${LEVELS[n].sym} Level ${n} · ${LEVELS[n].tag}</b><small>${LEVELS[n].what}</small></button>`).join("")}</div>
+      <div class="row" style="justify-content:flex-start"><button class="btn" id="pf-check">🧭 Do the level check</button><button class="btn" id="pf-people">👥 Switch or add a person</button></div>
+      <p class="note">A level sets the board size, button size, and which words and tools show. You can fine-tune each of those below in Touch and access. Levels never delete words, and core words never move.</p></div>
 
     <div class="sec" id="sec-look"><h3>Look and feel</h3>
       <div class="row"><span class="seg" role="group" aria-label="Look">
@@ -1856,7 +1924,7 @@ function openSettings(focus){
     <div class="sec" id="sec-topics"><h3>Topics</h3>
       <div class="row"><label for="p-birds">🐦 Birds (124 birds, 6 groups, fun facts)</label><input type="checkbox" id="p-birds" ${state.packs.birds!==false?"checked":""}></div>
       <div class="row"><label for="p-photos">Bird pictures</label><select id="p-photos">${opt("photos",S.photos,"Real photos")}${opt("off",S.photos,"Drawings")}</select></div>
-      <p class="note">Real photos come from Wikipedia's free photo library. Each device downloads them once while online, then they work offline. Drawings show until a photo arrives.${photoBlocked?" Photos can't load in this preview, so drawings are showing.":""}</p>
+      <p class="note">Real bird photos are built into Speakeasy, so they work offline too. They come from Wikimedia Commons under free licenses, and every photographer is credited. The few birds without a free photo show a drawing.${photoBlocked?" Photos can't load in this preview, so drawings are showing.":""}</p>
       <div class="row" style="justify-content:flex-start"><button class="btn" id="p-credits">Photo credits</button></div>
       <div class="elist" id="p-credlist"></div>
       <div class="elist" id="t-list"></div>
@@ -1910,7 +1978,7 @@ function openSettings(focus){
       <div class="row" style="justify-content:flex-start"><button class="btn" id="b-copy">Copy backup text</button><button class="btn" id="b-restore">Restore from text</button></div></div>
 
     <div class="sec" id="sec-about"><h3>About and privacy</h3>
-      <p class="note">Speakeasy v1.1 by McLearn Media LLC. Bird illustrations are original McLearn Media artwork. Bird photos come from Wikimedia Commons under free licenses, credited in Settings, Photo credits. Everything you add stays on this device. Nothing is sent anywhere, and there's no tracking.</p>
+      <p class="note">Speakeasy v1.2 by McLearn Media LLC. Bird illustrations are original McLearn Media artwork. Bird photos come from Wikimedia Commons under free licenses, credited in Settings, Photo credits. Everything you add stays on this device. Nothing is sent anywhere, and there's no tracking.</p>
       <p class="note">Speakeasy is a communication tool, not therapy. A speech-language pathologist can help choose the right words, settings and goals. Using a talking device does not stop speech from developing. Research shows it often helps.</p></div>
   </div>`;
   document.body.append(sheet);
@@ -1925,7 +1993,7 @@ function openSettings(focus){
   q("p-birds").onchange = e => { state.packs.birds = e.target.checked; save(); apply(); rebuildEditTabs(); };
   q("p-photos").onchange = e => { set("photos", e.target.value); };
   q("p-credits").onclick = async () => {
-    const list = q("p-credlist"); const have = PACKS.birds.items.filter(it=>photoDB[it.id]&&photoDB[it.id].src);
+    const list = q("p-credlist"); const have = PACKS.birds.items.filter(it=>photoSrcOf(it));
     if (!have.length){ list.innerHTML = `<p class="note">No photos downloaded on this device yet. Open the Birds tab while online.</p>`; return; }
     list.innerHTML = `<p class="note">Loading credits for ${have.length} photos…</p>`;
     const rows = [];
@@ -1949,7 +2017,10 @@ function openSettings(focus){
     toast(`Created “${name}”. Add its words below.`);
   };
   sheet.addEventListener("click", e=>{ if(e.target===sheet) closeSettings(); });
-  sheet.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{ state.modeSet=true; set("mode",b.dataset.mode); sheet.querySelectorAll("[data-mode]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.mode===S.mode)); rebuildEditTabs(); });
+  sheet.querySelectorAll("[data-lvl]").forEach(b=>b.onclick=()=>{ setLevel(+b.dataset.lvl); closeSettings(); openSettings("who"); });
+  q("pf-edit").onclick = () => { closeSettings(); openProfileEditor(); };
+  q("pf-check").onclick = () => { closeSettings(); openLevelCheck(); };
+  q("pf-people").onclick = () => { closeSettings(); openPeople(); };
   q("v-voice").onchange = e => { set("voiceURI",e.target.value); say("Hello. This is my voice."); };
   q("v-rate").oninput = e => { S.rate=+e.target.value; save(); };
   q("v-pitch").oninput = e => { S.pitch=+e.target.value; save(); };
@@ -2119,7 +2190,7 @@ document.addEventListener("keydown", e=>{ if (e.key==="Escape"){ const s=[...doc
 /* ---- Menu ---- */
 function openMenu(){
   const {panel, close} = makeSheet("Menu","menu");
-  panel.innerHTML = `<div class="phead"><h2>Menu</h2><span class="mode">${m()==="k"?"Kids mode":"Adults mode"}</span><button class="btn primary" id="mClose">Close</button></div>`;
+  panel.innerHTML = `<div class="phead"><h2>Menu</h2><span class="mode">${esc(state.profile.avatar||"🙂")} ${esc(state.profile.name||"Profile")} · Level ${lv()}</span><button class="btn primary" id="mClose">Close</button></div>`;
   panel.querySelector("#mClose").onclick = close;
   const go = k => {
     close();
@@ -2129,6 +2200,10 @@ function openMenu(){
     if (k==="help") return $("helpBtn").onclick();
     if (k==="guide-talk") return openGuide("talk");
     if (k==="guide-care") return openGuide("care");
+    if (k==="people") return openPeople();
+    if (k==="profile") return openProfileEditor();
+    if (k==="check") return openLevelCheck();
+    if (k==="add") return addPerson();
     if (k==="dash") return openDashboard();
     if (k==="install") return doInstall();
     if (k==="settings") return openSettings();
@@ -2138,6 +2213,7 @@ function openMenu(){
     document.querySelector(`.tab[data-tab="${CSS.escape(k)}"]`)?.scrollIntoView({inline:"center",block:"nearest"});
   };
   const group = (title, items, opts={}) => {
+    items = items.filter(x=>(!["core","groups","phrases","keyboard"].includes(x[0]) || tabsFor().includes(x[0])) && (x[0]!=="find" || lv()>1));
     const sec = el("div","sec"); sec.append(el("h3",null,title));
     if (opts.care) sec.append(el("p","note", S.lock ? "For caregivers. Hold a button for 2 seconds to open it." : "For caregivers."));
     const grid = el("div","mgrid");
@@ -2163,6 +2239,7 @@ function openMenu(){
     ["practice","🎯", learn.on ? "Stop practice" : "Practice", learn.on ? "Practice is on now" : "Find words on the board"],
     ["find","🔍","Find a word","See where a word lives"]
   ]);
+  group("People", [["people","👥","Who's talking", REG.list.length>1 ? `${REG.list.length} people on this device` : "Switch between people"]]);
   group("How to use", [
     ["guide-talk","👋","How to talk","Simple steps for the user"],
     ["guide-care","📘","Caregiver guide","Set up, teach and keep safe"]
@@ -2170,6 +2247,9 @@ function openMenu(){
   group("Help", [["help","🆘","Help card","Shows and says who to call","sos"]]);
   group("Caregivers 🔒", [
     ["dash","📊","Dashboard","Progress, setup steps, safety"],
+    ["profile","🪪","Edit profile","Name, age, favorites, level"],
+    ["check","🧭","Level check","Suggests the right level"],
+    ["add","➕","Add a person","Their own words and progress"],
     ["words","✏️","Edit words","Add words and photos"],
     ["help-set","🆘","Set up Help card","Name and emergency contact"],
     ["voice","🔊","Voice","Pick a voice and speed"],
@@ -2192,7 +2272,8 @@ function openDashboard(){
     const P = state.practice, pct = P.tries ? Math.min(100, Math.round(P.right/P.tries*100)) : null;
     const lb = state.lastBackup, backupOK = !!lb && Date.now()-lb < 14*864e5;
     const tasks = [
-      ["Choose Kids or Adults mode", !!state.modeSet, "who"],
+      ["Make their profile", !!(state.profile.name && state.profile.age), "profile"],
+      ["Do the level check", !!state.profile.check, "check"],
       ["Read the caregiver guide", !!state.guideSeen, "guide"],
       ["Fill in the Help card", !!(state.help.name && state.help.contact), "help"],
       ["Choose a voice", !!S.voiceURI, "voice"],
@@ -2203,8 +2284,10 @@ function openDashboard(){
     const done = tasks.filter(t=>t[1]).length;
     const voice = voices.find(v=>v.voiceURI===S.voiceURI);
     const fact = (v,l) => `<div class="fact"><b>${esc(v)}</b><span>${esc(l)}</span></div>`;
+    const who = state.profile.name || "This person", hint = moveUpHint();
+    const hintHTML = hint ? `<div class="dcard" style="border-color:var(--verb-bd);margin-bottom:10px"><h4>🌱 Ready for more?</h4><p class="note" style="color:var(--ink)">${esc(who)} uses ${hint.used} of the ${hint.shown} core words showing, at least 3 times each. They may be ready for Level ${lv()+1}.</p><div class="row" style="justify-content:flex-start"><button class="btn primary" data-do="up">Move up to Level ${lv()+1}</button></div></div>` : "";
     panel.innerHTML = `<div class="phead"><h2>Dashboard</h2><button class="btn primary" id="dClose">Done</button></div>
-      <p class="note">${m()==="k"?"Kids":"Adults"} mode. These numbers stay on this device and are never sent anywhere.</p>
+      <p class="note">${esc(state.profile.avatar||"🙂")} ${esc(who)} · Level ${lv()} ${LEVELS[lv()].tag}. These numbers stay on this device and are never sent anywhere.</p>${hintHTML}
       <div class="dgrid">
         <div class="dcard"><h4>✅ Setup steps</h4>
           <div class="progress" role="progressbar" aria-label="Setup steps done" aria-valuemin="0" aria-valuemax="${tasks.length}" aria-valuenow="${done}"><i style="width:${Math.round(done/tasks.length*100)}%"></i></div>
@@ -2223,7 +2306,7 @@ function openDashboard(){
           <div class="checks">${checksHTML(safetyRows())}</div>
           <div class="row" style="justify-content:flex-start"><button class="btn primary" data-do="backup">Save backup file</button></div></div>
         <div class="dcard"><h4>⚙️ Current setup</h4>
-          <div class="facts">${fact(m()==="k"?"Kids":"Adults","mode")}${fact(S.board+" buttons","core board")}${fact(S.level==="starter"?"12":S.level==="24"?"24":"All","core words showing")}${fact(S.look==="sparkle"?"Sparkle":"Calm","look")}${fact(voice?voice.name:"Device default","voice")}${fact(S.scan==="off"?"Off":S.scan==="switch"?"Switch":"Listening","scanning")}</div>
+          <div class="facts">${fact("Level "+lv(),LEVELS[lv()].tag)}${fact(state.profile.age?ageOf(state.profile.age)[1]:"Not set","age group")}${fact(state.profile.interests.length,"favorite things")}${fact(S.board+" buttons","core board")}${fact(S.level==="starter"?"12":S.level==="24"?"24":"All","core words showing")}${fact(voice?voice.name:"Device default","voice")}${fact(S.scan==="off"?"Off":S.scan==="switch"?"Switch":"Listening","scanning")}</div>
           <div class="row" style="justify-content:flex-start"><button class="btn" data-do="settings">Change settings</button><button class="btn" data-do="guide">Caregiver guide</button></div></div>
       </div>`;
     panel.querySelector("#dClose").onclick = close;
@@ -2232,6 +2315,9 @@ function openDashboard(){
       if (k==="backup"){ if (await saveBackupFile()) render(); return; }
       if (k==="install"){ doInstall(); return; }
       close();
+      if (k==="profile") return openProfileEditor();
+      if (k==="check") return openLevelCheck();
+      if (k==="up"){ setLevel(lv()+1); return; }
       if (k==="guide") openGuide("care");
       else if (k==="practice") learn.on ? stopLearn() : startLearn();
       else if (k==="game") openGame("birds");
@@ -2250,13 +2336,14 @@ const GUIDE = {
     {h:"Tap Speak to say it all.", b:"The Speak button says your whole sentence out loud. You can also tap the sentence.", show:()=>$("speakBtn")},
     {h:"Fix a mistake.", b:"The back arrow takes away the last word. The X clears everything.", show:()=>$("delBtn")},
     {h:"Find more words at the top.", b:"Tap Birds, Groups, Phrases or Keyboard to see more words.", show:()=>$("tabs")},
-    {h:"Change a word.", b:"Tap the plus-minus button to change a word, like want to wants or wanted.", show:()=>$("formBtn")},
+    {h:"Change a word.", b:"Tap the plus-minus button to change a word, like want to wants or wanted.", show:()=>$("formBtn"), need:()=>lv()>1},
     {h:"Need help? Tap the red Help button.", b:"It shows who you are and who to call, and says it out loud.", show:()=>$("helpBtn")},
+    {h:"Tap your name to switch.", b:"If more than one person uses this device, tap your name and picture at the top.", show:()=>$("whoBtn"), need:()=>REG.list.length>1},
     {h:"Open the Menu to go anywhere.", b:"The Menu has every part of Speakeasy in one place.", show:()=>$("menuBtn")}
   ],
   care: [
-    {h:"Pick Kids or Adults mode", b:"Kids mode puts playful words and the bird game first. Adults mode puts phrases and the keyboard first. Core words stay in the same places in both.", go:"who"},
-    {h:"Start small, then add more", b:"Begin with 12 starter words. When those feel easy, show 24, then all of them. Words that aren't showing yet keep their places, so nothing moves.", go:"touch"},
+    {h:"Make a profile for each person", b:"Everyone who uses Speakeasy gets a profile with their name, age group and favorite things. Their words, voice, level and progress stay separate. Tap the name at the top to switch people.", go:"who"},
+    {h:"Find the right level", b:"Level 1 Beginner has 12 big words. Level 2 Middle has all 24 core words, every word group and the keyboard. Level 3 Advanced has 48 words and every tool. The level check suggests where to start. Move up when it feels easy. Words never disappear, and core words never move.", go:"who"},
     {h:"Show them how it works", b:"When you talk to them, tap the same words on the screen as you say them. This is called modeling, and it's the fastest way people learn to use a talking app. Don't ask them to copy you. Just show.", show:()=>board.querySelector(".tile:not(.empty)")},
     {h:"Choose a voice", b:"Pick a voice that fits them. Choose one that doesn't need the internet, so it always works.", go:"voice"},
     {h:"Fill in the Help card", b:"Add their name and an emergency contact. This shows when they tap the red Help button.", go:"help"},
@@ -2275,7 +2362,7 @@ function openGuide(which="talk", first=false){
   const render = () => {
     if (cur==="care" && !state.guideSeen){ state.guideSeen = true; save(); }
     panel.classList.toggle("kid", cur==="talk");
-    const steps = GUIDE[cur];
+    const steps = GUIDE[cur].filter(s=>!s.need || s.need());
     panel.innerHTML = `<div class="phead"><h2>How to use</h2><button class="btn primary" id="gClose">${first?"Start talking":"Close"}</button></div>
       ${first?`<p class="note">Welcome to Speakeasy. Here's how it works. You can open this again anytime from the Menu.</p>`:""}
       <div class="row" style="justify-content:flex-start;margin-block:8px"><span class="seg" role="group" aria-label="Who this guide is for">
@@ -2292,17 +2379,254 @@ function openGuide(which="talk", first=false){
   render();
 }
 
+
+/* ---------------- People, levels and the level check (v1.2) ----------------
+   Everyone gets a profile: name, picture, age group, favorite things and a level.
+   Levels show and hide words; they never delete them, and core words never move.
+   The level check suggests a starting level. It is not a test score or a diagnosis. */
+const LEVELS = {
+  1:{tag:"Beginner", sym:"🌱", what:"12 big core words, phrases and their favorite topics. Fewer buttons, so it's easy to start.", set:{level:"starter", board:"24", scale:1.3}},
+  2:{tag:"Middle", sym:"🌿", what:"All 24 core words, every word group, the keyboard and word endings.", set:{level:"24", board:"24", scale:1.15}},
+  3:{tag:"Advanced", sym:"🌳", what:"The 48-button board with more words and every tool. Words sit in new places on this bigger board.", set:{level:"all", board:"48", scale:1}}
+};
+const lv = () => [1,2,3].includes(S.lvl) ? S.lvl : 2;
+function setLevel(n, quiet){
+  S.lvl = n; Object.assign(S, LEVELS[n].set); save(); apply();
+  if (!quiet) toast(`Level ${n}: ${LEVELS[n].tag}`);
+}
+const AGES = [["young","Young child","under 8","k"],["child","Child","8 to 12","k"],["teen","Teen","13 to 17","a"],["adult","Adult","18 and up","a"]];
+const ageOf = k => AGES.find(a=>a[0]===k);
+const INTERESTS = [
+  ["birds","🐦","Birds",""],["animals","🐶","Animals","animals"],["food","🍕","Food and cooking","food"],["play","🧩","Toys and games","play"],
+  ["music","🎵","Music and dancing","play"],["sports","⚽","Sports and moving","play"],["people","👪","Family and friends","people"],
+  ["places","🏞️","Going places","places"],["school","🎒","School","school"],["art","🎨","Art and colors","colors"],
+  ["clothes","👕","Clothes and style","clothes"],["weather","🌦️","Time and weather","time"],["work","💼","Work","work"],["health","🩺","Health and body","body"]
+];
+const INTEREST_GROUP = Object.fromEntries(INTERESTS.map(i=>[i[0],i[3]]));
+const L1_GROUPS = new Set(["feelings","social","food","people","places","play","daily","body"]);
+const AVATARS = ["🙂","😀","😎","🦊","🐻","🐱","🐶","🦁","🐸","🦄","🐢","🐧","🦉","🚀","⚽","🎵","🌟","🌈","🌻","🎨"];
+
+function renderWho(){
+  const P = state.profile;
+  $("whoAv").textContent = P.avatar || "🙂";
+  $("whoNm").textContent = P.name || "Add a profile";
+  $("whoLv").textContent = "L" + lv();
+  $("whoBtn").setAttribute("aria-label", `${P.name || "No profile name yet"}, Level ${lv()}. Tap to switch people.`);
+  $("findBtn").hidden = lv()===1;
+  $("formBtn").hidden = lv()===1;
+}
+
+async function loadPerson(id){
+  REG.active = id; writeReg();
+  let d = load();
+  if (idb){ try { const fromDB = await idbDo("kv","readonly", st => st.get(idbKey(id))); if (fromDB && ((fromDB.savedAt||0) > (d.savedAt||0) || d._stripped)) d = fromDB; } catch {} }
+  adopt(d); msg = []; typing = ""; tab = "core"; sub = null; if (learn.on) stopLearn();
+  save(); apply(); updateSafetyDot();
+}
+async function switchProfile(id){
+  if (id===REG.active) return;
+  clearTimeout(idbTimer); await flushIDB(); syncReg();
+  await loadPerson(id);
+  const n = state.profile.name; toast(n ? `Now talking: ${n}` : "Switched profile"); say(n ? `Hi ${n}!` : "Hi!");
+}
+async function addPerson(){
+  clearTimeout(idbTimer); await flushIDB(); syncReg();
+  REG.active = "p" + Date.now().toString(36); writeReg();
+  adopt({}); S.lvl = 1; Object.assign(S, LEVELS[1].set); state.guideSeen = true; state.profileAsked = true;
+  msg = []; typing = ""; tab = "core"; sub = null;
+  save(); apply(); openProfileEditor({isNew:true});
+}
+async function deletePerson(id){
+  if (REG.list.length < 2) return;
+  try { localStorage.removeItem(lsKey(id)); } catch {}
+  if (idb){ try {
+    await idbDo("kv","readwrite", st => st.delete(idbKey(id)));
+    const all = await idbDo("points","readonly", st => st.getAll());
+    for (const p of all||[]) if ((p.pid||"main")===id) await idbDo("points","readwrite", st => st.delete(p.t));
+  } catch {} }
+  REG.list = REG.list.filter(x=>x.id!==id); writeReg();
+  if (REG.active===id){ clearTimeout(idbTimer); idbTimer = null; await loadPerson(REG.list[0].id); }
+}
+
+/* ---- Who's talking ---- */
+function openPeople(){
+  syncReg();
+  const {panel, close} = makeSheet("Who's talking","people-sheet");
+  panel.innerHTML = `<div class="phead"><h2>Who's talking?</h2><button class="btn primary" id="pClose">Close</button></div>
+    <div class="people">${REG.list.map(p=>`<button class="pcard" data-pid="${esc(p.id)}" aria-current="${p.id===REG.active}"><span class="av" aria-hidden="true">${esc(p.avatar||"🙂")}</span><span>${esc(p.name||"No name yet")}</span><small>Level ${p.lvl||2} · ${esc(LEVELS[p.lvl||2].tag)}</small></button>`).join("")}</div>
+    <div class="row" style="justify-content:flex-start;margin-top:12px"><button class="btn" id="pEdit">✏️ Edit ${esc(state.profile.name||"this profile")}<span class="ring"></span></button><button class="btn" id="pAdd">➕ Add a person<span class="ring"></span></button></div>
+    <p class="note">Each person has their own words, voice, level, progress and backups.${S.lock?" Caregivers: hold Edit or Add for 2 seconds.":""}</p>`;
+  panel.querySelector("#pClose").onclick = close;
+  panel.querySelectorAll("[data-pid]").forEach(b=>b.onclick = async () => { close(); await switchProfile(b.dataset.pid); });
+  guarded(panel.querySelector("#pEdit"), ()=>{ close(); openProfileEditor(); });
+  guarded(panel.querySelector("#pAdd"), ()=>{ close(); addPerson(); });
+}
+$("whoBtn").onclick = openPeople;
+
+/* ---- Profile editor (also the welcome screen) ---- */
+function openProfileEditor(opts={}){
+  const {panel, close: rawClose} = makeSheet("Profile","profile");
+  const P = state.profile, first = opts.isNew || opts.welcome;
+  const close = () => { if (!state.profileAsked){ state.profileAsked = true; save(); } rawClose(); };
+  panel.parentElement.onclick = e => { if (e.target===panel.parentElement) close(); };
+  const draft = { name:P.name||"", avatar:P.avatar||"🙂", age:P.age||"",
+    interests: P.interests.length ? [...P.interests] : (state.packs.birds!==false ? ["birds"] : []), lvl: first ? (opts.isNew ? 1 : lv()) : lv() };
+  let sure = false;
+  const render = () => {
+    panel.innerHTML = `<div class="phead"><h2>${opts.isNew?"New person":opts.welcome?"Welcome to Speakeasy":"Profile"}</h2><button class="btn" id="fCancel">${opts.welcome?"Later":"Cancel"}</button></div>
+      ${opts.welcome?`<p class="note">Speakeasy fits itself to each person. Tell it a little about who's using it. You can change any of this later.</p>`:""}
+      <div class="sec"><h3>Name</h3><input type="text" id="f-name" maxlength="30" value="${esc(draft.name)}" placeholder="Their first name" autocomplete="off" aria-label="Name"></div>
+      <div class="sec"><h3>Picture</h3><div class="avs" role="group" aria-label="Picture">${AVATARS.map(a=>`<button data-av="${a}" aria-pressed="${a===draft.avatar}" aria-label="${a}">${a}</button>`).join("")}</div></div>
+      <div class="sec"><h3>Age group</h3><div class="chips" role="group" aria-label="Age group">${AGES.map(([k,n,r])=>`<button class="chipbtn" data-age="${k}" aria-pressed="${k===draft.age}">${n} <small>(${r})</small></button>`).join("")}</div>
+        <p class="note">Age group picks everyday words that fit, like recess for kids or work for adults.</p></div>
+      <div class="sec"><h3>Favorite things</h3><div class="chips" role="group" aria-label="Favorite things">${INTERESTS.map(([k,s,n])=>`<button class="chipbtn" data-int="${k}" aria-pressed="${draft.interests.includes(k)}"><span aria-hidden="true">${s}</span>${n}</button>`).join("")}</div>
+        <p class="note">Their favorites come first in Word groups, and Birds turns on the bird pages and bird game.</p></div>
+      <div class="sec"><h3>Level</h3><div class="lvls">${[1,2,3].map(n=>`<button class="lvl" data-lvl="${n}" aria-pressed="${n===draft.lvl}"><b>${LEVELS[n].sym} Level ${n} · ${LEVELS[n].tag}</b><small>${LEVELS[n].what}</small></button>`).join("")}</div>
+        <p class="note">${first?"Not sure? Start at Level 1. Next, the level check suggests the best fit.":"The level check can suggest the best fit."}</p></div>
+      <div class="row" style="justify-content:flex-start"><button class="btn primary" id="fSave">${first?"Save and continue":"Save"}</button>
+        ${!first && REG.list.length>1?`<button class="btn danger" id="fDel">${sure?"Tap again to delete "+esc(P.name||"this person"):"Delete this person"}</button>`:""}</div>
+      ${!first && REG.list.length>1?`<p class="note">Deleting removes this person's words, photos and progress from this device. Save a backup file first if you might want them back.</p>`:""}`;
+    const q = s => panel.querySelector(s);
+    q("#fCancel").onclick = () => { if (opts.isNew && !state.profile.name){ state.profile.name = "Person " + REG.list.length; save(); syncReg(); } close(); };
+    q("#f-name").oninput = e => { draft.name = e.target.value; };
+    panel.querySelectorAll("[data-av]").forEach(b=>b.onclick=()=>{ draft.avatar=b.dataset.av; render(); });
+    panel.querySelectorAll("[data-age]").forEach(b=>b.onclick=()=>{ draft.age=b.dataset.age; render(); });
+    panel.querySelectorAll("[data-int]").forEach(b=>b.onclick=()=>{ const k=b.dataset.int; draft.interests = draft.interests.includes(k) ? draft.interests.filter(x=>x!==k) : [...draft.interests,k]; render(); });
+    panel.querySelectorAll("[data-lvl]").forEach(b=>b.onclick=()=>{ draft.lvl=+b.dataset.lvl; render(); });
+    if (q("#fDel")) q("#fDel").onclick = async () => { if (!sure){ sure=true; render(); return; } rawClose(); await deletePerson(REG.active); toast("Deleted."); };
+    q("#fSave").onclick = () => {
+      const name = draft.name.trim();
+      if (!name){ toast("Type their name first."); q("#f-name").focus(); return; }
+      P.name = name; P.avatar = draft.avatar; P.age = draft.age; P.interests = draft.interests;
+      if (P.age) S.mode = ageOf(P.age)[3];
+      state.packs.birds = P.interests.includes("birds");
+      if (!state.help.name) state.help.name = name;
+      if (opts.isNew) S.look = (P.age==="young"||P.age==="child") ? "sparkle" : "calm";
+      state.profileAsked = true;
+      const levelChanged = draft.lvl !== lv();
+      S.lvl = draft.lvl; if (levelChanged || first) Object.assign(S, LEVELS[draft.lvl].set);
+      save(); syncReg(); apply(); rawClose();
+      toast(`Saved ${name}'s profile.`);
+      if (first) openLevelCheck({offer:true, after:()=>{ if (!state.guideSeen) openGuide("care", true); }});
+    };
+    if (opts.welcome || opts.isNew) setTimeout(()=>q("#f-name")?.focus(), 80);
+  };
+  render();
+}
+
+/* ---- Level check ---- */
+const shuffle = a => a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const CHECK_QS = [
+  ["talk","How do they mostly communicate today?",[["Pointing, sounds or gestures",0],["Single words or pictures",1],["Two or three words together",2],["Full sentences, typing or writing",3]]],
+  ["read","Can they read simple words?",[["Not yet",0],["Some familiar words",1],["Most everyday words",2]]],
+  ["used","Have they used a talking app or picture board before?",[["Never",0],["A little",1],["Yes, often",2]]],
+  ["many","How do they do with lots of choices on a screen?",[["Best with a few big buttons",0],["Fine with some buttons",1],["Can find words on a full board",2]]]
+];
+function suggestLevel(tasks, a, age){
+  const t = tasks.filter(Boolean).length;
+  const total = t + (a.talk||0) + (a.read||0) + (a.used||0) + (a.many||0) + (age==="young" ? 0 : 1);
+  let L = total<=4 ? 1 : total<=9 ? 2 : 3;
+  if (a.many===0) L = Math.min(L, 2);
+  if (t===0 && (a.talk||0)<=1) L = 1;
+  return {L, total, t};
+}
+function openLevelCheck(opts={}){
+  const {panel, close: rawClose} = makeSheet("Level check","check");
+  const done = () => { rawClose(); if (opts.after) opts.after(); };
+  panel.parentElement.onclick = e => { if (e.target===panel.parentElement) done(); };
+  const P = state.profile, who = P.name || "They";
+  const tasks = [null,null,null], ans = {};
+  const pics = shuffle([["dog","🐶"],["apple","🍎"],["car","🚗"]]);
+  const words = shuffle(["eat","go","help"]);
+  const tiles = shuffle(["I","want","more","stop","go","help"].map(w=>CORE.find(c=>c.label===w)));
+  let step = 0, built = [], locked = false;
+  const dots = () => `<div class="dots" aria-hidden="true">${[1,2,3,4].map(i=>`<i class="${step>=i?"on":""}"></i>`).join("")}</div>`;
+  const head = t => `<div class="phead"><h2>${t}</h2><button class="btn" id="cClose">Close</button></div>`;
+  const next = (ok) => { if (step>=1 && step<=3) tasks[step-1] = ok; step++; locked = false; built = []; render(); };
+  function cheer(btn, ok, word){ locked = true; if (ok){ btn.classList.add("ok"); say(`Yes! ${word}.`); burst(btn,12); } else say("Thank you!"); setTimeout(()=>next(ok), 1100); }
+  function render(){
+    if (step===0){
+      panel.innerHTML = head("Level check") + `<div class="chk-task">
+        <p class="note">About 2 minutes. ${esc(who)} tries 3 quick picture games, then you answer 4 questions. Speakeasy suggests a level to start with.</p>
+        <p class="note">This is not a test score or a diagnosis. There are no wrong answers, and you can change the level anytime.</p>
+        <div class="row" style="justify-content:flex-start"><button class="btn primary" id="cGo">▶ Start</button><button class="btn" id="cSkip">${opts.offer?"Skip for now":"Not now"}</button></div></div>`;
+      panel.querySelector("#cGo").onclick = () => { step=1; render(); };
+      panel.querySelector("#cSkip").onclick = done;
+    } else if (step===1){
+      panel.innerHTML = head("Picture game 1 of 3") + dots() + `<div class="chk-task"><p class="chk-ask">Tap the dog</p>
+        <div class="chk-opts">${pics.map(([w,e])=>`<button data-w="${w}" aria-label="${w}"><span class="big">${e}</span></button>`).join("")}</div>
+        <div class="row" style="justify-content:space-between"><button class="btn" id="cHear">🔊 Hear it again</button><button class="btn" id="cNext">Skip</button></div></div>`;
+      say("Tap the dog.");
+      panel.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>{ if(!locked) cheer(b, b.dataset.w==="dog", "Dog"); });
+      panel.querySelector("#cHear").onclick = () => say("Tap the dog.");
+    } else if (step===2){
+      panel.innerHTML = head("Picture game 2 of 3") + dots() + `<div class="chk-task"><p class="chk-ask">Find the word: eat</p>
+        <div class="chk-opts words">${words.map(w=>`<button data-w="${w}">${w}</button>`).join("")}</div>
+        <div class="row" style="justify-content:space-between"><button class="btn" id="cHear">🔊 Hear it again</button><button class="btn" id="cNext">Skip</button></div></div>`;
+      say("Find the word, eat.");
+      panel.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>{ if(!locked) cheer(b, b.dataset.w==="eat", "Eat"); });
+      panel.querySelector("#cHear").onclick = () => say("Find the word, eat.");
+    } else if (step===3){
+      panel.innerHTML = head("Picture game 3 of 3") + dots() + `<div class="chk-task"><p class="chk-ask">Make: I want more</p>
+        <div class="chk-built" aria-live="polite">${built.length ? built.map(w=>`<span class="chip">${esc(w)}</span>`).join("") : `<span class="note">Tap 3 words</span>`}</div>
+        <div class="chk-opts">${tiles.map(t=>`<button data-w="${esc(t.label)}" aria-label="${esc(t.label)}"><span class="big">${t.sym}</span>${esc(t.label)}</button>`).join("")}</div>
+        <div class="row" style="justify-content:space-between"><button class="btn" id="cHear">🔊 Hear it again</button><span><button class="btn" id="cRedo">Start over</button> <button class="btn" id="cNext">Skip</button></span></div></div>`;
+      if (!built.length) say("Can you say, I want more?");
+      panel.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>{
+        if (locked) return; built.push(b.dataset.w); say(b.dataset.w);
+        if (built.length===3){ const ok = built.join(" ")==="I want more"; locked = true; setTimeout(()=>{ if (ok){ say("Yes! I want more."); } else say("Thank you!"); setTimeout(()=>next(ok), 1100); }, 500); }
+        render();
+      });
+      panel.querySelector("#cHear").onclick = () => say("Can you say, I want more?");
+      panel.querySelector("#cRedo").onclick = () => { built=[]; locked=false; render(); };
+    } else if (step===4){
+      const all = CHECK_QS.every(([k])=>ans[k]!==undefined);
+      panel.innerHTML = head("A few questions for you") + dots() + `<div class="chk-task">
+        <p class="note">Answer for how ${esc(who)} does on a typical day.</p>
+        ${CHECK_QS.map(([k,qt,os])=>`<div class="qa"><span class="q">${esc(qt)}</span><div class="opts" role="group" aria-label="${esc(qt)}">${os.map(([t,v])=>`<button data-q="${k}" data-v="${v}" aria-pressed="${ans[k]===v}">${esc(t)}</button>`).join("")}</div></div>`).join("")}
+        <div class="row" style="justify-content:flex-start"><button class="btn primary" id="cSee" ${all?"":"disabled"}>See the suggested level</button></div></div>`;
+      panel.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{ ans[b.dataset.q] = +b.dataset.v; const y = panel.scrollTop; render(); panel.scrollTop = y; });
+      panel.querySelector("#cSee").onclick = () => { if (all){ step=5; render(); panel.scrollTop=0; } };
+    } else {
+      const r = suggestLevel(tasks, ans, P.age);
+      P.check = {date:Date.now(), suggested:r.L, games:r.t}; save();
+      const talkTxt = CHECK_QS[0][2].find(o=>o[1]===ans.talk)[0].toLowerCase();
+      panel.innerHTML = head("Suggested level") + `<div class="chk-task">
+        <div class="dcard"><h4>${LEVELS[r.L].sym} Level ${r.L} · ${LEVELS[r.L].tag}</h4><p class="note" style="color:var(--ink)">${esc(LEVELS[r.L].what)}</p>
+          <p class="note">Picture games: ${r.t} of 3. Talks today with ${esc(talkTxt)}.</p></div>
+        <div class="lvls">${[1,2,3].map(n=>`<button class="lvl" data-lvl="${n}" aria-pressed="${n===r.L}">${n===r.L?`<span class="rec">Suggested</span>`:""}<b>${LEVELS[n].sym} Use Level ${n} · ${LEVELS[n].tag}</b><small>${LEVELS[n].what}</small></button>`).join("")}</div>
+        <p class="note">This is a starting point, not a test score or a diagnosis. Watch how ${esc(who)} does for a couple of weeks, then move up or down. The Dashboard tells you when they may be ready for more. A speech-language pathologist can help you choose too.</p></div>`;
+      panel.querySelectorAll("[data-lvl]").forEach(b=>b.onclick=()=>{ setLevel(+b.dataset.lvl); syncReg(); done(); });
+    }
+    const c = panel.querySelector("#cClose"); if (c) c.onclick = done;
+    const n = panel.querySelector("#cNext"); if (n) n.onclick = () => { if (!locked) next(null); };
+  }
+  render();
+}
+
+/* the Dashboard's "ready for more?" hint */
+function moveUpHint(){
+  if (lv()>=3) return null;
+  const shown = CORE.filter(it=>coreShown(it) && !it.label.includes(" ")).map(it=>it.label.toLowerCase());
+  const used = shown.filter(w=>(state.learned[w]||0)>=3).length;
+  return shown.length && used/shown.length >= 0.75 ? {used, shown:shown.length} : null;
+}
+
 /* ---------------- Start ---------------- */
 let lastW = window.innerWidth;
 window.addEventListener("resize", ()=>{ if (Math.abs(window.innerWidth-lastW)>80){ lastW=window.innerWidth; renderBoard(); restartScan(); } });
-apply();
+// a brand-new device starts at Level 1
+if (!saved.savedAt && !readReg()){ S.lvl = 1; Object.assign(S, LEVELS[1].set); }
+apply(); syncReg();
 initStorage();
 async function wake(){ try{ if(document.visibilityState==="visible" && navigator.wakeLock) await navigator.wakeLock.request("screen"); }catch{} }
 wake(); document.addEventListener("visibilitychange", wake);
 try{ if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol) && document.querySelector('link[rel="manifest"]')) navigator.serviceWorker.register("sw.js").catch(()=>{}); }catch{}
 if (!synth) toast("This browser can't speak out loud. Messages will show as text.");
 // first visit: show the guide once (it opens on the caregiver steps, since a caregiver usually sets things up)
-setTimeout(()=>{ if (!state.guideSeen && !document.querySelector(".sheet,.helpcard,.game")) openGuide("care", true); }, 700);
+setTimeout(()=>{ if (document.querySelector(".sheet,.helpcard,.game")) return;
+  if (!state.profile.name && !state.profileAsked) openProfileEditor({welcome:true});
+  else if (!state.guideSeen) openGuide("care", true); }, 700);
 })();
 </script>
 </body></html>

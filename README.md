@@ -1,9 +1,16 @@
-# Speakeasy — installable app (v1.1.0)
+# Speakeasy — installable app (v1.2.0)
 McLearn Media LLC · Brandon, MS
 
 This folder is the full Speakeasy app. Put it on any web address and it becomes a real app:
 it installs to the home screen on iPhone, iPad, Android, Windows, Mac and Chromebook, and it
 keeps talking with no internet.
+
+## New in v1.2
+- **A profile for each person** — name, picture, age group and favorite things. Each person has their own words, voice, level, progress and backups. Tap the name at the top to switch people.
+- **Three levels instead of Kids/Adults** — Level 1 Beginner (12 big words), Level 2 Middle (24 words, all groups, keyboard), Level 3 Advanced (48 words, every tool). Levels never delete words, and core words never move. Age group picks age-fitting everyday words.
+- **Level check** — about 2 minutes: 3 picture games for the user and 4 questions for the caregiver. It suggests a starting level. It is not a test score or a diagnosis.
+- **Real bird photos built in** — 120 of 124 birds, from Wikimedia Commons under free licenses, credited in `photos/CREDITS.md`. They work offline. A GitHub Action (`.github/workflows/bird-photos.yml`) can refresh them.
+- **"Ready for more?"** — the Dashboard suggests moving up when someone uses most of their words.
 
 ## New in v1.1
 - **☰ Menu** — every part of Speakeasy in one place: Talk, Play and learn, How to use, Help, and a Caregivers section.
