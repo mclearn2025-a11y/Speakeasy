@@ -1,9 +1,17 @@
-# Speakeasy — installable app (v1.0.0)
+# Speakeasy — installable app (v1.1.0)
 McLearn Media LLC · Brandon, MS
 
 This folder is the full Speakeasy app. Put it on any web address and it becomes a real app:
 it installs to the home screen on iPhone, iPad, Android, Windows, Mac and Chromebook, and it
 keeps talking with no internet.
+
+## New in v1.1
+- **☰ Menu** — every part of Speakeasy in one place: Talk, Play and learn, How to use, Help, and a Caregivers section.
+- **How to use guide** — step-by-step instructions with two tabs: *For the user* (big text, each step can be read aloud, "Show me" points to the button) and *For caregivers* (setup, modeling, safety, with "Take me there" buttons). It opens once on the first visit and anytime from the Menu.
+- **Caregiver Dashboard** — setup checklist with progress, words tapped and messages spoken this week, most used words, practice and bird game scores, backup and install status, and the current setup. All numbers stay on the device.
+- **Settings shortcuts** — quick buttons at the top of Settings jump to each section.
+- **"I" speaks as a word** — some voices said "capital I." Speakeasy now always says it as the word I.
+- Caregiver tools in the Menu need a 2-second hold when the caregiver lock is on, just like the gear.
 
 ## What's in here
 - `index.html` — the app

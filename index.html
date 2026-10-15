@@ -295,6 +295,62 @@ textarea{width:100%;min-height:90px;font-size:12px;font-family:ui-monospace,Menl
   padding:10px 16px;border-radius:var(--r-md);font-weight:600;font-size:14px;z-index:30;max-width:calc(100% - 32px);text-align:center}
 @media (max-width:420px){ .brand{font-size:17px} .ibtn .txt{display:none} .sbtn.speak .txt{display:none} .sbtn.speak{min-width:56px} }
 @media (prefers-reduced-motion:reduce){ *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important} }
+
+/* menu, dashboard and how-to guide (v1.1) */
+.ibtn.menu{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.top{min-width:0}
+.btn{position:relative;overflow:hidden}
+.btn .ring{position:absolute;left:0;bottom:0;height:4px;width:0;background:var(--brand)}
+.btn.holding .ring,.mtile.holding .ring{animation:fill 1.5s linear forwards}
+.sec{scroll-margin-top:64px}
+.snav{display:flex;flex-wrap:wrap;gap:6px;padding-block:4px 12px}
+.phead .mode{flex:none}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.mtile{display:flex;align-items:center;gap:10px;text-align:left;border:1.5px solid var(--line);background:var(--card);border-radius:var(--r-md);
+  padding:10px 12px;min-height:62px;font-weight:600;font-size:15px;position:relative;overflow:hidden;min-width:0}
+.mtile .mi{font-size:24px;flex:none;width:30px;text-align:center}
+.mtile .mt{min-width:0}
+.mtile small{display:block;font-weight:400;font-size:12px;color:var(--muted);line-height:1.3}
+.mtile .ring{position:absolute;left:0;bottom:0;height:4px;width:0;background:var(--brand)}
+.mtile.here{border-color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand)}
+.mtile.care{background:var(--soft)}
+.mtile.sos{background:var(--neg-bg);border-color:var(--neg-bd)}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px}
+.dcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.dcard h4{margin:0;font-size:15px;font-weight:700;display:flex;align-items:center;gap:6px}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.fact{background:var(--bg);border-radius:var(--r-sm);padding:8px 10px;min-width:0}
+.fact b{display:block;font-family:var(--font-tile);font-size:19px;line-height:1.2;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.fact span{font-size:12px;color:var(--muted)}
+.bars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;align-items:end;height:116px}
+.bar{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;height:100%;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:0}
+.bar i{display:block;width:100%;max-width:34px;background:var(--brand2);border-radius:5px 5px 2px 2px;min-height:2px}
+.bar.today i{background:var(--brand)}
+.bar.today span:last-child{color:var(--ink);font-weight:700}
+.toplist{display:flex;flex-wrap:wrap;gap:6px}
+.toplist span{background:var(--soft);border-radius:999px;padding:4px 10px;font-family:var(--font-tile);font-weight:700;font-size:14px}
+.toplist small{font-weight:400;color:var(--muted);margin-left:5px;font-variant-numeric:tabular-nums}
+.progress{height:8px;background:var(--bg2);border-radius:999px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--verb-bd);border-radius:999px}
+.todo{display:flex;align-items:center;gap:10px;padding-block:6px;border-top:1px solid var(--line)}
+.todo:first-child{border-top:0}
+.todo .tk{font-size:17px;flex:none}
+.todo .tt{flex:1;min-width:0;font-size:14px;line-height:1.35}
+.todo.done .tt{color:var(--muted)}
+.todo .btn{min-height:38px;padding:6px 12px;font-size:13px;flex:none}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:12px}
+.step .num{grid-row:span 3;width:34px;height:34px;border-radius:50%;background:var(--brand);color:var(--on-brand);display:flex;align-items:center;justify-content:center;font-weight:700;font-variant-numeric:tabular-nums}
+.step .sh{font-family:var(--font-tile);font-weight:700;font-size:17px;line-height:1.3}
+.step .sb{font-size:14px;line-height:1.5}
+.step .sa{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.step .sa .btn{min-height:40px;padding:6px 12px;font-size:14px}
+.panel.kid .step .sh{font-size:20px}
+.panel.kid .step .sb{font-size:16px}
+.spot{outline:4px solid var(--brand)!important;outline-offset:3px;animation:spot 1s ease-in-out 3;position:relative;z-index:5}
+@keyframes spot{50%{box-shadow:0 0 0 10px var(--soft)}}
+@media (max-width:640px){ .ibtn:not(.menu) .txt{display:none} }
+@media (max-width:420px){ .top .mode{display:none} .top{gap:6px} .ibtn.menu .txt{display:none} }
 </style>
 
 <div id="app">
@@ -305,6 +361,7 @@ textarea{width:100%;min-height:90px;font-size:12px;font-family:ui-monospace,Menl
     <button class="ibtn help" id="helpBtn" aria-label="Help card"><span aria-hidden="true">🆘</span><span class="txt">Help</span></button>
     <button class="ibtn" id="findBtn" aria-label="Find a word"><span aria-hidden="true">🔍</span><span class="txt">Find</span></button>
     <button class="ibtn" id="learnBtn" aria-label="Practice"><span aria-hidden="true">🎯</span><span class="txt">Practice</span></button>
+    <button class="ibtn menu" id="menuBtn" aria-label="Menu" aria-haspopup="dialog"><span aria-hidden="true">☰</span><span class="txt">Menu</span></button>
     <button class="ibtn" id="gearBtn" aria-label="Settings. Hold to open."><span aria-hidden="true">⚙️</span><span class="ring"></span><span class="dot" id="gearDot" hidden></span></button>
   </div>
 
@@ -1003,7 +1060,8 @@ const DEFAULT = {
   settings:{photos:"photos",look:"sparkle",mode:"k",voiceURI:"",rate:0.9,pitch:1,speakOnTap:true,holdMs:0,debounceMs:300,scale:1.1,contrast:false,wordsOnly:false,
             board:"24",level:"all",scan:"off",scanMs:1500,lock:true},
   custom:{}, hidden:[], learned:{}, help:{name:"",contact:"",info:""}, practice:{right:0,tries:0},
-  packs:{birds:true}, topics:[], birdGroup:"all", facts:false, savedAt:0, lastBackup:0
+  packs:{birds:true}, topics:[], birdGroup:"all", facts:false, savedAt:0, lastBackup:0,
+  stats:{days:{}}, guideSeen:false, modeSet:false
 };
 function normalize(d){
   d = d && typeof d==="object" ? d : {};
@@ -1013,7 +1071,8 @@ function normalize(d){
   if (!["24","48"].includes(String(n.settings.board))) n.settings.board = "24";
   n.settings.board = String(n.settings.board);
   if (!["starter","24","all"].includes(n.settings.level)) n.settings.level = "all";
-  for (const k of ["custom","learned","help","practice","packs"]) if (!n[k] || typeof n[k]!=="object") n[k] = structuredClone(DEFAULT[k]);
+  for (const k of ["custom","learned","help","practice","packs","stats"]) if (!n[k] || typeof n[k]!=="object") n[k] = structuredClone(DEFAULT[k]);
+  if (!n.stats.days || typeof n.stats.days!=="object") n.stats.days = {};
   if (!Array.isArray(n.hidden)) n.hidden = []; if (!Array.isArray(n.topics)) n.topics = [];
   return n;
 }
@@ -1151,6 +1210,8 @@ let toastT;
 function toast(t){ const n=$("toast"); n.textContent=t; n.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>n.hidden=true,3200); }
 
 /* ---------------- Speech ---------------- */
+/* Some voices read a lone "I" as "capital I". Speak it as the word it is. Only the sound changes; the screen still shows I. */
+const speakable = t => String(t).replace(/(^|[^A-Za-z'’])I(?![A-Za-z'’])/g, "$1eye");
 const synth = window.speechSynthesis || null;
 let voices = [];
 function loadVoices(){ if(!synth) return; voices = synth.getVoices(); if($("v-voice")) fillVoices(); }
@@ -1160,7 +1221,7 @@ function say(text, cue=false){
   if (!synth){ toast(text); return; }
   try{
     synth.cancel();
-    const u = new SpeechSynthesisUtterance(text);
+    const u = new SpeechSynthesisUtterance(speakable(text));
     const v = voices.find(v=>v.voiceURI===S.voiceURI); if (v) u.voice = v;
     u.rate = cue ? Math.min(2, S.rate*1.2) : S.rate; u.pitch = S.pitch; u.volume = cue ? 0.7 : 1;
     synth.speak(u);
@@ -1382,7 +1443,7 @@ function activate(node){
       if (photoDB[it.id] && photoDB[it.id].src && photosOn()){ const cr=el("small","credit","Photo: Wikimedia Commons"); fl.append(cr); photoCredit(it).then(t=>{ if(t) cr.textContent=t; }); } }
     if (it.fact && state.facts) say(`${it.label}. ${it.fact}`);
     else if (S.speakOnTap) say(it.say||it.label);
-    bump(it.label); renderStrip(); pop(node);
+    track("taps"); bump(it.label); renderStrip(); pop(node);
   } else if (act==="key"){
     const k = node.dataset.k;
     if (k==="back"){ if (typing) typing=typing.slice(0,-1); else msg.pop(); }
@@ -1391,7 +1452,7 @@ function activate(node){
     else typing += k;
     renderStrip(); refreshPred();
   } else if (act==="pred"){
-    const w = node.dataset.w; typing=""; msg.push({label:w, pos:guessPos(w)}); bump(w);
+    const w = node.dataset.w; typing=""; msg.push({label:w, pos:guessPos(w)}); track("taps"); bump(w);
     if (S.speakOnTap) say(w);
     renderStrip(); refreshPred();
   }
@@ -1447,7 +1508,7 @@ document.addEventListener("pointercancel", e=>endPress(e,true));
 board.addEventListener("click", e=>{ const t=e.target.closest("[data-act]"); if(t && e.detail===0) activate(t); }); // keyboard and screen readers
 board.addEventListener("contextmenu", e=>e.preventDefault());
 
-$("speakBtn").onclick = () => { commitTyping(); renderStrip(); const s=sentence(); if(s){ say(s); burst($("speakBtn"),10); flyBird(); } else toast("Choose some words first."); };
+$("speakBtn").onclick = () => { commitTyping(); renderStrip(); const s=sentence(); if(s){ say(s); track("said"); save(); burst($("speakBtn"),10); flyBird(); } else toast("Choose some words first."); };
 $("msg").onclick = $("speakBtn").onclick;
 $("msg").onkeydown = e => { if(e.key==="Enter"){ e.preventDefault(); $("speakBtn").onclick(); } };
 $("delBtn").onclick = () => { if (typing) typing=typing.slice(0,-1); else msg.pop(); renderStrip(); refreshPred(); };
@@ -1625,7 +1686,7 @@ function openGame(t){
   function choose(it, node){
     if (busy || !round) return;
     if (it.id===round.target.id){
-      busy=true; stopGameScan(); score++; if (score>G.best){ G.best=score; } state.practice.right++; save();
+      busy=true; stopGameScan(); score++; if (score>G.best){ G.best=score; } state.practice.right++; state.practice.tries++; save();
       field.classList.add("done");
       field.querySelectorAll(".g-bird").forEach(b=>{ b.classList.remove("hint"); b.classList.add(b===node?"right":"fade"); });
       node.querySelector(".gname").textContent = it.label;
@@ -1762,15 +1823,16 @@ function fillVoices(){
   sel.innerHTML = `<option value="">Device default</option>` + list.map(v=>`<option value="${esc(v.voiceURI)}"${v.voiceURI===S.voiceURI?" selected":""}>${esc(v.name)} (${esc(v.lang)})${v.localService?"":" · needs internet"}</option>`).join("");
 }
 
-function openSettings(){
-  stopScan();
+function openSettings(focus){
+  stopScan(); closeSheets();
   const sheet = el("div","sheet"); sheet.setAttribute("role","dialog"); sheet.setAttribute("aria-label","Settings");
   const opt = (v,cur,t) => `<option value="${v}"${String(v)===String(cur)?" selected":""}>${t}</option>`;
   const editTabs = sections();
   sheet.innerHTML = `<div class="panel">
     <div class="phead"><h2>Settings</h2><button class="btn primary" id="sClose">Done</button></div>
+    <div class="snav" role="navigation" aria-label="Settings sections"><button class="chipbtn" data-open="dash">📊 Dashboard</button><button class="chipbtn" data-open="guide">📘 How to use</button>${[["safe","Backups"],["who","Mode"],["look","Look"],["topics","Topics"],["voice","Voice"],["touch","Touch"],["scan","Scanning"],["help","Help card"],["words","Edit words"],["lock","Lock"],["about","About"]].map(([k,t])=>`<button class="chipbtn" data-jump="${k}">${t}</button>`).join("")}</div>
 
-    <div class="sec"><h3>Keep their words safe</h3>
+    <div class="sec" id="sec-safe"><h3>Keep their words safe</h3>
       <div class="checks" id="safeChecks"></div>
       <div class="row" style="justify-content:flex-start">
         <button class="btn primary" id="b-file">💾 Save backup file</button>
@@ -1781,17 +1843,17 @@ function openSettings(){
         <p class="note">Speakeasy saves a restore point each day it's opened and before big changes, and keeps the last 7. Use one to undo a mistake.</p>
         <div class="elist" id="b-points"></div></details></div>
 
-    <div class="sec"><h3>Who's using Speakeasy</h3>
+    <div class="sec" id="sec-who"><h3>Who's using Speakeasy</h3>
       <div class="row"><span class="seg" role="group" aria-label="Mode">
         <button data-mode="k" aria-pressed="${m()==="k"}">Kids</button><button data-mode="a" aria-pressed="${m()==="a"}">Adults</button></span></div>
       <p class="note">Both modes keep the same core words in the same places, so a child who grows into Adults mode keeps their muscle memory.</p></div>
 
-    <div class="sec"><h3>Look and feel</h3>
+    <div class="sec" id="sec-look"><h3>Look and feel</h3>
       <div class="row"><span class="seg" role="group" aria-label="Look">
         <button data-look="sparkle" aria-pressed="${S.look==="sparkle"}">✨ Sparkle</button><button data-look="calm" aria-pressed="${S.look==="calm"}">🌿 Calm</button></span></div>
       <p class="note">Sparkle adds color bursts, bouncing buttons and a bird that flies by when you speak. Calm turns all movement off. Some autistic kids love the extra excitement and others find it too much, so try both. Core words never move in either look.</p></div>
 
-    <div class="sec"><h3>Topics</h3>
+    <div class="sec" id="sec-topics"><h3>Topics</h3>
       <div class="row"><label for="p-birds">🐦 Birds (124 birds, 6 groups, fun facts)</label><input type="checkbox" id="p-birds" ${state.packs.birds!==false?"checked":""}></div>
       <div class="row"><label for="p-photos">Bird pictures</label><select id="p-photos">${opt("photos",S.photos,"Real photos")}${opt("off",S.photos,"Drawings")}</select></div>
       <p class="note">Real photos come from Wikipedia's free photo library. Each device downloads them once while online, then they work offline. Drawings show until a photo arrives.${photoBlocked?" Photos can't load in this preview, so drawings are showing.":""}</p>
@@ -1804,7 +1866,7 @@ function openSettings(){
       <div class="row" style="justify-content:flex-start"><button class="btn primary" id="t-add">Create topic</button></div>
       <p class="note">A topic is a whole page about something the person loves. After you create one, add its words and real photos below in Edit words.</p></div>
 
-    <div class="sec"><h3>Voice</h3>
+    <div class="sec" id="sec-voice"><h3>Voice</h3>
       <div class="row"><label for="v-voice">Voice</label><select id="v-voice"></select></div>
       <div class="row"><label for="v-rate">Speed</label><input type="range" id="v-rate" min="0.5" max="1.5" step="0.05" value="${S.rate}"></div>
       <div class="row"><label for="v-pitch">Pitch</label><input type="range" id="v-pitch" min="0.5" max="1.5" step="0.05" value="${S.pitch}"></div>
@@ -1812,7 +1874,7 @@ function openSettings(){
       <div class="row"><button class="btn" id="v-test">🔊 Test voice</button></div>
       <p class="note">${synth?"Voices come from this device. Voices marked “needs internet” stop working offline, so pick one without that label for everyday use.":"This browser can't speak out loud. Messages will show as text instead. Try Safari on iPhone or iPad, or Chrome on Android."}</p></div>
 
-    <div class="sec"><h3>Touch and access</h3>
+    <div class="sec" id="sec-touch"><h3>Touch and access</h3>
       <div class="row"><label for="a-hold">Hold to choose</label><select id="a-hold">${opt(0,S.holdMs,"Off")}${opt(300,S.holdMs,"Short (0.3s)")}${opt(600,S.holdMs,"Medium (0.6s)")}${opt(1000,S.holdMs,"Long (1s)")}</select></div>
       <div class="row"><label for="a-deb">Ignore repeat taps</label><select id="a-deb">${opt(0,S.debounceMs,"Off")}${opt(300,S.debounceMs,"0.3s")}${opt(600,S.debounceMs,"0.6s")}${opt(1000,S.debounceMs,"1s")}</select></div>
       <div class="row"><label for="a-size">Button size</label><input type="range" id="a-size" min="0.8" max="1.6" step="0.05" value="${S.scale}"></div>
@@ -1822,33 +1884,33 @@ function openSettings(){
       <div class="row"><label for="a-level">Core words showing</label><select id="a-level">${opt("starter",S.level,"12 starter words")}${opt("24",S.level,"24 words")}${opt("all",S.level,"All")}</select></div>
       <p class="note">Start small and add more as they learn. Words that aren't showing yet keep their real places, so nothing moves when more appear. The 48-button board fits more words and works best on a tablet. Pick one board size and stay with it, because changing sizes moves the words.</p></div>
 
-    <div class="sec"><h3>Switch and listening access</h3>
+    <div class="sec" id="sec-scan"><h3>Switch and listening access</h3>
       <div class="row"><label for="x-scan">Scanning</label><select id="x-scan">${opt("off",S.scan,"Off")}${opt("switch",S.scan,"Switch scanning")}${opt("listen",S.scan,"Listening scanning (speaks each choice)")}</select></div>
       <div class="row"><label for="x-speed">Time on each choice</label><input type="range" id="x-speed" min="800" max="4000" step="100" value="${S.scanMs}"></div>
       <p class="note">Scanning highlights one choice at a time. Choose with the big button at the bottom, the Space key, or a Bluetooth switch set to send Space. Listening scanning reads each choice aloud, for users who are blind or have low vision.</p></div>
 
-    <div class="sec"><h3>Help card</h3>
+    <div class="sec" id="sec-help"><h3>Help card</h3>
       <div class="grid2">
         <label>Name<input type="text" id="h-name" value="${esc(state.help.name)}" autocomplete="off"></label>
         <label>Emergency contact<input type="text" id="h-contact" value="${esc(state.help.contact)}" placeholder="Name and phone number" autocomplete="off"></label></div>
       <label class="grid2" style="grid-template-columns:1fr">Other important info<input type="text" id="h-info" value="${esc(state.help.info)}" placeholder="For example: I'm autistic. Loud noise is painful for me."></label>
       <p class="note">This shows on the red Help button. It stays on this device only.</p></div>
 
-    <div class="sec"><h3>Edit words</h3>
+    <div class="sec" id="sec-words"><h3>Edit words</h3>
       <div class="row"><label for="e-tab">Word group</label><select id="e-tab">${editTabs.map(t=>opt(t,"core",esc(tabMeta(t).name))).join("")}</select></div>
       <div class="elist" id="e-list"></div>
       <div id="e-add"></div></div>
 
-    <div class="sec"><h3>Caregiver lock</h3>
+    <div class="sec" id="sec-lock"><h3>Caregiver lock</h3>
       <div class="row"><label for="l-lock">Hold the gear 2 seconds to open settings</label><input type="checkbox" id="l-lock" ${S.lock?"checked":""}></div></div>
 
-    <div class="sec"><h3>Backup as text</h3>
+    <div class="sec" id="sec-text"><h3>Backup as text</h3>
       <p class="note">If files don't work on this device, copy the backup as text and paste it into an email to yourself. Paste it back here to restore.</p>
       <textarea id="b-text" aria-label="Backup text" placeholder="Paste a backup here to restore it."></textarea>
       <div class="row" style="justify-content:flex-start"><button class="btn" id="b-copy">Copy backup text</button><button class="btn" id="b-restore">Restore from text</button></div></div>
 
-    <div class="sec"><h3>About and privacy</h3>
-      <p class="note">Speakeasy v1.0 by McLearn Media LLC. Bird illustrations are original McLearn Media artwork. Bird photos come from Wikimedia Commons under free licenses, credited in Settings, Photo credits. Everything you add stays on this device. Nothing is sent anywhere, and there's no tracking.</p>
+    <div class="sec" id="sec-about"><h3>About and privacy</h3>
+      <p class="note">Speakeasy v1.1 by McLearn Media LLC. Bird illustrations are original McLearn Media artwork. Bird photos come from Wikimedia Commons under free licenses, credited in Settings, Photo credits. Everything you add stays on this device. Nothing is sent anywhere, and there's no tracking.</p>
       <p class="note">Speakeasy is a communication tool, not therapy. A speech-language pathologist can help choose the right words, settings and goals. Using a talking device does not stop speech from developing. Research shows it often helps.</p></div>
   </div>`;
   document.body.append(sheet);
@@ -1857,6 +1919,8 @@ function openSettings(){
 
   fillVoices();
   q("sClose").onclick = closeSettings;
+  sheet.querySelectorAll("[data-jump]").forEach(b=>b.onclick=()=>{ const s=q("sec-"+b.dataset.jump); if(s) s.scrollIntoView({block:"start",behavior:reduced?"auto":"smooth"}); });
+  sheet.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{ closeSettings(); b.dataset.open==="dash" ? openDashboard() : openGuide("care"); });
   sheet.querySelectorAll("[data-look]").forEach(b=>b.onclick=()=>{ set("look",b.dataset.look); sheet.querySelectorAll("[data-look]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.look===S.look)); });
   q("p-birds").onchange = e => { state.packs.birds = e.target.checked; save(); apply(); rebuildEditTabs(); };
   q("p-photos").onchange = e => { set("photos", e.target.value); };
@@ -1885,7 +1949,7 @@ function openSettings(){
     toast(`Created “${name}”. Add its words below.`);
   };
   sheet.addEventListener("click", e=>{ if(e.target===sheet) closeSettings(); });
-  sheet.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{ set("mode",b.dataset.mode); sheet.querySelectorAll("[data-mode]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.mode===S.mode)); rebuildEditTabs(); });
+  sheet.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{ state.modeSet=true; set("mode",b.dataset.mode); sheet.querySelectorAll("[data-mode]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.mode===S.mode)); rebuildEditTabs(); });
   q("v-voice").onchange = e => { set("voiceURI",e.target.value); say("Hello. This is my voice."); };
   q("v-rate").oninput = e => { S.rate=+e.target.value; save(); };
   q("v-pitch").oninput = e => { S.pitch=+e.target.value; save(); };
@@ -1906,12 +1970,7 @@ function openSettings(){
 
   // keeping their words safe
   function renderSafety(){
-    const rows = [];
-    rows.push(health.idb ? ["ok","Saved on this device"] : health.idb===false ? ["warn", health.localOK ? "Saved, but with limited room on this device. Keep backup files." : "This device isn't saving changes. Save a backup file now."] : ["wait","Checking this device's storage…"]);
-    rows.push(health.persisted ? ["ok","Protected from automatic clean-up"] : ["warn", !installable() ? "This preview can't be protected from clean-up. Open Speakeasy from its own web address and install it. Keep backup files until then." : installed() ? "Not yet protected from automatic clean-up. Keep backup files." : "Install Speakeasy to protect it from automatic clean-up."]);
-    rows.push(installed() ? ["ok","Installed as an app"] : ["warn", !installable() ? "This preview can't be installed or used offline. Open Speakeasy from its own web address to install it." : isIOS ? "Not installed yet. In Safari, tap Share, then Add to Home Screen." : "Not installed yet. Use your browser's Install app option."]);
-    const lb = state.lastBackup;
-    rows.push(lb && Date.now()-lb < 14*864e5 ? ["ok",`Backup file saved ${fmtDay(lb)}`] : ["warn", lb ? `Last backup file ${fmtDay(lb)}. Time for a new one.` : "No backup file yet."]);
+    const rows = safetyRows();
     q("safeChecks").innerHTML = rows.map(([k,t])=>`<div class="chk ${k}"><span aria-hidden="true">${k==="ok"?"✅":k==="warn"?"⚠️":"⏳"}</span><span>${esc(t)}</span></div>`).join("");
   }
   async function renderPoints(){
@@ -1987,6 +2046,7 @@ function openSettings(){
   }
   q("e-tab").onchange = renderEdit;
   renderEdit(); renderTopics();
+  if (focus){ const s=q("sec-"+focus); if (s) setTimeout(()=>{ s.scrollIntoView({block:"start"}); spotlight(s); },60); }
 }
 function closeSettings(){ document.querySelector(".sheet")?.remove(); apply(); }
 
@@ -2001,6 +2061,237 @@ function shrink(file){
   });
 }
 
+function safetyRows(){
+    const rows = [];
+    rows.push(health.idb ? ["ok","Saved on this device"] : health.idb===false ? ["warn", health.localOK ? "Saved, but with limited room on this device. Keep backup files." : "This device isn't saving changes. Save a backup file now."] : ["wait","Checking this device's storage…"]);
+    rows.push(health.persisted ? ["ok","Protected from automatic clean-up"] : ["warn", !installable() ? "This preview can't be protected from clean-up. Open Speakeasy from its own web address and install it. Keep backup files until then." : installed() ? "Not yet protected from automatic clean-up. Keep backup files." : "Install Speakeasy to protect it from automatic clean-up."]);
+    rows.push(installed() ? ["ok","Installed as an app"] : ["warn", !installable() ? "This preview can't be installed or used offline. Open Speakeasy from its own web address to install it." : isIOS ? "Not installed yet. In Safari, tap Share, then Add to Home Screen." : "Not installed yet. Use your browser's Install app option."]);
+    const lb = state.lastBackup;
+    rows.push(lb && Date.now()-lb < 14*864e5 ? ["ok",`Backup file saved ${fmtDay(lb)}`] : ["warn", lb ? `Last backup file ${fmtDay(lb)}. Time for a new one.` : "No backup file yet."]);
+  return rows;
+}
+const checksHTML = rows => rows.map(([k,t])=>`<div class="chk ${k}"><span aria-hidden="true">${k==="ok"?"✅":k==="warn"?"⚠️":"⏳"}</span><span>${esc(t)}</span></div>`).join("");
+
+/* ---------------- Menu, dashboard and how-to guide (v1.1) ----------------
+   The Menu puts every part of Speakeasy in one place. Talking tools are open to everyone.
+   Caregiver tools need a 2-second hold when the caregiver lock is on, just like the gear. */
+const stampOf = d => { const p=n=>String(n).padStart(2,"0"); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`; };
+function track(kind){
+  const D = state.stats.days, k = stampOf(new Date()); const r = D[k] ||= {taps:0, said:0}; r[kind] = (r[kind]||0) + 1;
+  const keys = Object.keys(D).sort(); while (keys.length > 60) delete D[keys.shift()];
+}
+
+let installEvt = null;
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); installEvt = e; });
+async function doInstall(){
+  if (installed()) { toast("Speakeasy is already installed on this device."); return; }
+  if (installEvt){ try { installEvt.prompt(); await installEvt.userChoice; } catch {} installEvt = null; return; }
+  toast(!installable() ? "Open Speakeasy from its own web address to install it." : isIOS ? "In Safari, tap Share, then Add to Home Screen." : "Open your browser's menu and choose Install app.");
+}
+
+function closeSheets(){ document.querySelectorAll(".sheet").forEach(s=>s.remove()); }
+function makeSheet(label, cls=""){
+  stopScan(); closeSheets();
+  const sheet = el("div","sheet"); sheet.setAttribute("role","dialog"); sheet.setAttribute("aria-label",label);
+  const panel = el("div","panel "+cls); sheet.append(panel); document.body.append(sheet);
+  const close = () => { sheet.remove(); restartScan(); };
+  sheet.addEventListener("click", e=>{ if (e.target===sheet) close(); });
+  return {sheet, panel, close};
+}
+function spotlight(node, words){
+  if (!node) return;
+  node.scrollIntoView({block:"nearest",inline:"nearest"});
+  node.classList.remove("spot"); void node.offsetWidth; node.classList.add("spot");
+  setTimeout(()=>node.classList.remove("spot"), 3200);
+  if (words) say(words);
+}
+// caregiver-only buttons: a 2-second hold when the lock is on
+function guarded(btn, action){
+  let t = null;
+  btn.addEventListener("pointerdown", ()=>{ if (!S.lock) return; btn.classList.add("holding"); t = setTimeout(()=>{ t="done"; btn.classList.remove("holding"); action(); }, 1500); });
+  const cancel = tell => { if (t && t!=="done"){ clearTimeout(t); t=null; btn.classList.remove("holding"); if (tell) toast("Caregivers: hold for 2 seconds to open this."); } };
+  btn.addEventListener("pointerup", ()=>cancel(true));
+  btn.addEventListener("pointerleave", ()=>cancel(false));
+  btn.addEventListener("click", e=>{ if (!S.lock || e.detail===0) action(); t = null; });
+}
+document.addEventListener("keydown", e=>{ if (e.key==="Escape"){ const s=[...document.querySelectorAll(".sheet")].pop(); if (s){ s.remove(); restartScan(); } } });
+
+/* ---- Menu ---- */
+function openMenu(){
+  const {panel, close} = makeSheet("Menu","menu");
+  panel.innerHTML = `<div class="phead"><h2>Menu</h2><span class="mode">${m()==="k"?"Kids mode":"Adults mode"}</span><button class="btn primary" id="mClose">Close</button></div>`;
+  panel.querySelector("#mClose").onclick = close;
+  const go = k => {
+    close();
+    if (k==="game") return openGame("birds");
+    if (k==="practice") return learn.on ? stopLearn() : startLearn();
+    if (k==="find") return $("findBtn").onclick();
+    if (k==="help") return $("helpBtn").onclick();
+    if (k==="guide-talk") return openGuide("talk");
+    if (k==="guide-care") return openGuide("care");
+    if (k==="dash") return openDashboard();
+    if (k==="install") return doInstall();
+    if (k==="settings") return openSettings();
+    if (["words","help-set","voice","safe"].includes(k)) return openSettings(k==="help-set" ? "help" : k);
+    tab = k; if (k==="groups") sub = null;                      // a word board
+    renderTabs(); renderBoard(); restartScan();
+    document.querySelector(`.tab[data-tab="${CSS.escape(k)}"]`)?.scrollIntoView({inline:"center",block:"nearest"});
+  };
+  const group = (title, items, opts={}) => {
+    const sec = el("div","sec"); sec.append(el("h3",null,title));
+    if (opts.care) sec.append(el("p","note", S.lock ? "For caregivers. Hold a button for 2 seconds to open it." : "For caregivers."));
+    const grid = el("div","mgrid");
+    for (const [k,sym,name,desc,extra] of items){
+      const b = el("button","mtile"+(opts.care?" care":"")+(extra?" "+extra:"")+(k===tab?" here":""));
+      if (k===tab) b.setAttribute("aria-current","page");
+      b.append(el("span","mi",sym));
+      const t = el("span","mt"); t.append(document.createTextNode(name)); if (desc) t.append(el("small",null,desc)); b.append(t);
+      if (opts.care){ b.append(el("span","ring")); guarded(b, ()=>go(k)); } else b.onclick = () => go(k);
+      grid.append(b);
+    }
+    sec.append(grid); panel.append(sec);
+  };
+  const topicRows = topicTabs().map(t => [t, tabMeta(t).sym, tabMeta(t).name, PACKS[t] ? `${PACKS[t].items.length} birds with fun facts` : `${(state.custom[t]||[]).length} words`]);
+  group("Talk", [
+    ["core","⭐","Core words","The main talking board"], ...topicRows,
+    ["groups","🗂️","Word groups","Feelings, food, people and more"],
+    ["phrases","💬","Phrases","Whole sentences, ready to say"],
+    ["keyboard","⌨️","Keyboard","Spell any word"]
+  ]);
+  group("Play and learn", [
+    ...(state.packs.birds!==false ? [["game","🎮","Bird game","Find the right bird"]] : []),
+    ["practice","🎯", learn.on ? "Stop practice" : "Practice", learn.on ? "Practice is on now" : "Find words on the board"],
+    ["find","🔍","Find a word","See where a word lives"]
+  ]);
+  group("How to use", [
+    ["guide-talk","👋","How to talk","Simple steps for the user"],
+    ["guide-care","📘","Caregiver guide","Set up, teach and keep safe"]
+  ]);
+  group("Help", [["help","🆘","Help card","Shows and says who to call","sos"]]);
+  group("Caregivers 🔒", [
+    ["dash","📊","Dashboard","Progress, setup steps, safety"],
+    ["words","✏️","Edit words","Add words and photos"],
+    ["help-set","🆘","Set up Help card","Name and emergency contact"],
+    ["voice","🔊","Voice","Pick a voice and speed"],
+    ["safe","💾","Backups","Keep their words safe"],
+    ...(installed() ? [] : [["install","📲","Install app","Works offline from the home screen"]]),
+    ["settings","⚙️","All settings","Every option in one list"]
+  ], {care:true});
+}
+$("menuBtn").onclick = openMenu;
+
+/* ---- Caregiver dashboard ---- */
+function openDashboard(){
+  const {panel, close} = makeSheet("Caregiver dashboard","dash");
+  const render = () => {
+    const D = state.stats.days, days = [];
+    for (let i=6; i>=0; i--){ const d=new Date(); d.setDate(d.getDate()-i); days.push({d, r:D[stampOf(d)]||{taps:0,said:0}, today:i===0}); }
+    const taps = days.reduce((n,x)=>n+(x.r.taps||0),0), said = days.reduce((n,x)=>n+(x.r.said||0),0), used = days.filter(x=>x.r.taps>0).length;
+    const maxT = Math.max(1, ...days.map(x=>x.r.taps||0));
+    const top = Object.entries(state.learned).sort((a,b)=>b[1]-a[1]).slice(0,12);
+    const P = state.practice, pct = P.tries ? Math.min(100, Math.round(P.right/P.tries*100)) : null;
+    const lb = state.lastBackup, backupOK = !!lb && Date.now()-lb < 14*864e5;
+    const tasks = [
+      ["Choose Kids or Adults mode", !!state.modeSet, "who"],
+      ["Read the caregiver guide", !!state.guideSeen, "guide"],
+      ["Fill in the Help card", !!(state.help.name && state.help.contact), "help"],
+      ["Choose a voice", !!S.voiceURI, "voice"],
+      ["Add their own words or photos", addedWords(state)>0, "words"],
+      ["Save a backup file", backupOK, "backup"],
+      ["Install Speakeasy as an app", installed(), "install"]
+    ];
+    const done = tasks.filter(t=>t[1]).length;
+    const voice = voices.find(v=>v.voiceURI===S.voiceURI);
+    const fact = (v,l) => `<div class="fact"><b>${esc(v)}</b><span>${esc(l)}</span></div>`;
+    panel.innerHTML = `<div class="phead"><h2>Dashboard</h2><button class="btn primary" id="dClose">Done</button></div>
+      <p class="note">${m()==="k"?"Kids":"Adults"} mode. These numbers stay on this device and are never sent anywhere.</p>
+      <div class="dgrid">
+        <div class="dcard"><h4>✅ Setup steps</h4>
+          <div class="progress" role="progressbar" aria-label="Setup steps done" aria-valuemin="0" aria-valuemax="${tasks.length}" aria-valuenow="${done}"><i style="width:${Math.round(done/tasks.length*100)}%"></i></div>
+          <p class="note">${done} of ${tasks.length} done${done===tasks.length?". Everything is set up.":""}</p>
+          <div>${tasks.map(([t,ok,k])=>`<div class="todo${ok?" done":""}"><span class="tk" aria-hidden="true">${ok?"✅":"⬜"}</span><span class="tt">${esc(t)}</span>${ok?"":`<button class="btn" data-do="${k}">Do it</button>`}</div>`).join("")}</div></div>
+        <div class="dcard"><h4>💬 Talking this week</h4>
+          <div class="facts">${fact(taps,"words tapped")}${fact(said,"messages spoken")}${fact(used+" of 7","days used")}${fact(Object.keys(state.learned).length,"different words, all time")}</div>
+          <div class="bars" role="img" aria-label="Words tapped each day this week: ${days.map(x=>(x.r.taps||0)).join(", ")}">${days.map(x=>`<div class="bar${x.today?" today":""}"><span>${x.r.taps||0}</span><i style="height:${Math.round((x.r.taps||0)/maxT*72)}px"></i><span>${esc(x.d.toLocaleDateString(undefined,{weekday:"short"}))}</span></div>`).join("")}</div></div>
+        <div class="dcard"><h4>⭐ Most used words</h4>
+          ${top.length ? `<div class="toplist">${top.map(([w,n])=>`<span>${esc(w.replace(/^i(?=$|['’])/,"I"))}<small>${n}</small></span>`).join("")}</div>` : `<p class="note">The words they tap most will show here.</p>`}
+          <p class="note">Their favorite words are great ones to model. Use them in short sentences on the board while you talk.</p></div>
+        <div class="dcard"><h4>🎯 Practice and games</h4>
+          <div class="facts">${fact(P.right,"words and birds found")}${fact(pct===null?"–":pct+"%","of tries were right")}${fact((state.game&&state.game.best)||0,"best bird game streak")}${fact(learn.on?"On":"Off","practice right now")}</div>
+          <div class="row" style="justify-content:flex-start"><button class="btn" data-do="practice">${learn.on?"Stop practice":"Start practice"}</button>${state.packs.birds!==false?`<button class="btn" data-do="game">Bird game</button>`:""}</div></div>
+        <div class="dcard"><h4>💾 Keep their words safe</h4>
+          <div class="checks">${checksHTML(safetyRows())}</div>
+          <div class="row" style="justify-content:flex-start"><button class="btn primary" data-do="backup">Save backup file</button></div></div>
+        <div class="dcard"><h4>⚙️ Current setup</h4>
+          <div class="facts">${fact(m()==="k"?"Kids":"Adults","mode")}${fact(S.board+" buttons","core board")}${fact(S.level==="starter"?"12":S.level==="24"?"24":"All","core words showing")}${fact(S.look==="sparkle"?"Sparkle":"Calm","look")}${fact(voice?voice.name:"Device default","voice")}${fact(S.scan==="off"?"Off":S.scan==="switch"?"Switch":"Listening","scanning")}</div>
+          <div class="row" style="justify-content:flex-start"><button class="btn" data-do="settings">Change settings</button><button class="btn" data-do="guide">Caregiver guide</button></div></div>
+      </div>`;
+    panel.querySelector("#dClose").onclick = close;
+    panel.querySelectorAll("[data-do]").forEach(b=>b.onclick = async () => {
+      const k = b.dataset.do;
+      if (k==="backup"){ if (await saveBackupFile()) render(); return; }
+      if (k==="install"){ doInstall(); return; }
+      close();
+      if (k==="guide") openGuide("care");
+      else if (k==="practice") learn.on ? stopLearn() : startLearn();
+      else if (k==="game") openGame("birds");
+      else if (k==="settings") openSettings();
+      else openSettings(k);
+    });
+  };
+  render();
+}
+
+/* ---- How to use ---- */
+const GUIDE = {
+  talk: [
+    {h:"Tap a word. Speakeasy says it.", b:"Every button is a word. Tap one and you will hear it.", show:()=>board.querySelector(".tile:not(.empty)")},
+    {h:"Tap more words to make a sentence.", b:"Your words line up at the top, like I want more.", show:()=>$("msg")},
+    {h:"Tap Speak to say it all.", b:"The Speak button says your whole sentence out loud. You can also tap the sentence.", show:()=>$("speakBtn")},
+    {h:"Fix a mistake.", b:"The back arrow takes away the last word. The X clears everything.", show:()=>$("delBtn")},
+    {h:"Find more words at the top.", b:"Tap Birds, Groups, Phrases or Keyboard to see more words.", show:()=>$("tabs")},
+    {h:"Change a word.", b:"Tap the plus-minus button to change a word, like want to wants or wanted.", show:()=>$("formBtn")},
+    {h:"Need help? Tap the red Help button.", b:"It shows who you are and who to call, and says it out loud.", show:()=>$("helpBtn")},
+    {h:"Open the Menu to go anywhere.", b:"The Menu has every part of Speakeasy in one place.", show:()=>$("menuBtn")}
+  ],
+  care: [
+    {h:"Pick Kids or Adults mode", b:"Kids mode puts playful words and the bird game first. Adults mode puts phrases and the keyboard first. Core words stay in the same places in both.", go:"who"},
+    {h:"Start small, then add more", b:"Begin with 12 starter words. When those feel easy, show 24, then all of them. Words that aren't showing yet keep their places, so nothing moves.", go:"touch"},
+    {h:"Show them how it works", b:"When you talk to them, tap the same words on the screen as you say them. This is called modeling, and it's the fastest way people learn to use a talking app. Don't ask them to copy you. Just show.", show:()=>board.querySelector(".tile:not(.empty)")},
+    {h:"Choose a voice", b:"Pick a voice that fits them. Choose one that doesn't need the internet, so it always works.", go:"voice"},
+    {h:"Fill in the Help card", b:"Add their name and an emergency contact. This shows when they tap the red Help button.", go:"help"},
+    {h:"Add their own words and photos", b:"Add the names of people, places and favorite things. A photo of their real cup or dog works better than a cartoon.", go:"words"},
+    {h:"Make a topic they love", b:"Love trains or dinosaurs? Make a whole page for it, with its own words and photos.", go:"topics"},
+    {h:"Practice and play", b:"Practice says a word and they find it on the board. The bird game shows three birds and they pick the right one. Every round ends in a win.", show:()=>$("learnBtn")},
+    {h:"Turn on scanning if tapping is hard", b:"Scanning lights up one choice at a time, and they choose with one big button or a switch. Listening scanning reads each choice out loud.", go:"scan"},
+    {h:"Keep their words safe", b:"Save a backup file after big changes and keep it in your email or cloud drive. Install Speakeasy on the home screen so it works without internet.", go:"safe"},
+    {h:"Lock the settings", b:"With the caregiver lock on, settings open only when you hold the gear for 2 seconds. That keeps changes safe from curious fingers.", go:"lock"},
+    {h:"Check the Dashboard", b:"See the words they use most, how often they talk, practice scores, and what to set up next.", dash:true}
+  ]
+};
+function openGuide(which="talk", first=false){
+  const {panel, close} = makeSheet("How to use Speakeasy","guide");
+  let cur = which;
+  const render = () => {
+    if (cur==="care" && !state.guideSeen){ state.guideSeen = true; save(); }
+    panel.classList.toggle("kid", cur==="talk");
+    const steps = GUIDE[cur];
+    panel.innerHTML = `<div class="phead"><h2>How to use</h2><button class="btn primary" id="gClose">${first?"Start talking":"Close"}</button></div>
+      ${first?`<p class="note">Welcome to Speakeasy. Here's how it works. You can open this again anytime from the Menu.</p>`:""}
+      <div class="row" style="justify-content:flex-start;margin-block:8px"><span class="seg" role="group" aria-label="Who this guide is for">
+        <button data-g="talk" aria-pressed="${cur==="talk"}">For the user</button><button data-g="care" aria-pressed="${cur==="care"}">For caregivers</button></span></div>
+      <ol class="steps">${steps.map((s,i)=>`<li class="step"><span class="num" aria-hidden="true">${i+1}</span><span class="sh">${esc(s.h)}</span><span class="sb">${esc(s.b)}</span>
+        <span class="sa">${cur==="talk"?`<button class="btn" data-say="${i}">🔊 Read it to me</button>`:""}${s.show?`<button class="btn" data-show="${i}">👀 Show me</button>`:""}${(s.go||s.dash)?`<button class="btn" data-go="${i}">Take me there<span class="ring"></span></button>`:""}</span></li>`).join("")}</ol>
+      ${cur==="care"?`<p class="note" style="margin-top:12px">${S.lock?"Take me there buttons open settings, so hold them for 2 seconds. ":""}Speakeasy is a communication tool, not therapy. A speech-language pathologist can help choose the right words, settings and goals.</p>`:""}`;
+    panel.querySelector("#gClose").onclick = close;
+    panel.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>{ cur=b.dataset.g; render(); panel.scrollTop=0; });
+    panel.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>{ const s=steps[+b.dataset.say]; say(`${s.h} ${s.b}`); });
+    panel.querySelectorAll("[data-show]").forEach(b=>b.onclick=()=>{ const s=steps[+b.dataset.show], talk=cur==="talk"; close(); setTimeout(()=>spotlight(s.show(), talk ? s.h : ""), 150); });
+    panel.querySelectorAll("[data-go]").forEach(b=>{ const s=steps[+b.dataset.go]; guarded(b, ()=>{ close(); if (s.dash) openDashboard(); else openSettings(s.go); }); });
+  };
+  render();
+}
+
 /* ---------------- Start ---------------- */
 let lastW = window.innerWidth;
 window.addEventListener("resize", ()=>{ if (Math.abs(window.innerWidth-lastW)>80){ lastW=window.innerWidth; renderBoard(); restartScan(); } });
@@ -2010,6 +2301,8 @@ async function wake(){ try{ if(document.visibilityState==="visible" && navigator
 wake(); document.addEventListener("visibilitychange", wake);
 try{ if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol) && document.querySelector('link[rel="manifest"]')) navigator.serviceWorker.register("sw.js").catch(()=>{}); }catch{}
 if (!synth) toast("This browser can't speak out loud. Messages will show as text.");
+// first visit: show the guide once (it opens on the caregiver steps, since a caregiver usually sets things up)
+setTimeout(()=>{ if (!state.guideSeen && !document.querySelector(".sheet,.helpcard,.game")) openGuide("care", true); }, 700);
 })();
 </script>
 </body></html>
