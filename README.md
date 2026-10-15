@@ -1,9 +1,12 @@
-# Speakeasy — installable app (v1.3.0)
+# Speakeasy — installable app (v1.3.1)
 McLearn Media LLC · Brandon, MS
 
 This folder is the full Speakeasy app. Put it on any web address and it becomes a real app:
 it installs to the home screen on iPhone, iPad, Android, Windows, Mac and Chromebook, and it
 keeps talking with no internet.
+
+## New in v1.3.1
+- **Big picture**: on any topic page, choose what a tap does — just say the word, or say it and show the whole picture big on a clean screen. Tap anywhere to close.
 
 ## New in v1.3
 - **12 topic pages to pick in each profile**, each with real photos, names, fun facts, groups and its own game: Birds, Dogs, Things that go, Trees, U.S. states, Houses and buildings, Dinosaurs, Sea animals, Space, Bugs, Sports and Musical instruments (440 items, 419 with real photos).

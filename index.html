@@ -409,6 +409,20 @@ textarea{width:100%;min-height:90px;font-size:12px;font-family:ui-monospace,Menl
 .tile .alt{display:block;font-weight:400;font-size:.78em;color:var(--muted);line-height:1.1}
 .nicks{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:8px}
 .nicks label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600}
+
+/* big picture view (v1.3.1): the whole picture on a clean background, nothing covering it */
+.bigpic{position:fixed;inset:0;z-index:22;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  padding-inline:16px;padding-block:calc(16px + env(safe-area-inset-top,0px)) calc(16px + env(safe-area-inset-bottom,0px));cursor:pointer;animation:bpin .18s ease-out}
+@keyframes bpin{from{opacity:0}to{opacity:1}}
+.bp-pic{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center}
+.bp-pic img{max-width:100%;max-height:100%;object-fit:contain;border-radius:var(--r-lg)}
+.bp-pic svg{width:auto;height:100%;max-width:100%;aspect-ratio:1;border-radius:var(--r-lg)}
+.bp-sym{font-size:min(50vw,40vh);line-height:1}
+.bp-name{font-family:var(--font-tile);font-weight:700;font-size:clamp(30px,8vw,56px);line-height:1.1;text-align:center;text-wrap:balance}
+.bp-fact{font-family:var(--font-tile);font-size:clamp(17px,4.5vw,24px);line-height:1.4;text-align:center;max-width:36ch;margin:0}
+.bp-acts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.bp-acts .btn{min-height:56px;font-size:18px;padding-inline:20px}
+.bigpic .credit{text-align:center;max-width:60ch}
 </style>
 
 <div id="app">
@@ -1165,6 +1179,7 @@ function normalize(d){
   if (!n.stats.days || typeof n.stats.days!=="object") n.stats.days = {};
   n.profile = {...structuredClone(DEFAULT.profile), ...n.profile}; if (!Array.isArray(n.profile.interests)) n.profile.interests = [];
   if (!["nick","both"].includes(n.settings.nickShow)) n.settings.nickShow = "both";
+  if (!["say","big"].includes(n.settings.tapView)) n.settings.tapView = "say";
   if (![1,2,3].includes(n.settings.lvl)) n.settings.lvl = n.settings.level==="starter" ? 1 : n.settings.board==="48" ? 3 : 2;
   if (!Array.isArray(n.hidden)) n.hidden = []; if (!Array.isArray(n.topics)) n.topics = [];
   return n;
@@ -1449,6 +1464,12 @@ function renderBoard(){
       gb.append(el("span",null,"🎮"), el("span",null, pack ? pack.game : "Play a game"));
       gb.onclick = () => openGame(tab); head.prepend(gb);
     }
+    if (!off("bigview")){
+      const bv = el("button","chipbtn"); bv.dataset.scan="1"; bv.setAttribute("aria-pressed", S.tapView==="big");
+      bv.append(el("span",null,"🔍"), el("span",null, S.tapView==="big" ? "Big picture: on" : "Big picture: off"));
+      bv.onclick = () => { S.tapView = S.tapView==="big" ? "say" : "big"; save(); renderBoard(); restartScan(); toast(S.tapView==="big" ? "Tap a picture to say it and see it big." : "Tap a picture to just say it."); };
+      head.append(bv);
+    }
     if (head.children.length) board.append(head);
     if (pack && pack.facts){ const fl = el("div","factline"); fl.id="factLine"; fl.setAttribute("aria-live","polite");
       const nn = pack.noun==="one" ? "picture" : pack.noun; fl.textContent = state.facts ? `Tap a ${nn} to hear its name and a fun fact.` : `Tap a ${nn} to say its name. Turn on fun facts to learn more.`; board.append(fl);
@@ -1503,6 +1524,27 @@ function renderHome(board){
   if (grid.children.length) board.append(grid);
   else board.append(el("p","note","Everything is turned off right now. A caregiver can turn things back on in Settings, Show and hide."));
 }
+function showBig(it){
+  document.querySelector(".bigpic")?.remove(); stopScan(); clearTimeout(toastT); $("toast").hidden = true;   // nothing sits on top of the picture
+  const v = el("div","bigpic"); v.setAttribute("role","dialog"); v.setAttribute("aria-label", it.label);
+  const fig = el("div","bp-pic");
+  const src = photosOn() ? (photoSrcOf(it) || "") : "", own = it.img && it.img!=="__idb__" ? it.img : "";
+  if (src || own){ const im = el("img"); im.src = src || own; im.alt = it.label; im.onerror = () => { im.remove(); if (it.art) fig.innerHTML = birdSVG(it.art); }; fig.append(im); }
+  else if (it.art) fig.innerHTML = birdSVG(it.art);
+  else fig.append(el("span","bp-sym", it.sym || "⭐"));
+  v.append(fig, el("div","bp-name", it.label));
+  if (it.fact && state.facts) v.append(el("p","bp-fact", it.fact));
+  const again = el("button","btn","🔊 Say it again"), close = el("button","btn primary","Close");
+  const row = el("div","bp-acts"); row.append(again, close); v.append(row);
+  if (src){ const cr = el("small","credit","Photo: Wikimedia Commons"); v.append(cr); photoCredit(it).then(t=>{ if (t) cr.textContent = t; }); }
+  const t0 = performance.now();
+  const done = () => { v.remove(); document.removeEventListener("keydown", onKey); restartScan(); };
+  const onKey = e => { if (["Escape"," ","Enter"].includes(e.key)){ e.preventDefault(); done(); } };
+  again.onclick = e => { e.stopPropagation(); say(it.say || it.label); };
+  v.addEventListener("click", e => { if (e.target===again || performance.now()-t0 < 450) return; done(); });   // the same tap doesn't close it
+  document.addEventListener("keydown", onKey);
+  document.body.append(v);
+}
 function predictions(){
   const p = typing.toLowerCase();
   const L = state.learned;
@@ -1553,6 +1595,7 @@ function activate(node){
     const fl = $("factLine");
     if (it.fact && fl){ fl.dataset.touched="1"; fl.replaceChildren(el("b",null,it.label+". "), document.createTextNode(it.fact));
       if (photoSrcOf(it) && photosOn()){ const cr=el("small","credit","Photo: Wikimedia Commons"); fl.append(cr); photoCredit(it).then(t=>{ if(t) cr.textContent=t; }); } }
+    if (isTopic(tab) && S.tapView==="big" && !off("bigview") && (hasPic(it) || (it.img && it.img!=="__idb__"))) showBig(it);
     if (it.fact && state.facts) say(`${it.label}. ${it.fact}`);
     else if (S.speakOnTap) say(it.say||it.label);
     track("taps"); bump(it.label); renderStrip(); pop(node);
@@ -1871,7 +1914,7 @@ function scanTargets(){
 function stopScan(){ clearInterval(scan.timer); scan.timer=null; document.querySelectorAll(".scan-on").forEach(n=>n.classList.remove("scan-on")); }
 function restartScan(delay=0){
   stopScan();
-  if (S.scan==="off" || document.querySelector(".sheet,.helpcard,.game")) return;
+  if (S.scan==="off" || document.querySelector(".sheet,.helpcard,.game,.bigpic")) return;
   setTimeout(()=>{
     if (S.scan==="off" || scan.timer) return;
     scan.els = scanTargets(); scan.i = -1;
@@ -1893,7 +1936,7 @@ function scanSelect(){
 }
 $("switchBar").addEventListener("pointerdown", e=>{ e.preventDefault(); scanSelect(); });
 document.addEventListener("keydown", e=>{
-  if (S.scan==="off" || document.querySelector(".sheet,.helpcard,.game")) return;
+  if (S.scan==="off" || document.querySelector(".sheet,.helpcard,.game,.bigpic")) return;
   if (e.key===" " || e.key==="Enter"){ e.preventDefault(); scanSelect(); }
 });
 
@@ -1975,6 +2018,7 @@ function openSettings(focus){
     <div class="sec" id="sec-topics"><h3>Topics</h3>
       <div class="row"><label for="p-birds">🐦 Birds (124 birds, 6 groups, fun facts)</label><input type="checkbox" id="p-birds" ${state.packs.birds!==false?"checked":""}></div>
       ${Object.entries(PACKS).filter(([k])=>k!=="birds").map(([k,p])=>`<div class="row"><label for="p-${k}">${p.sym} ${esc(p.name)} (${p.items.length} ${esc(p.plural)}, fun facts)</label><input type="checkbox" data-pack="${k}" id="p-${k}" ${state.packs[k]===true?"checked":""}></div>`).join("")}
+      <div class="row"><label for="p-tap">When they tap a picture</label><select id="p-tap">${opt("say",S.tapView,"Just say the word")}${opt("big",S.tapView,"Say it and show it big")}</select></div>
       <div class="row"><label for="p-photos">Bird pictures</label><select id="p-photos">${opt("photos",S.photos,"Real photos")}${opt("off",S.photos,"Drawings")}</select></div>
       <p class="note">Real bird photos are built into Speakeasy, so they work offline too. They come from Wikimedia Commons under free licenses, and every photographer is credited. The few birds without a free photo show a drawing.${photoBlocked?" Photos can't load in this preview, so drawings are showing.":""}</p>
       <div class="row" style="justify-content:flex-start"><button class="btn" id="p-credits">Photo credits</button></div>
@@ -2030,7 +2074,7 @@ function openSettings(focus){
       <div class="row" style="justify-content:flex-start"><button class="btn" id="b-copy">Copy backup text</button><button class="btn" id="b-restore">Restore from text</button></div></div>
 
     <div class="sec" id="sec-about"><h3>About and privacy</h3>
-      <p class="note">Speakeasy v1.3 by McLearn Media LLC. Bird illustrations are original McLearn Media artwork. Photos come from Wikimedia Commons under free licenses, credited in Settings, Photo credits. Everything you add stays on this device. Nothing is sent anywhere, and there's no tracking.</p>
+      <p class="note">Speakeasy v1.3.1 by McLearn Media LLC. Bird illustrations are original McLearn Media artwork. Photos come from Wikimedia Commons under free licenses, credited in Settings, Photo credits. Everything you add stays on this device. Nothing is sent anywhere, and there's no tracking.</p>
       <p class="note">Speakeasy is a communication tool, not therapy. A speech-language pathologist can help choose the right words, settings and goals. Using a talking device does not stop speech from developing. Research shows it often helps.</p></div>
   </div>`;
   document.body.append(sheet);
@@ -2046,6 +2090,7 @@ function openSettings(focus){
   q("p-birds").onchange = e => { state.packs.birds = e.target.checked; syncFav("birds", e.target.checked); save(); apply(); rebuildEditTabs(); };
   sheet.querySelectorAll("[data-pack]").forEach(c=>c.onchange = e => { const k=c.dataset.pack; state.packs[k] = e.target.checked; syncFav(k, e.target.checked); save(); apply(); rebuildEditTabs(); });
   q("p-photos").onchange = e => { set("photos", e.target.value); };
+  q("p-tap").onchange = e => { set("tapView", e.target.value); };
   q("p-credits").onclick = async () => {
     const list = q("p-credlist"); const have = Object.values(PACKS).flatMap(p=>p.items).filter(it=>photoSrcOf(it));
     if (!have.length){ list.innerHTML = `<p class="note">No photos downloaded on this device yet. Open the Birds tab while online.</p>`; return; }
@@ -2476,7 +2521,7 @@ const L1_GROUPS = new Set(["feelings","social","food","people","places","play","
 function showGroups(){
   return [
     ["Talking pages", [["core","⭐ Core words"], ...topicTabs().map(t=>[t, `${tabMeta(t).sym} ${tabMeta(t).name}`]), ["groups","🗂️ Word groups"], ["phrases","💬 Phrases"], ["keyboard","⌨️ Keyboard"]]],
-    ["Tools", [["games","🎮 Games"], ["practice","🎯 Practice"], ["find","🔍 Find a word"], ["facts","💡 Fun facts button"], ["endings","± Word endings"], ["msgbar","Message bar and Speak button"], ["menu","☰ Menu button"], ["people","👤 Name button (switch people)"]]],
+    ["Tools", [["games","🎮 Games"], ["practice","🎯 Practice"], ["find","🔍 Find a word"], ["facts","💡 Fun facts button"], ["bigview","🔍 Big picture button"], ["endings","± Word endings"], ["msgbar","Message bar and Speak button"], ["menu","☰ Menu button"], ["people","👤 Name button (switch people)"]]],
     ["Safety", [["help","🆘 Red Help button"]]]
   ];
 }
@@ -2726,7 +2771,7 @@ wake(); document.addEventListener("visibilitychange", wake);
 try{ if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol) && document.querySelector('link[rel="manifest"]')) navigator.serviceWorker.register("sw.js").catch(()=>{}); }catch{}
 if (!synth) toast("This browser can't speak out loud. Messages will show as text.");
 // first visit: show the guide once (it opens on the caregiver steps, since a caregiver usually sets things up)
-setTimeout(()=>{ if (document.querySelector(".sheet,.helpcard,.game")) return;
+setTimeout(()=>{ if (document.querySelector(".sheet,.helpcard,.game,.bigpic")) return;
   if (!state.profile.name && !state.profileAsked) openProfileEditor({welcome:true});
   else if (!state.guideSeen) openGuide("care", true); }, 700);
 })();
