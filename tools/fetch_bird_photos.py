@@ -9,7 +9,8 @@ import html, io, json, os, re, time, urllib.error, urllib.parse, urllib.request
 from PIL import Image
 
 UA = "SpeakeasyApp/1.1 (https://github.com/mclearn2025-a11y/speakeasy) bird-photo-builder"
-FREE = re.compile(r"^\s*(cc0|cc[ -]by|public domain|pd)", re.I)
+# free licenses that only ask for credit (GFDL is left out: it would add legal terms to the app)
+FREE = re.compile(r"^\s*(cc0|cc[ -]by|public domain|pd|attribution|copyrighted free use)", re.I)
 
 
 def get(url, binary=False):
