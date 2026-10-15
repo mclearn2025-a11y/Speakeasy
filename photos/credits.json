@@ -1649,6 +1649,16 @@
   "w": 560,
   "h": 372
  },
+ "vehicles-18": {
+  "file": "vehicles-18.jpg",
+  "name": "Cement mixer",
+  "artist": "Infotech247",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Modern_Titan_Volumetric_Mixer.jpg",
+  "w": 560,
+  "h": 373
+ },
  "vehicles-19": {
   "file": "vehicles-19.jpg",
   "name": "Tractor",
@@ -3998,6 +4008,16 @@
   "source": "https://commons.wikimedia.org/wiki/File:Kumalae_ukulele_of_c._1910.webm",
   "w": 560,
   "h": 315
+ },
+ "music-7": {
+  "file": "music-7.jpg",
+  "name": "Harp",
+  "artist": "JackGavin",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Trinity_College_harp,_Dublin,_Ireland,_2017_(cropped2).jpg",
+  "w": 407,
+  "h": 560
  },
  "music-8": {
   "file": "music-8.jpg",

@@ -169,7 +169,7 @@ Speakeasy's photos come from Wikimedia Commons under free licenses. Each photo i
 | Dump truck | order_242 from Chile | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:Freightliner_M2_106_6x4_2014_(14240376744).jpg |
 | Excavator | kallerna | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Excavator_Postiguet_Beach_2.jpg |
 | Bulldozer | Shaun Greiner | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:CatD9T.jpg |
-| Cement mixer | GH SA | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:GH-SA.jpg |
+| Cement mixer | Infotech247 | CC BY 4.0 | https://commons.wikimedia.org/wiki/File:Modern_Titan_Volumetric_Mixer.jpg |
 | Tractor | Mulad | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:Ford_8N.jpg |
 | Forklift | Forklift_Truck-blank.svg : Ewan ar Born derivative work: // Sertion t / c | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Forklift_Truck-no_lines.svg |
 | Crane | © 2010 K. Krallis, SV1XV | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:20100225-Liebherr_LTM_1200-5.jpg |
@@ -405,7 +405,7 @@ Speakeasy's photos come from Wikimedia Commons under free licenses. Each photo i
 | Violin | Just plain Bill | CC0 | https://commons.wikimedia.org/wiki/File:Violin_VL100.png |
 | Cello | Georg Feitscher | CC BY 3.0 | https://commons.wikimedia.org/wiki/File:Cello_front_side.png |
 | Ukulele | St Cecilia's Hall: all things musical instruments | CC BY 3.0 | https://commons.wikimedia.org/wiki/File:Kumalae_ukulele_of_c._1910.webm |
-| Harp | No machine-readable author provided. Mets501 assumed (based on copyright claims). | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Range_harp.svg |
+| Harp | JackGavin | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Trinity_College_harp,_Dublin,_Ireland,_2017_(cropped2).jpg |
 | Bass guitar | Unknown photographer | Public domain | https://commons.wikimedia.org/wiki/File:Fender_Precision_Bass.jpg |
 | Trumpet | Yamaha Corporation | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Yamaha_Trumpet_YTR-8335LA_crop.jpg |
 | Trombone | Yamaha Corporation | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Yamaha_Tenor_trombone_YSL-891Z_(re-crop).jpg |
