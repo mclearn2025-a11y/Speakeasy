@@ -12,7 +12,7 @@ self.addEventListener("install", e => {
     await c.addAll(SHELL);
     // store every built-in bird photo too, so the whole app works offline
     try { const j = await (await fetch("photos/credits.json")).json(); await c.addAll(Object.values(j).map(x => "photos/" + x.file)); } catch {}
-    try { const s = await (await fetch("symbols/index.json")).json(); await c.addAll(s.map(f => "symbols/" + f)); } catch {}
+    try { await c.add("symbols/all.json"); } catch {}
   }).then(() => self.skipWaiting()));
 });
 self.addEventListener("activate", e => {
