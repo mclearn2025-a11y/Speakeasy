@@ -1,0 +1,5 @@
+/* Fonts are stored with Speakeasy, so no font company sees who uses it. SIL Open Font License (see OFL-*.txt). */
+@font-face{font-family:"Atkinson Hyperlegible";font-style:normal;font-weight:400;font-display:swap;src:url(atkinson-400.woff) format("woff")}
+@font-face{font-family:"Atkinson Hyperlegible";font-style:normal;font-weight:700;font-display:swap;src:url(atkinson-700.woff) format("woff")}
+@font-face{font-family:"Hanken Grotesk";font-style:normal;font-weight:100 900;font-display:swap;src:url(hanken-var.woff) format("woff")}
+@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(fraunces-600.woff) format("woff")}

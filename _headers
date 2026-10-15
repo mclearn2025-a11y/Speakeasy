@@ -4,6 +4,8 @@
   Cache-Control: no-cache
 /index.html
   Cache-Control: no-cache
+/privacy.html
+  Cache-Control: no-cache
 /sw.js
   Cache-Control: no-cache
 /manifest.webmanifest
@@ -16,6 +18,8 @@
   Cache-Control: public, max-age=2592000
 /symbols/*
   Cache-Control: public, max-age=2592000
+/fonts/*
+  Cache-Control: public, max-age=31536000
 # Safety
 /*
   X-Content-Type-Options: nosniff

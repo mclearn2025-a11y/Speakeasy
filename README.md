@@ -1,9 +1,14 @@
-# Speakeasy — installable app (v1.5.0)
+# Speakeasy — installable app (v1.6.0)
 McLearn Media LLC · Brandon, MS
 
 This folder is the full Speakeasy app. Put it on any web address and it becomes a real app:
 it installs to the home screen on iPhone, iPad, Android, Windows, Mac and Chromebook, and it
 keeps talking with no internet.
+
+## New in v1.6
+- **32 new symbols drawn by McLearn Media** in the same style as Mulberry: every feeling word (tired, bored, silly, nervous, proud, lonely…), yes, no, like, love, and the people words I, me, you, he, she, we, they, my, your, plus that and here. 390 of 548 words now have a matching symbol.
+- **Privacy policy**: in the app (Settings → About) and at `privacy.html` for the website and app stores.
+- **No outside requests**: fonts are stored with the app (`fonts/`, SIL Open Font License) and the online photo lookup is off. Tested: the hosted app contacts no other company.
 
 ## New in v1.5
 - **Clear word pictures**: 353 words now use symbols drawn for talking apps (Mulberry Symbols), matched to each word by hand and checked by eye. Confusing matches were left out (British pants, Christmas crackers, a British police helmet).
