@@ -38,20 +38,50 @@ birds = json.load(open("tools/birds.json", encoding="utf8"))
 os.makedirs("photos", exist_ok=True)
 credits, missing = {}, []
 
-for b in birds:
-    try:
-        j = get("https://en.wikipedia.org/api/rest_v1/page/summary/" + urllib.parse.quote(b["title"].replace(" ", "_")))
-        src = ((j or {}).get("originalimage") or (j or {}).get("thumbnail") or {}).get("source", "")
-        if not j or j.get("type") == "disambiguation" or "/wikipedia/commons/" not in src:
-            missing.append((b["name"], "no Commons photo on its page")); continue
-        m = re.search(r"/commons/(?:thumb/)?[0-9a-f]/[0-9a-f]{2}/([^/]+)", src)
-        fname = urllib.parse.unquote(m.group(1))
-        q = "https://commons.wikimedia.org/w/api.php?" + urllib.parse.urlencode({
+old = {}
+try:
+    old = json.load(open("photos/credits.json", encoding="utf8"))
+except Exception:
+    pass
+
+
+def page_image(title):
+    """The exact file name of the main photo on the bird's Wikipedia page."""
+    j = get("https://en.wikipedia.org/w/api.php?" + urllib.parse.urlencode({
+        "action": "query", "format": "json", "prop": "pageimages", "piprop": "name",
+        "redirects": "1", "titles": title}))
+    for pg in ((j or {}).get("query", {}).get("pages", {}) or {}).values():
+        if pg.get("pageimage"):
+            return pg["pageimage"]
+    return None
+
+
+def commons_info(fname):
+    """Photo URL and license from Wikimedia Commons, or None if the file isn't on Commons."""
+    for i in range(4):
+        info = get("https://commons.wikimedia.org/w/api.php?" + urllib.parse.urlencode({
             "action": "query", "format": "json", "prop": "imageinfo", "iiprop": "url|extmetadata",
-            "iiurlwidth": "560", "titles": "File:" + fname})
-        info = get(q)
-        page = next(iter(info["query"]["pages"].values()))
-        ii = page["imageinfo"][0]
+            "iiurlwidth": "560", "titles": "File:" + fname, "maxlag": "5"}))
+        pages = ((info or {}).get("query", {}) or {}).get("pages", {})
+        for pg in pages.values():
+            if "imageinfo" in pg:
+                return pg["imageinfo"][0]
+            if "missing" in pg and pg.get("imagerepository", "") == "":
+                return None          # not on Commons (often a non-free file kept on Wikipedia)
+        time.sleep(4 * (i + 1))      # busy or lagging: wait and try again
+    return None
+
+
+for b in birds:
+    if b["id"] in old and os.path.exists(os.path.join("photos", old[b["id"]]["file"])):
+        credits[b["id"]] = old[b["id"]]; continue
+    try:
+        fname = page_image(b["title"])
+        if not fname:
+            missing.append((b["name"], "no photo on its Wikipedia page")); continue
+        ii = commons_info(fname)
+        if not ii:
+            missing.append((b["name"], "photo is not on Wikimedia Commons: " + fname)); continue
         md = ii.get("extmetadata", {})
         lic = plain(md.get("LicenseShortName", {}).get("value", ""), 60)
         if not FREE.search(lic):
@@ -70,8 +100,8 @@ for b in birds:
             "source": ii.get("descriptionurl", ""), "w": im.width, "h": im.height}
         print("ok  ", b["name"], "·", lic)
     except Exception as e:
-        missing.append((b["name"], "error: " + str(e)[:80]))
-    time.sleep(0.4)
+        missing.append((b["name"], "error: " + repr(e)[:100]))
+    time.sleep(1.0)
 
 json.dump(credits, open("photos/credits.json", "w", encoding="utf8"), indent=1, ensure_ascii=False)
 with open("photos/CREDITS.md", "w", encoding="utf8") as f:
