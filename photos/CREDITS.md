@@ -176,13 +176,13 @@ Speakeasy's photos come from Wikimedia Commons under free licenses. Each photo i
 | Monster truck | thomascrenshaw | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:Superman_monster_truck.jpg |
 | Steam train | PTG Dudva | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Number_4468_Mallard_in_York.jpg |
 | Freight train | Kabelleger / David Gubler | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:CN_8015,_5690_and_5517_Hinton_-_Jasper.jpg |
-| Bullet train | Texent | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Shinkansen_map_202405_en.png |
+| Bullet train | MaedaAkihiko | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Series-N700A-F20.jpg |
 | Subway | LERK | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Seoul-metro-2009-20180916-103548.jpg |
 | Airplane | G B_NZ | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:United_A320_N405UA_at_BOS_(33787222465).jpg |
 | Helicopter | Fly45yt | CC BY 4.0 | https://commons.wikimedia.org/wiki/File:VH-SUF_Taking_Off.jpg |
 | Hot air balloon | Kropsoq | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:2006_Ojiya_balloon_festival_011.jpg |
 | Rocket | Bill Ingalls | Public domain | https://commons.wikimedia.org/wiki/File:Soyuz_TMA-9_launch.jpg |
-| Sailboat | Sloop_Example.jpg : Original uploader was Kevin Murray at en.wikipedia derivative work: Malyszkz ( talk ) | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Sloop_Example.svg |
+| Sailboat | RThiele | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Regattafeld_vor_Laboe.jpg |
 | Cruise ship | Corey Seeman | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Icon_of_the_Seas_Puerto_Rico_2025_(cropped).jpg |
 | Tugboat | Unknown photographer | Public domain | https://commons.wikimedia.org/wiki/File:CSSTeaser.jpg |
 | Submarine | U.S. Navy photo by General Dynamics Electric Boat | Public domain | https://commons.wikimedia.org/wiki/File:US_Navy_040730-N-1234E-002_PCU_Virginia_(SSN_774)_returns_to_the_General_Dynamics_Electric_Boat_shipyard.jpg |
@@ -259,7 +259,7 @@ Speakeasy's photos come from Wikimedia Commons under free licenses. Each photo i
 | Washington | WA Secretary of State | Public domain | https://commons.wikimedia.org/wiki/File:Flag_of_Washington.svg |
 | Wisconsin | Unknown photographer | Public domain | https://commons.wikimedia.org/wiki/File:Flag_of_Wisconsin.svg |
 | Wyoming | User:Dbenbenn | Public domain | https://commons.wikimedia.org/wiki/File:Flag_of_Wyoming.svg |
-| House | John Chang | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Katsura_Imperial_Villa_in_Spring.jpg |
+| House | No machine-readable author provided. Boereck assumed (based on copyright claims). | Public domain | https://commons.wikimedia.org/wiki/File:Nordisches_Einfamilienhaus.jpg |
 | Apartment building | TheSanFranRacer | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:2019.07.10_metro_California-housing_Blog-post_related.webp |
 | Log cabin | Kjetil Bjørnsrud | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Norskfolkemuseum_1.jpg |
 | Igloo | Drawn by unknown artist based on sketches by C.F. Hall and photographed from the book by User:Finetooth | Public domain | https://commons.wikimedia.org/wiki/File:Igloos.jpg |
@@ -341,7 +341,7 @@ Speakeasy's photos come from Wikimedia Commons under free licenses. Each photo i
 | Uranus | Ardenau4 | CC0 | https://commons.wikimedia.org/wiki/File:Uranus_Voyager2_color_calibrated.png |
 | Neptune | NASA / Voyager 2 / PDS / OPUS / Ardenau4 | CC0 | https://commons.wikimedia.org/wiki/File:Neptune_Voyager2_color_calibrated.png |
 | Pluto | NASA/Johns Hopkins University Applied Physics Laboratory/Southwest Research Institute/Alex Parker | Public domain | https://commons.wikimedia.org/wiki/File:Pluto_in_True_Color_-_High-Res.png |
-| Stars | Matúš Motlo | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:The_Sun_in_white_light.jpg |
+| Stars | Alexey Elfimov | CC BY 3.0 | https://commons.wikimedia.org/wiki/File:%D0%A1%D0%B2%D0%B5%D1%82_%D0%BE%D1%82_%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D0%BD%D0%B8_-_panoramio.jpg |
 | Comet | E. Kolmhofer, H. Raab; Johannes-Kepler-Observatory, Linz, Austria ( https://sternwarte.at ) | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Comet_Hale-Bopp_1995O1.jpg |
 | Asteroid | 243_ida.jpg : NASA/JPL derivative work: Chzz ► | Public domain | https://commons.wikimedia.org/wiki/File:243_ida_crop.jpg |
 | Milky Way | ESO/ Y. Beletsky | CC BY 4.0 | https://commons.wikimedia.org/wiki/File:ESO-VLT-Laser-phot-33a-07.jpg |
@@ -398,14 +398,14 @@ Speakeasy's photos come from Wikimedia Commons under free licenses. Each photo i
 | Karate | 仲宗根源和(Nakasone Genwa) | Public domain | https://commons.wikimedia.org/wiki/File:Hanashiro_Chomo.jpg |
 | Cheerleading | Kenneth C. Zirkel | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Penn_cheerleaders_formation.jpg |
 | Dancing | Barry Goyette from San Luis Obispo, USA | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:Two_dancers.jpg |
-| Yoga | Kalyan Kumar | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:Shiva_Bangalore.jpg |
+| Yoga | Yoga4love | Public domain | https://commons.wikimedia.org/wiki/File:Yoga4Love_Freedom_Gratitude.jpg |
 | Piano | Gryffindor | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Steinway_Vienna_002.JPG |
 | Guitar | User:Martin Möller Talk | CC BY-SA 2.0 de | https://commons.wikimedia.org/wiki/File:GuitareClassique5.png |
-| Drums | Syed Wamiq Ahmed Hashmi re-draw SVG FOX 52 | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Drums_schematic.svg |
+| Drums | NPS | Public domain | https://commons.wikimedia.org/wiki/File:DrumMozartRegiment.jpg |
 | Violin | Just plain Bill | CC0 | https://commons.wikimedia.org/wiki/File:Violin_VL100.png |
 | Cello | Georg Feitscher | CC BY 3.0 | https://commons.wikimedia.org/wiki/File:Cello_front_side.png |
 | Ukulele | St Cecilia's Hall: all things musical instruments | CC BY 3.0 | https://commons.wikimedia.org/wiki/File:Kumalae_ukulele_of_c._1910.webm |
-| Harp | Unknown photographer | Public domain | https://commons.wikimedia.org/wiki/File:Harp.png |
+| Harp | No machine-readable author provided. Mets501 assumed (based on copyright claims). | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Range_harp.svg |
 | Bass guitar | Unknown photographer | Public domain | https://commons.wikimedia.org/wiki/File:Fender_Precision_Bass.jpg |
 | Trumpet | Yamaha Corporation | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Yamaha_Trumpet_YTR-8335LA_crop.jpg |
 | Trombone | Yamaha Corporation | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Yamaha_Tenor_trombone_YSL-891Z_(re-crop).jpg |

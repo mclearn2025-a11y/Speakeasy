@@ -1649,6 +1649,16 @@
   "w": 560,
   "h": 372
  },
+ "vehicles-18": {
+  "file": "vehicles-18.jpg",
+  "name": "Cement mixer",
+  "artist": "GH SA",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:GH-SA.jpg",
+  "w": 560,
+  "h": 420
+ },
  "vehicles-19": {
   "file": "vehicles-19.jpg",
   "name": "Tractor",
@@ -1709,6 +1719,16 @@
   "w": 560,
   "h": 346
  },
+ "vehicles-25": {
+  "file": "vehicles-25.jpg",
+  "name": "Bullet train",
+  "artist": "MaedaAkihiko",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Series-N700A-F20.jpg",
+  "w": 560,
+  "h": 373
+ },
  "vehicles-26": {
   "file": "vehicles-26.jpg",
   "name": "Subway",
@@ -1758,6 +1778,16 @@
   "source": "https://commons.wikimedia.org/wiki/File:Soyuz_TMA-9_launch.jpg",
   "w": 372,
   "h": 560
+ },
+ "vehicles-31": {
+  "file": "vehicles-31.jpg",
+  "name": "Sailboat",
+  "artist": "RThiele",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Regattafeld_vor_Laboe.jpg",
+  "w": 560,
+  "h": 371
  },
  "vehicles-32": {
   "file": "vehicles-32.jpg",
@@ -2518,6 +2548,16 @@
   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Wyoming.svg",
   "w": 560,
   "h": 392
+ },
+ "buildings-0": {
+  "file": "buildings-0.jpg",
+  "name": "House",
+  "artist": "No machine-readable author provided. Boereck assumed (based on copyright claims).",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Nordisches_Einfamilienhaus.jpg",
+  "w": 560,
+  "h": 424
  },
  "buildings-1": {
   "file": "buildings-1.jpg",
@@ -3329,6 +3369,16 @@
   "w": 560,
   "h": 560
  },
+ "space-11": {
+  "file": "space-11.jpg",
+  "name": "Stars",
+  "artist": "Alexey Elfimov",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:%D0%A1%D0%B2%D0%B5%D1%82_%D0%BE%D1%82_%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D0%BD%D0%B8_-_panoramio.jpg",
+  "w": 560,
+  "h": 373
+ },
  "space-12": {
   "file": "space-12.jpg",
   "name": "Comet",
@@ -3889,6 +3939,16 @@
   "w": 443,
   "h": 560
  },
+ "sports-24": {
+  "file": "sports-24.jpg",
+  "name": "Yoga",
+  "artist": "Yoga4love",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Yoga4Love_Freedom_Gratitude.jpg",
+  "w": 560,
+  "h": 420
+ },
  "music-0": {
   "file": "music-0.jpg",
   "name": "Piano",
@@ -3908,6 +3968,16 @@
   "source": "https://commons.wikimedia.org/wiki/File:GuitareClassique5.png",
   "w": 342,
   "h": 560
+ },
+ "music-2": {
+  "file": "music-2.jpg",
+  "name": "Drums",
+  "artist": "NPS",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:DrumMozartRegiment.jpg",
+  "w": 490,
+  "h": 450
  },
  "music-3": {
   "file": "music-3.jpg",
@@ -3938,6 +4008,16 @@
   "source": "https://commons.wikimedia.org/wiki/File:Kumalae_ukulele_of_c._1910.webm",
   "w": 560,
   "h": 315
+ },
+ "music-7": {
+  "file": "music-7.jpg",
+  "name": "Harp",
+  "artist": "No machine-readable author provided. Mets501 assumed (based on copyright claims).",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Range_harp.svg",
+  "w": 560,
+  "h": 429
  },
  "music-8": {
   "file": "music-8.jpg",
