@@ -454,6 +454,16 @@ input[type=tel],input[type=email],input[type=search]{border:1.5px solid var(--li
 .chk-opts.long button{min-height:72px;flex-direction:row;justify-content:flex-start;gap:12px;padding:10px 14px;text-align:left}
 .chk-opts.long button .big{font-size:36px}
 .chk-opts button.hintok{box-shadow:0 0 0 5px var(--brand2)}
+
+/* talking-app symbols (v1.5): Mulberry Symbols on a white card so they read in both themes */
+:root{--symbg:#FFFFFF}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --symbg:#F4EADF } }
+:root[data-theme="dark"]{ --symbg:#F4EADF }
+.tile img.symimg{flex:0 1 auto;min-height:0;width:auto;height:calc(66px*var(--scale));max-height:68%;max-width:92%;object-fit:contain;background:var(--symbg);border-radius:8px;padding:2px;box-sizing:border-box}
+.grid.dense .tile img.symimg{height:min(calc(40px*var(--scale)),8vw)}
+.chip img.symimg{width:auto;height:calc(26px*var(--scale));object-fit:contain;background:var(--symbg);border-radius:4px;padding:1px}
+.fres img.symimg,.erow img.symimg{width:32px;height:32px;object-fit:contain;background:var(--symbg);border-radius:6px}
+.g-bird img.symimg{width:100%;aspect-ratio:1;object-fit:contain;background:#FFFFFF;border-radius:16px;padding:8px;box-sizing:border-box}
 </style>
 
 <div id="app">
@@ -1020,6 +1030,14 @@ const groupKeys = () => {
   return [...lead, ...ks.filter(k=>fav.has(k) && !lead.includes(k)), ...ks.filter(k=>!fav.has(k) && !lead.includes(k))];
 };
 for (const [k,c] of Object.entries(CATS)) c.items.forEach((it,i)=>{ it.id=k+"-"+i; it.builtin=true; });
+/* Word pictures. Symbols are from the Mulberry Symbols set (Steve Lee, CC BY-SA 4.0), drawn for talking apps.
+   Each word id points to a file in symbols/. Words without a good symbol keep a clear emoji, or just the word. */
+const SYMS = {"core-2":"want-to","core-4":"more","core-6":"go-to","core-7":"help-to","core-11":"finish","core-12":"eat-to","core-13":"drink-to","core-14":"play-to","core-15":"look-to","core-18":"what","core-19":"where","core-20":"in","core-21":"on","core-31":"get-to","core-32":"make-to","core-33":"put-to","core-34":"turn-to","core-37":"come-to","core-38":"large","core-39":"little","core-40":"good","core-41":"bad","core-43":"up","core-44":"down","core-45":"out","core-46":"off","feelings-0":"happy-man","feelings-1":"sad-man","feelings-2":"angry-man","feelings-3":"afraid-man","feelings-5":"excited-man","feelings-6":"relax-to","feelings-8":"thermometer","feelings-18":"confused-man","feelings-19":"surprised-man","feelings-23":"worried-man","food-0":"water","food-1":"orange-juice","food-2":"milk","food-3":"apple","food-4":"banana","food-6":"sandwich","food-7":"pizza","food-8":"chicken","food-9":"rice","food-10":"cereal","food-11":"biscuits","food-12":"coffee","food-13":"tea","food-14":"soup","food-15":"chips","food-16":"bread","food-17":"eggs","food-18":"cheese","food-19":"yogurt","food-20":"pasta","food-21":"hamburger","food-22":"hot-dog","food-23":"crisps","food-24":"grapes","food-25":"orange","food-26":"strawberry","food-27":"carrot","food-28":"ice-cream","food-30":"cake","food-34":"peanut-butter","food-35":"salad","food-36":"breakfast-1","food-37":"lunch-1","food-38":"dinner","food-39":"hungry","food-40":"thirsty","play-0":"ball","play-1":"bricks","play-3":"music","play-4":"swing","play-5":"bubbles","play-7":"draw-to","play-8":"jigsaw-puzzle","play-9":"outside","play-10":"car","play-11":"dance-to","play-12":"tickle-to","play-13":"flatscreen-tv","play-16":"bicycle","play-17":"train","play-18":"dinosaur","play-19":"doll","play-20":"paint-to","play-21":"build-to","play-24":"computer-game","people-0":"mum-parent","people-1":"dad-parent","people-3":"teacher-1a","people-5":"grandmother","people-6":"grandfather","people-7":"brother","people-8":"sister","people-9":"doctor-1a","people-10":"nurse-1a","people-12":"partner","people-15":"baby","people-16":"aunt-maternal","people-17":"uncle-maternal","places-1":"school","places-2":"toilet","places-3":"single-bed","places-4":"outside","places-5":"car","places-6":"shop","places-7":"park-to","places-8":"church","places-10":"work-to","places-11":"cafe","places-13":"slide","places-18":"beach","places-21":"gym-1","places-22":"cooker","body-0":"head","body-1":"stomach","body-2":"ear","body-3":"eyes","body-4":"mouth","body-6":"foot","body-7":"tooth","body-9":"itch","body-10":"hot","body-13":"curly-hair","body-14":"arm","body-15":"leg","body-16":"fingers","body-17":"heart","body-19":"stomach","health-1":"medicine","health-2":"headache","health-3":"stomach-ache","health-6":"doctor-1a","health-8":"toilet","health-10":"loud","health-11":"bright","health-13":"thermometer","health-14":"plaster","health-15":"toothache","health-16":"wheelchair","health-17":"glasses","health-18":"hearing-aid-1","health-19":"lie-on-back-to","daily-0":"shower","daily-1":"get-dressed-to","daily-2":"sleep-male-to","daily-3":"mobile-phone","daily-4":"flatscreen-tv","daily-5":"walk-to","daily-6":"rest-to","daily-7":"money","daily-8":"bus","daily-9":"work-to","daily-10":"laundry-basket","daily-11":"cook-to","daily-13":"music","daily-14":"brush-teeth-to","daily-15":"bath","daily-16":"haircut","daily-17":"single-bed","daily-18":"tidy-up-to","daily-19":"dishes","daily-20":"mobile-phone","daily-21":"mobile-phone-text-message","daily-22":"email","daily-23":"drive-to","daily-24":"potty-chair","actions-0":"open-to","actions-1":"close-to","actions-2":"give-to","actions-3":"take-to","actions-4":"bring-to","actions-5":"find-to","actions-6":"wait-to","actions-7":"sit-to","actions-8":"stand-to","actions-9":"walk-to","actions-10":"run-to","actions-11":"jump-to","actions-12":"sleep-male-to","actions-13":"wash-hands-to","actions-14":"read-to","actions-15":"write-to","actions-16":"draw-to","actions-17":"watch-to","actions-19":"hear-to","actions-23":"talk-1-to","actions-24":"ask-to","actions-26":"think-to","actions-28":"finish","actions-29":"begin-start","actions-31":"hug-to","actions-32":"blow-kiss-to","actions-33":"sing-to","actions-34":"dance-to","actions-35":"swim-to","actions-38":"catch-to","actions-39":"push-to","actions-40":"pull-to","actions-41":"cut-to","actions-44":"cook-to","actions-48":"work-to","actions-49":"mobile-phone","actions-50":"share-to","actions-52":"keep-to","actions-53":"show-me-to","describe-0":"hot","describe-2":"fast-2","describe-4":"loud","describe-5":"quiet","describe-6":"soft","describe-7":"hard","describe-8":"wet","describe-9":"dry","describe-11":"dirty","describe-12":"full","describe-13":"empty","describe-16":"same","describe-19":"funny-laugh","describe-20":"scary","describe-21":"yummy","describe-22":"yucky","describe-23":"pretty","describe-26":"correct","describe-27":"mistake-no-wrong","describe-28":"first","describe-29":"last","describe-30":"next","describe-31":"long","describe-32":"short","describe-33":"heavy","describe-34":"light","describe-36":"bright","describe-37":"broken","describe-39":"ready","describe-40":"sticky","describe-41":"sharp","little-11":"over","little-12":"under-1","little-13":"around","little-20":"now","little-25":"some","little-28":"every","questions-0":"who","questions-1":"what","questions-2":"where","questions-3":"when","questions-4":"why","questions-5":"how","questions-6":"which","questions-7":"how-many","social-0":"hello","social-8":"wait-to","social-9":"good","social-17":"morning","social-18":"night","social-20":"meet-to","colors-0":"red","colors-1":"orange","colors-2":"yellow","colors-3":"green","colors-4":"blue","colors-5":"purple","colors-6":"pink","colors-7":"brown","colors-8":"black","colors-9":"white","colors-10":"grey-light","colors-12":"rainbow","numbers-0":"zero","numbers-1":"one","numbers-2":"two","numbers-3":"three","numbers-4":"four","numbers-5":"five","numbers-6":"six","numbers-7":"seven","numbers-8":"eight","numbers-9":"nine","numbers-10":"ten","time-0":"now","time-3":"today","time-4":"tomorrow","time-5":"yesterday","time-6":"morning","time-7":"afternoon","time-8":"night","time-9":"weekend","time-17":"birthday-cake","time-19":"sun","time-20":"rain","time-21":"cloudy","time-23":"snow","time-24":"thunder-storm","clothes-0":"shirt","clothes-1":"trousers","clothes-2":"shorts","clothes-3":"dress","clothes-4":"trainers","clothes-5":"socks","clothes-6":"coat","clothes-7":"cap","clothes-8":"pyjamas","clothes-9":"pants","clothes-10":"gloves","clothes-11":"glasses","clothes-13":"nappy","clothes-15":"jacket","animals-0":"dog","animals-1":"cat","animals-2":"fish","animals-3":"horse","animals-4":"cow","animals-6":"sheep","animals-7":"rabbit","animals-8":"mouse","animals-9":"lion","animals-10":"tiger","animals-11":"elephant","animals-13":"bear","animals-14":"frog","animals-15":"snake","animals-16":"turtle","animals-17":"butterfly","animals-18":"beetle","animals-19":"giraffe","animals-22":"dolphin","animals-23":"spider","animals-24":"bird","school-0":"pencil","school-1":"paper","school-2":"crayon","school-3":"scissors","school-4":"glue","school-6":"desk","school-8":"computer-1","school-9":"break-time-1","school-10":"lunch-1","school-11":"bus","school-12":"class-room","school-14":"art","school-15":"music","school-16":"gym-1","school-18":"queue-to","work-2":"break-time-1","work-3":"email","work-4":"mobile-phone","work-5":"computer-1","work-10":"lunch-time"};
+const EMOJI_FIX = {"stop":"🛑","you":"🫵","your turn":"🫵","your":"🫵","my":"🙋","here":"👇","it":"","is":"","do":"","lonely":"😔","proud":"🏅","safe":"😌","pain":"😖","old":"👴","crackers":"🍘","mean":"😠","thank you":"🙏","please":"🥺","holiday":"🎉","Monday":"📅","Tuesday":"📅","Wednesday":"📅","Thursday":"📅","Friday":"📅","Saturday":"📅","Sunday":"📅"};
+for (const it of [...CORE, ...Object.values(CATS).flatMap(c=>c.items)]) if (it.label in EMOJI_FIX) it.sym = EMOJI_FIX[it.label];
+const symOf = it => (it && S.pics!=="emoji" && SYMS[it.id]) || "";
+function symImg(it){ const i = el("img","symimg"); i.src = "symbols/" + symOf(it) + ".svg"; i.alt = ""; i.decoding = "async"; i.draggable = false;
+  i.onerror = () => { i.replaceWith(el("span","sym", it.sym || "")); }; return i; }
 
 const PHRASES = {
   k:["I need a break.","I need the bathroom.","Help me, please.","I don't like that.","It's too loud.","I'm hungry.","Can I have a hug?","I'm all done.","I want to go home.","Play with me!","Something hurts.","I love you."],
@@ -1211,6 +1229,7 @@ function normalize(d){
   n.profile = {...structuredClone(DEFAULT.profile), ...n.profile}; if (!Array.isArray(n.profile.interests)) n.profile.interests = [];
   if (!["nick","both"].includes(n.settings.nickShow)) n.settings.nickShow = "both";
   if (!["say","big"].includes(n.settings.tapView)) n.settings.tapView = "say";
+  if (!["symbols","emoji"].includes(n.settings.pics)) n.settings.pics = "symbols";
   if (![1,2,3].includes(n.settings.lvl)) n.settings.lvl = n.settings.level==="starter" ? 1 : n.settings.board==="48" ? 3 : 2;
   if (!Array.isArray(n.help.contacts)) n.help.contacts = [];
   if (!n.help.contacts.length && n.help.contact){   // the old single contact moves into contact 1
@@ -1427,6 +1446,7 @@ function renderStrip(){
     const c = el("span","chip");
     if (w.img){ const i=el("img"); i.src=w.img; i.alt=""; c.append(i); }
     else if (w.art){ const a=el("span","art"); a.innerHTML=artSVG(w.art); c.append(a); attachPhoto(w.art, a); }
+    else if (symOf(w) && !S.wordsOnly) c.append(symImg(w));
     else if (w.sym && !S.wordsOnly) c.append(el("span",null,w.sym));
     c.append(el("span",null,w.label)); box.append(c);
   }
@@ -1455,6 +1475,7 @@ function tileFor(it){
   const b = el("button","tile"); b.dataset.act="tile"; b.dataset.id=it.id; b.dataset.pos=it.pos||"noun";
   if (it.img && it.img!=="__idb__"){ const i=el("img"); i.src=it.img; i.alt=""; b.append(i); }
   else if (hasPic(it)){ const a=el("span","art"); a.innerHTML=artSVG(it); b.append(a); watchPhoto(it, a); }
+  else if (symOf(it)) b.append(symImg(it));
   else if (it.sym) b.append(el("span","sym",it.sym));
   else b.classList.add("textonly");
   b.append(el("span","lbl",it.label));
@@ -1739,7 +1760,7 @@ $("findBtn").onclick = () => {
     if (!hits.length){ res.append(el("p","note","No word like that yet. Caregivers can add it in Settings, Edit words.")); return; }
     for (const {it,t} of hits){
       const b = el("button");
-      const s = el("span","s"); if (hasPic(it)){ s.className="art"; s.innerHTML=artSVG(it); } else if (it.img && it.img!=="__idb__"){ const i=el("img"); i.src=it.img; i.alt=""; i.style.width="32px"; i.style.height="32px"; i.style.borderRadius="6px"; s.append(i); } else s.textContent=it.sym||"🔤";
+      const s = el("span","s"); if (hasPic(it)){ s.className="art"; s.innerHTML=artSVG(it); } else if (it.img && it.img!=="__idb__"){ const i=el("img"); i.src=it.img; i.alt=""; i.style.width="32px"; i.style.height="32px"; i.style.borderRadius="6px"; s.append(i); } else if (symOf(it)) s.append(symImg(it)); else s.textContent=it.sym||"🔤";
       const txt = el("span"); txt.append(document.createTextNode(it.label), el("small",null, CATS[t] ? `in Groups › ${CATS[t].name}` : "in "+tabMeta(t).name));
       b.append(s, txt);
       b.onclick = () => {
@@ -1843,6 +1864,7 @@ function openGame(t){
     const wrap = el("span","art");
     if (it.img){ const i=el("img","pic"); i.src=it.img; i.alt=""; return i; }
     if (hasPic(it)){ wrap.innerHTML = artSVG(it); attachPhoto(it, wrap); if (photoDB[it.id] && !photoDB[it.id].src) {} watchPhoto(it, wrap); return wrap; }
+    if (symOf(it)) return symImg(it);
     return el("span","gsym",it.sym||"⭐");
   }
   function ask(){ say(`Which ${what} is ${theName(t, round.target)}?`); }
@@ -2004,7 +2026,7 @@ function openSettings(focus){
   const editTabs = sections();
   sheet.innerHTML = `<div class="panel">
     <div class="phead"><h2>Settings</h2><button class="btn primary" id="sClose">Done</button></div>
-    <div class="snav" role="navigation" aria-label="Settings sections"><button class="chipbtn" data-open="dash">📊 Dashboard</button><button class="chipbtn" data-open="guide">📘 How to use</button><button class="chipbtn" data-open="faq">❓ Questions</button>${[["safe","Backups"],["who","Profile"],["show","Show and hide"],["look","Look"],["topics","Topics"],["voice","Voice"],["touch","Touch"],["scan","Scanning"],["help","Help card"],["words","Edit words"],["lock","Lock"],["about","About"]].map(([k,t])=>`<button class="chipbtn" data-jump="${k}">${t}</button>`).join("")}</div>
+    <div class="snav" role="navigation" aria-label="Settings sections"><button class="chipbtn" data-open="dash">📊 Dashboard</button><button class="chipbtn" data-open="guide">📘 How to use</button><button class="chipbtn" data-open="faq">❓ Questions</button>${[["safe","Backups"],["who","Profile"],["show","Show and hide"],["look","Look"],["pics","Pictures"],["topics","Topics"],["voice","Voice"],["touch","Touch"],["scan","Scanning"],["help","Help card"],["words","Edit words"],["lock","Lock"],["about","About"]].map(([k,t])=>`<button class="chipbtn" data-jump="${k}">${t}</button>`).join("")}</div>
 
     <div class="sec" id="sec-safe"><h3>Keep their words safe</h3>
       <div class="checks" id="safeChecks"></div>
@@ -2034,6 +2056,10 @@ function openSettings(focus){
         <button data-look="sparkle" aria-pressed="${S.look==="sparkle"}">✨ Sparkle</button><button data-look="calm" aria-pressed="${S.look==="calm"}">🌿 Calm</button></span></div>
       <p class="note">Sparkle adds color bursts, bouncing buttons and a bird that flies by when you speak. Calm turns all movement off. Some autistic kids love the extra excitement and others find it too much, so try both. Core words never move in either look.</p></div>
 
+    <div class="sec" id="sec-pics"><h3>Word pictures</h3>
+      <div class="row"><span class="seg" role="group" aria-label="Word pictures">
+        <button data-pics="symbols" aria-pressed="${S.pics!=="emoji"}">Talking-app symbols</button><button data-pics="emoji" aria-pressed="${S.pics==="emoji"}">Emoji</button></span></div>
+      <p class="note">Talking-app symbols are drawn to match each word, the same style speech therapists use. Emoji are the small pictures from phones. A few small words, like it and is, show just the word, because a picture would confuse.</p></div>
     <div class="sec" id="sec-topics"><h3>Topics</h3>
       <div class="row"><label for="p-birds">🐦 Birds (124 birds, 6 groups, fun facts)</label><input type="checkbox" id="p-birds" ${state.packs.birds!==false?"checked":""}></div>
       ${Object.entries(PACKS).filter(([k])=>k!=="birds").map(([k,p])=>`<div class="row"><label for="p-${k}">${p.sym} ${esc(p.name)} (${p.items.length} ${esc(p.plural)}, fun facts)</label><input type="checkbox" data-pack="${k}" id="p-${k}" ${state.packs[k]===true?"checked":""}></div>`).join("")}
@@ -2101,7 +2127,7 @@ function openSettings(focus){
       <div class="row" style="justify-content:flex-start"><button class="btn" id="b-copy">Copy backup text</button><button class="btn" id="b-restore">Restore from text</button></div></div>
 
     <div class="sec" id="sec-about"><h3>About and privacy</h3>
-      <p class="note">Speakeasy v1.4 by McLearn Media LLC. Bird illustrations are original McLearn Media artwork. Photos come from Wikimedia Commons under free licenses, credited in Settings, Photo credits. Everything you add stays on this device. Nothing is sent anywhere, and there's no tracking.</p>
+      <p class="note">Speakeasy v1.5 by McLearn Media LLC. Word symbols are from Mulberry Symbols by Steve Lee (mulberrysymbols.org), used under the CC BY-SA 4.0 license. Bird illustrations are original McLearn Media artwork. Photos come from Wikimedia Commons under free licenses, credited in Settings, Photo credits. Everything you add stays on this device. Nothing is sent anywhere, and there's no tracking.</p>
       <p class="note">Speakeasy is a communication tool, not therapy. A speech-language pathologist can help choose the right words, settings and goals. Using a talking device does not stop speech from developing. Research shows it often helps.</p></div>
   </div>`;
   document.body.append(sheet);
@@ -2118,6 +2144,7 @@ function openSettings(focus){
   sheet.querySelectorAll("[data-pack]").forEach(c=>c.onchange = e => { const k=c.dataset.pack; state.packs[k] = e.target.checked; syncFav(k, e.target.checked); save(); apply(); rebuildEditTabs(); });
   q("p-photos").onchange = e => { set("photos", e.target.value); };
   q("p-tap").onchange = e => { set("tapView", e.target.value); };
+  sheet.querySelectorAll("[data-pics]").forEach(b=>b.onclick=()=>{ set("pics", b.dataset.pics); sheet.querySelectorAll("[data-pics]").forEach(x=>x.setAttribute("aria-pressed", x.dataset.pics===S.pics)); });
   q("p-credits").onclick = async () => {
     const list = q("p-credlist"); const have = Object.values(PACKS).flatMap(p=>p.items).filter(it=>photoSrcOf(it));
     if (!have.length){ list.innerHTML = `<p class="note">No photos downloaded on this device yet. Open the Birds tab while online.</p>`; return; }
@@ -2228,7 +2255,7 @@ function openSettings(focus){
   function renderEdit(){
     const t = q("e-tab").value, h = hiddenSet(), list = q("e-list");
     list.innerHTML = allItems(t).map(it=>`<div class="erow${h.has(it.id)?" hidden":""}">
-      ${it.img&&it.img!=="__idb__"?`<img src="${esc(it.img)}" alt="">`:hasPic(it)?`<span class="art">${artSVG(it)}</span>`:`<span class="s">${esc(it.sym||"")}</span>`}
+      ${it.img&&it.img!=="__idb__"?`<img src="${esc(it.img)}" alt="">`:hasPic(it)?`<span class="art">${artSVG(it)}</span>`:symOf(it)?`<img class="symimg" src="symbols/${symOf(it)}.svg" alt="">`:`<span class="s">${esc(it.sym||"")}</span>`}
       <span class="t">${esc(it.label)}${it.say&&it.say!==it.label?`<small>says “${esc(it.say)}”</small>`:""}</span>
       ${it.builtin?`<button class="btn" data-tog="${esc(it.id)}">${h.has(it.id)?"Show":"Hide"}</button>`:`<button class="btn danger" data-del="${esc(it.id)}">Delete</button>`}</div>`).join("");
     list.querySelectorAll("[data-tog]").forEach(b=>b.onclick=()=>{
@@ -2527,6 +2554,8 @@ const FAQ = [
   ["Talking","What are Phrases?","Phrases are whole sentences, ready to say with one tap, like I need a break.","phrases sentences quick ready",{}],
   ["Talking","What are Word groups?","Word groups hold more words by topic, like Feelings, Food and People. Tap a group to open it. Their favorite groups come first.","groups folders feelings food people more words",{}],
   ["Talking","How do I find where a word is?","Tap the magnifying glass at the top and type the word. Speakeasy takes you to it and makes it glow, so it's easier to find next time.","find search where word lost",{show:"#findBtn"}],
+  ["Talking","Can I change the pictures on the buttons?","Yes. Open Settings, Word pictures. Talking-app symbols are drawn to match each word. Emoji are the small pictures from phones. You can also add your own photo for any word in Edit words.","pictures icons symbols emoji change picture button wrong confusing",{go:"pics"}],
+  ["Talking","Why do some buttons have no picture?","Small words like it, is and do show just the word, because a picture would confuse. Speech therapists often do the same.","no picture blank word only it is do",{}],
   ["Talking","Why does it say I like the word eye?","That's on purpose. Some voices read I as capital I. Speakeasy always says it as the word I. The screen still shows I.","capital eye letter i pronounce",{}],
   ["Topics","What are topic pages?","Topic pages are about things they love, like Birds, Dogs, Space or Trains. Each has real photos, names, fun facts and a game. Pick them in the profile.","topic pages birds dogs favorites interests packs",{profile:true}],
   ["Topics","How do I add a topic like horses?","Open the profile, go to Favorite things, type the topic and tap Add. Then add its words and photos in Settings, Edit words.","add topic new custom own horses tractors make page",{profile:true}],

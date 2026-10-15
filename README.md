@@ -1,9 +1,15 @@
-# Speakeasy — installable app (v1.4.0)
+# Speakeasy — installable app (v1.5.0)
 McLearn Media LLC · Brandon, MS
 
 This folder is the full Speakeasy app. Put it on any web address and it becomes a real app:
 it installs to the home screen on iPhone, iPad, Android, Windows, Mac and Chromebook, and it
 keeps talking with no internet.
+
+## New in v1.5
+- **Clear word pictures**: 353 words now use symbols drawn for talking apps (Mulberry Symbols), matched to each word by hand and checked by eye. Confusing matches were left out (British pants, Christmas crackers, a British police helmet).
+- **Better emoji** for the rest: stop 🛑, you 🫵, here 👇, please 🥺, and more. Small words like *it*, *is* and *do* show just the word, as speech therapists often do.
+- **Settings → Word pictures**: switch between talking-app symbols and emoji.
+- Symbols are stored with the app and work offline. Credit: Mulberry Symbols © Steve Lee, CC BY-SA 4.0 (see `symbols/LICENSE.txt`).
 
 ## New in v1.4
 - **Three emergency contacts** with name, who they are, phone, email and a video call link (FaceTime or Zoom). The red Help card shows each one with one-tap Call, Text, Video and Email buttons, and says who to call out loud, reading phone numbers digit by digit.

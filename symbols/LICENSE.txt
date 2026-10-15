@@ -1,0 +1,4 @@
+Word symbols in this folder are from the Mulberry Symbol set.
+Copyright 2018-2026 Steve Lee. https://mulberrysymbols.org
+Licensed under Creative Commons Attribution-ShareAlike 4.0: https://creativecommons.org/licenses/by-sa/4.0/
+Files are unchanged except for their names.

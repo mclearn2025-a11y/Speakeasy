@@ -14,6 +14,8 @@
   Cache-Control: public, max-age=2592000
 /icons/*
   Cache-Control: public, max-age=2592000
+/symbols/*
+  Cache-Control: public, max-age=2592000
 # Safety
 /*
   X-Content-Type-Options: nosniff
