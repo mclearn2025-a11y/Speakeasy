@@ -1649,16 +1649,6 @@
   "w": 560,
   "h": 372
  },
- "vehicles-18": {
-  "file": "vehicles-18.jpg",
-  "name": "Cement mixer",
-  "artist": "GH SA",
-  "license": "CC BY-SA 4.0",
-  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "source": "https://commons.wikimedia.org/wiki/File:GH-SA.jpg",
-  "w": 560,
-  "h": 420
- },
  "vehicles-19": {
   "file": "vehicles-19.jpg",
   "name": "Tractor",
@@ -4008,16 +3998,6 @@
   "source": "https://commons.wikimedia.org/wiki/File:Kumalae_ukulele_of_c._1910.webm",
   "w": 560,
   "h": 315
- },
- "music-7": {
-  "file": "music-7.jpg",
-  "name": "Harp",
-  "artist": "No machine-readable author provided. Mets501 assumed (based on copyright claims).",
-  "license": "CC BY-SA 3.0",
-  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-  "source": "https://commons.wikimedia.org/wiki/File:Range_harp.svg",
-  "w": 560,
-  "h": 429
  },
  "music-8": {
   "file": "music-8.jpg",

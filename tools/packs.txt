@@ -54,7 +54,7 @@ Tow truck|Tow truck|help|🛻|Tow trucks pull cars that are broken down.
 Dump truck|Dump truck|work|🚚|Dump trucks tip their back up to pour out dirt and rocks.
 Excavator|Excavator|work|🏗️|Excavators dig big holes with a long arm and a bucket.
 Bulldozer|Bulldozer|work|🚜|Bulldozers push dirt with a big flat blade.
-Cement mixer|Concrete mixer truck|work|🚛|Cement mixers keep their drum spinning so the cement doesn't get hard.
+Cement mixer|Volumetric concrete mixer|work|🚛|Cement mixers keep their drum spinning so the cement doesn't get hard.
 Tractor|Tractor|work|🚜|Farmers use tractors to plow fields and pull heavy things.
 Forklift|Forklift|work|🏗️|Forklifts lift heavy boxes with two long forks.
 Crane|Mobile crane|work|🏗️|Cranes lift very heavy things high into the air.
@@ -322,7 +322,7 @@ Violin|Violin|strings|🎻|You play a violin with a bow.
 Cello|Cello|strings|🎻|The cello is like a big violin that you play sitting down.
 Ukulele|Ukulele|strings|🎸|The ukulele is a small, four-string guitar that is popular in Hawaii.
 Banjo|Banjo|strings|🪕|Banjos make a bright, twangy sound.
-Harp|Pedal harp|strings|🎶|You play a harp by plucking its strings with your fingers.
+Harp|Celtic harp|strings|🎶|You play a harp by plucking its strings with your fingers.
 Bass guitar|Bass guitar|strings|🎸|The bass guitar plays the low notes in a band.
 Trumpet|Trumpet|wind|🎺|You play a trumpet by buzzing your lips into it.
 Trombone|Trombone|wind|🎺|A trombone has a slide that moves to change the notes.
