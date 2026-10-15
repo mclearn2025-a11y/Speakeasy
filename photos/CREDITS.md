@@ -186,10 +186,12 @@ Speakeasy's photos come from Wikimedia Commons under free licenses. Each photo i
 | Cruise ship | Corey Seeman | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Icon_of_the_Seas_Puerto_Rico_2025_(cropped).jpg |
 | Tugboat | Unknown photographer | Public domain | https://commons.wikimedia.org/wiki/File:CSSTeaser.jpg |
 | Submarine | U.S. Navy photo by General Dynamics Electric Boat | Public domain | https://commons.wikimedia.org/wiki/File:US_Navy_040730-N-1234E-002_PCU_Virginia_(SSN_774)_returns_to_the_General_Dynamics_Electric_Boat_shipyard.jpg |
+| Canoe | Motorrad-67 at English Wikipedia | Attribution | https://commons.wikimedia.org/wiki/File:Morris-canoe-600.jpg |
 | Oak | Unknown photographer | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Quercus_robur.jpg |
 | Maple | Willow | CC BY-SA 2.5 | https://commons.wikimedia.org/wiki/File:Acer_pseudoplatanus_002.jpg |
 | Southern Magnolia | Josep Renalias Lohen11 | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Magn%C3%B2lia_a_Verbania.JPG |
 | Pine | Vlad & Marina Butsky on Flickr | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:Pinus_jeffreyi_at_Lassen_Volcanic_National_Park.jpg |
+| Palm tree | Patrick Verdier, Free On Line Photos | Copyrighted free use | https://commons.wikimedia.org/wiki/File:1859-Martinique.web.jpg |
 | Coconut palm | Franz Eugen Köhler, Köhler's Medizinal-Pflanzen | Public domain | https://commons.wikimedia.org/wiki/File:Cocos_nucifera_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-187.jpg |
 | Weeping willow | Fab5669 | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Ch%C3%A2teau_de_Chenonceau_-_jardin_Russell-Page_(01).jpg |
 | Birch | Willow | CC BY 2.5 | https://commons.wikimedia.org/wiki/File:Betula_pendula_001.jpg |
@@ -231,6 +233,7 @@ Speakeasy's photos come from Wikimedia Commons under free licenses. Each photo i
 | Massachusetts | State of Massachusetts | Public domain | https://commons.wikimedia.org/wiki/File:Flag_of_Massachusetts.svg |
 | Michigan | Unknown photographer | Public domain | https://commons.wikimedia.org/wiki/File:Flag_of_Michigan.svg |
 | Minnesota | Original : Minnesota State Emblems Redesign Commission Vector : Jamie Eilat , Undertiago | Public domain | https://commons.wikimedia.org/wiki/File:Flag_of_Minnesota.svg |
+| Mississippi | Rocky Vaughn, Sue Anna Joe, Dominique Pugh, Clay Moss, Kara Giles, Micah Whitson and the Mississippi Department of Archives and History | Copyrighted free use | https://commons.wikimedia.org/wiki/File:Flag_of_Mississippi.svg |
 | Missouri | Marie Watkins Oliver | Public domain | https://commons.wikimedia.org/wiki/File:Flag_of_Missouri.svg |
 | Montana | N.a | Public domain | https://commons.wikimedia.org/wiki/File:Flag_of_Montana.svg |
 | Nebraska | Liamgabby79 | Public domain | https://commons.wikimedia.org/wiki/File:Flag_of_Nebraska.svg |
@@ -331,6 +334,7 @@ Speakeasy's photos come from Wikimedia Commons under free licenses. Each photo i
 | Moon | Gregory H. Revera | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:FullMoon2010.jpg |
 | Mercury | NASA/Johns Hopkins University Applied Physics Laboratory/Arizona State University/Carnegie Institution of Washington | Public domain | https://commons.wikimedia.org/wiki/File:Mercury_in_true_color.jpg |
 | Venus | NASA/JPL-Caltech | Public domain | https://commons.wikimedia.org/wiki/File:Venus_from_Mariner_10.jpg |
+| Earth | EUMETSAT | Attribution | https://commons.wikimedia.org/wiki/File:Meteosat-12-fci-march-equinox-2025-noon.jpg |
 | Mars | Kevin Gill from Los Angeles, CA, United States | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png |
 | Jupiter | NASA/STSCI (S.T.A.R.S) | Public domain | https://commons.wikimedia.org/wiki/File:Jupiter_OPAL_2024.png |
 | Saturn | NASA / JPL-Caltech / SSI / color composite by Gordan Ugarkovic | Public domain | https://commons.wikimedia.org/wiki/File:Saturn_global_view_from_Cassini,_rings_open_Better_Colour.png |
@@ -429,19 +433,15 @@ Speakeasy's photos come from Wikimedia Commons under free licenses. Each photo i
 - Bulldog: license not free: GFDL
 - Greyhound: no photo on its Wikipedia page
 - Race car: no photo on its Wikipedia page
-- Canoe: license not free: Attribution
-- Palm tree: license not free: Copyrighted free use
 - Apple tree: license not free: GFDL 1.2
 - Cherry blossom: no photo on its Wikipedia page
 - Baobab: license not free: GFDL 1.2
-- Mississippi: license not free: Copyrighted free use
 - West Virginia: no photo on its Wikipedia page
 - Skyscraper: no photo on its Wikipedia page
 - Lighthouse: no photo on its Wikipedia page
 - School: no photo on its Wikipedia page
 - Hospital: no photo on its Wikipedia page
 - Great white shark: no photo on its Wikipedia page
-- Earth: license not free: Attribution
 - Monarch butterfly: license not free: GFDL 1.2
 - Mosquito: license not free: GFDL 1.2
 - Skiing: no photo on its Wikipedia page

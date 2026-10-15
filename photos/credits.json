@@ -1819,6 +1819,16 @@
   "w": 560,
   "h": 448
  },
+ "vehicles-35": {
+  "file": "vehicles-35.jpg",
+  "name": "Canoe",
+  "artist": "Motorrad-67 at English Wikipedia",
+  "license": "Attribution",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Morris-canoe-600.jpg",
+  "w": 379,
+  "h": 560
+ },
  "trees-0": {
   "file": "trees-0.jpg",
   "name": "Oak",
@@ -1857,6 +1867,16 @@
   "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
   "source": "https://commons.wikimedia.org/wiki/File:Pinus_jeffreyi_at_Lassen_Volcanic_National_Park.jpg",
   "w": 374,
+  "h": 560
+ },
+ "trees-4": {
+  "file": "trees-4.jpg",
+  "name": "Palm tree",
+  "artist": "Patrick Verdier, Free On Line Photos",
+  "license": "Copyrighted free use",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:1859-Martinique.web.jpg",
+  "w": 368,
   "h": 560
  },
  "trees-5": {
@@ -2266,6 +2286,16 @@
   "license": "Public domain",
   "licenseUrl": "",
   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Minnesota.svg",
+  "w": 560,
+  "h": 336
+ },
+ "states-23": {
+  "file": "states-23.jpg",
+  "name": "Mississippi",
+  "artist": "Rocky Vaughn, Sue Anna Joe, Dominique Pugh, Clay Moss, Kara Giles, Micah Whitson and the Mississippi Department of Archives and History",
+  "license": "Copyrighted free use",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Mississippi.svg",
   "w": 560,
   "h": 336
  },
@@ -3266,6 +3296,16 @@
   "license": "Public domain",
   "licenseUrl": "",
   "source": "https://commons.wikimedia.org/wiki/File:Venus_from_Mariner_10.jpg",
+  "w": 560,
+  "h": 560
+ },
+ "space-4": {
+  "file": "space-4.jpg",
+  "name": "Earth",
+  "artist": "EUMETSAT",
+  "license": "Attribution",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Meteosat-12-fci-march-equinox-2025-noon.jpg",
   "w": 560,
   "h": 560
  },
