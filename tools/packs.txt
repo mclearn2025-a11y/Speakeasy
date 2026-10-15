@@ -54,20 +54,20 @@ Tow truck|Tow truck|help|🛻|Tow trucks pull cars that are broken down.
 Dump truck|Dump truck|work|🚚|Dump trucks tip their back up to pour out dirt and rocks.
 Excavator|Excavator|work|🏗️|Excavators dig big holes with a long arm and a bucket.
 Bulldozer|Bulldozer|work|🚜|Bulldozers push dirt with a big flat blade.
-Cement mixer|Concrete mixer|work|🚛|Cement mixers keep their drum spinning so the cement doesn't get hard.
+Cement mixer|Concrete mixer truck|work|🚛|Cement mixers keep their drum spinning so the cement doesn't get hard.
 Tractor|Tractor|work|🚜|Farmers use tractors to plow fields and pull heavy things.
 Forklift|Forklift|work|🏗️|Forklifts lift heavy boxes with two long forks.
 Crane|Mobile crane|work|🏗️|Cranes lift very heavy things high into the air.
 Monster truck|Monster truck|road|🛻|Monster trucks have giant tires and can jump over cars.
 Steam train|Steam locomotive|rails|🚂|Steam trains burn coal or wood to make steam that turns the wheels.
 Freight train|Freight train|rails|🚆|Freight trains pull long lines of cars full of goods.
-Bullet train|Shinkansen|rails|🚄|Bullet trains in Japan can go faster than 180 miles per hour.
+Bullet train|N700 Series Shinkansen|rails|🚄|Bullet trains in Japan can go faster than 180 miles per hour.
 Subway|Rapid transit|rails|🚇|Subway trains often run in tunnels under the city.
 Airplane|Airliner|sky|✈️|Big airplanes carry hundreds of people around the world.
 Helicopter|Helicopter|sky|🚁|Helicopters can fly straight up and stay in one spot in the air.
 Hot air balloon|Hot air balloon|sky|🎈|Hot air rises, and that lifts the balloon into the sky.
 Rocket|Rocket|sky|🚀|Rockets are powerful enough to go into space.
-Sailboat|Sailboat|water|⛵|Sailboats use the wind to move across the water.
+Sailboat|Sailing|water|⛵|Sailboats use the wind to move across the water.
 Cruise ship|Cruise ship|water|🛳️|Cruise ships are like big hotels that float.
 Tugboat|Tugboat|water|🚢|Tugboats are small but strong. They push and pull big ships.
 Submarine|Submarine|water|🌊|Submarines can travel deep under the water.
@@ -154,7 +154,7 @@ Wisconsin|Wisconsin|midwest|🗺️|The capital is Madison. Its nickname is the 
 Wyoming|Wyoming|west|🗺️|The capital is Cheyenne. Its nickname is the Equality State.
 
 @buildings|Houses and buildings|🏠|building|buildings|Building game|homes:Homes:🏠,places:Places we go:🏫,famous:Famous places:🗼
-House|House|homes|🏠|A house is a building where a family lives.
+House|Single-family detached home|homes|🏠|A house is a building where a family lives.
 Apartment building|Apartment|homes|🏢|In an apartment building, many families live in homes stacked on top of each other.
 Log cabin|Log cabin|homes|🛖|Log cabins are built from whole tree trunks.
 Igloo|Igloo|homes|🧊|Igloos are built from blocks of snow.
@@ -247,7 +247,7 @@ Saturn|Saturn|planets|🪐|Saturn has beautiful rings made of ice and rock.
 Uranus|Uranus|planets|🪐|Uranus spins on its side.
 Neptune|Neptune|planets|🪐|Neptune is the windiest planet.
 Pluto|Pluto|planets|⚪|Pluto is a dwarf planet, far away past Neptune.
-Stars|Star|sky|⭐|Stars are giant balls of hot gas, like our Sun.
+Stars|Night sky|sky|⭐|Stars are giant balls of hot gas, like our Sun.
 Comet|Comet|sky|☄️|Comets are balls of ice and dust with long, glowing tails.
 Asteroid|Asteroid|sky|🪨|Asteroids are space rocks that go around the Sun.
 Milky Way|Milky Way|sky|🌌|The Milky Way is our galaxy. It has billions of stars.
@@ -312,17 +312,17 @@ Skateboarding|Skateboarding|move|🛹|Skateboarders roll and do tricks on a boar
 Karate|Karate|move|🥋|Karate is a martial art that started in Japan.
 Cheerleading|Cheerleading|move|📣|Cheerleaders cheer, dance and do flips to support their team.
 Dancing|Dance|move|💃|Dancing is moving your body to music.
-Yoga|Yoga|move|🧘|Yoga helps you stretch, breathe and feel calm.
+Yoga|Yoga as exercise|move|🧘|Yoga helps you stretch, breathe and feel calm.
 
 @music|Musical instruments|🎸|instrument|instruments|Music game|strings:Strings:🎻,wind:Blow:🎺,beat:Beat and keys:🥁
 Piano|Piano|beat|🎹|A piano has 88 black and white keys.
 Guitar|Guitar|strings|🎸|You play a guitar by strumming or picking its strings.
-Drums|Drum kit|beat|🥁|A drum set has drums and cymbals to play the beat.
+Drums|Drum|beat|🥁|A drum set has drums and cymbals to play the beat.
 Violin|Violin|strings|🎻|You play a violin with a bow.
 Cello|Cello|strings|🎻|The cello is like a big violin that you play sitting down.
 Ukulele|Ukulele|strings|🎸|The ukulele is a small, four-string guitar that is popular in Hawaii.
 Banjo|Banjo|strings|🪕|Banjos make a bright, twangy sound.
-Harp|Harp|strings|🎶|You play a harp by plucking its strings with your fingers.
+Harp|Pedal harp|strings|🎶|You play a harp by plucking its strings with your fingers.
 Bass guitar|Bass guitar|strings|🎸|The bass guitar plays the low notes in a band.
 Trumpet|Trumpet|wind|🎺|You play a trumpet by buzzing your lips into it.
 Trombone|Trombone|wind|🎺|A trombone has a slide that moves to change the notes.

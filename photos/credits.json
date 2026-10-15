@@ -1649,16 +1649,6 @@
   "w": 560,
   "h": 372
  },
- "vehicles-18": {
-  "file": "vehicles-18.jpg",
-  "name": "Cement mixer",
-  "artist": "GH SA",
-  "license": "CC BY-SA 4.0",
-  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "source": "https://commons.wikimedia.org/wiki/File:GH-SA.jpg",
-  "w": 560,
-  "h": 420
- },
  "vehicles-19": {
   "file": "vehicles-19.jpg",
   "name": "Tractor",
@@ -1719,16 +1709,6 @@
   "w": 560,
   "h": 346
  },
- "vehicles-25": {
-  "file": "vehicles-25.jpg",
-  "name": "Bullet train",
-  "artist": "Texent",
-  "license": "CC BY-SA 4.0",
-  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "source": "https://commons.wikimedia.org/wiki/File:Shinkansen_map_202405_en.png",
-  "w": 542,
-  "h": 560
- },
  "vehicles-26": {
   "file": "vehicles-26.jpg",
   "name": "Subway",
@@ -1777,16 +1757,6 @@
   "licenseUrl": "",
   "source": "https://commons.wikimedia.org/wiki/File:Soyuz_TMA-9_launch.jpg",
   "w": 372,
-  "h": 560
- },
- "vehicles-31": {
-  "file": "vehicles-31.jpg",
-  "name": "Sailboat",
-  "artist": "Sloop_Example.jpg : Original uploader was Kevin Murray at en.wikipedia derivative work: Malyszkz ( talk )",
-  "license": "CC BY-SA 3.0",
-  "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
-  "source": "https://commons.wikimedia.org/wiki/File:Sloop_Example.svg",
-  "w": 560,
   "h": 560
  },
  "vehicles-32": {
@@ -2548,16 +2518,6 @@
   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Wyoming.svg",
   "w": 560,
   "h": 392
- },
- "buildings-0": {
-  "file": "buildings-0.jpg",
-  "name": "House",
-  "artist": "John Chang",
-  "license": "CC BY-SA 3.0",
-  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-  "source": "https://commons.wikimedia.org/wiki/File:Katsura_Imperial_Villa_in_Spring.jpg",
-  "w": 560,
-  "h": 420
  },
  "buildings-1": {
   "file": "buildings-1.jpg",
@@ -3369,16 +3329,6 @@
   "w": 560,
   "h": 560
  },
- "space-11": {
-  "file": "space-11.jpg",
-  "name": "Stars",
-  "artist": "Matúš Motlo",
-  "license": "CC BY-SA 4.0",
-  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "source": "https://commons.wikimedia.org/wiki/File:The_Sun_in_white_light.jpg",
-  "w": 560,
-  "h": 560
- },
  "space-12": {
   "file": "space-12.jpg",
   "name": "Comet",
@@ -3939,16 +3889,6 @@
   "w": 443,
   "h": 560
  },
- "sports-24": {
-  "file": "sports-24.jpg",
-  "name": "Yoga",
-  "artist": "Kalyan Kumar",
-  "license": "CC BY-SA 2.0",
-  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
-  "source": "https://commons.wikimedia.org/wiki/File:Shiva_Bangalore.jpg",
-  "w": 560,
-  "h": 553
- },
  "music-0": {
   "file": "music-0.jpg",
   "name": "Piano",
@@ -3968,16 +3908,6 @@
   "source": "https://commons.wikimedia.org/wiki/File:GuitareClassique5.png",
   "w": 342,
   "h": 560
- },
- "music-2": {
-  "file": "music-2.jpg",
-  "name": "Drums",
-  "artist": "Syed Wamiq Ahmed Hashmi re-draw SVG FOX 52",
-  "license": "CC BY-SA 3.0",
-  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-  "source": "https://commons.wikimedia.org/wiki/File:Drums_schematic.svg",
-  "w": 560,
-  "h": 533
  },
  "music-3": {
   "file": "music-3.jpg",
@@ -4008,16 +3938,6 @@
   "source": "https://commons.wikimedia.org/wiki/File:Kumalae_ukulele_of_c._1910.webm",
   "w": 560,
   "h": 315
- },
- "music-7": {
-  "file": "music-7.jpg",
-  "name": "Harp",
-  "artist": "Unknown photographer",
-  "license": "Public domain",
-  "licenseUrl": "",
-  "source": "https://commons.wikimedia.org/wiki/File:Harp.png",
-  "w": 449,
-  "h": 560
  },
  "music-8": {
   "file": "music-8.jpg",

@@ -242,7 +242,7 @@
  {
   "id": "vehicles-18",
   "name": "Cement mixer",
-  "title": "Concrete mixer"
+  "title": "Concrete mixer truck"
  },
  {
   "id": "vehicles-19",
@@ -277,7 +277,7 @@
  {
   "id": "vehicles-25",
   "name": "Bullet train",
-  "title": "Shinkansen"
+  "title": "N700 Series Shinkansen"
  },
  {
   "id": "vehicles-26",
@@ -307,7 +307,7 @@
  {
   "id": "vehicles-31",
   "name": "Sailboat",
-  "title": "Sailboat"
+  "title": "Sailing"
  },
  {
   "id": "vehicles-32",
@@ -712,7 +712,7 @@
  {
   "id": "buildings-0",
   "name": "House",
-  "title": "House"
+  "title": "Single-family detached home"
  },
  {
   "id": "buildings-1",
@@ -1147,7 +1147,7 @@
  {
   "id": "space-11",
   "name": "Stars",
-  "title": "Star"
+  "title": "Night sky"
  },
  {
   "id": "space-12",
@@ -1452,7 +1452,7 @@
  {
   "id": "sports-24",
   "name": "Yoga",
-  "title": "Yoga"
+  "title": "Yoga as exercise"
  },
  {
   "id": "music-0",
@@ -1467,7 +1467,7 @@
  {
   "id": "music-2",
   "name": "Drums",
-  "title": "Drum kit"
+  "title": "Drum"
  },
  {
   "id": "music-3",
@@ -1492,7 +1492,7 @@
  {
   "id": "music-7",
   "name": "Harp",
-  "title": "Harp"
+  "title": "Pedal harp"
  },
  {
   "id": "music-8",
