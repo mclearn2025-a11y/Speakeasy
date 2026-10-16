@@ -5,6 +5,13 @@ This folder is the full Speakeasy app. Put it on any web address and it becomes 
 it installs to the home screen on iPhone, iPad, Android, Windows, Mac and Chromebook, and it
 keeps talking with no internet.
 
+## New in v1.8
+
+- **Languages.** Each profile picks English or Español. Words, phrases, word groups, topic pages, fun facts, games, the Help card, the How to talk with me card, the guide, the questions and the screens switch to that language, and Speakeasy speaks it with the device's own voice for that language. Words a caregiver types stay as typed. Spanish word endings (the ± button) are not built yet. Translations live in tools/i18n/translations.json and should be checked by a native speaker.
+- **Save to this device.** A banner and a Menu item give step-by-step directions for iPhone and iPad, Android, Windows, Mac and Chromebook. The welcome setup now ends with this step.
+- **This device.** A check of what works on the phone, tablet or computer in use: a voice in their language, working offline, saved to the home screen, storage, screen staying on, voice control and switches, with steps to add anything missing.
+- Privacy policy updated, and now also in Spanish (privacy-es.html).
+
 ## New in v1.7
 
 - **How to talk with me card.** A one-page card for teachers, sitters, doctors and anyone new. It explains the talking app, gives six tips for helping them talk (fitted to their level), and shows how they say yes and no, what upsets them, what helps them calm down, their favorite things, the words they use most and who to call. Open it from Menu → How to talk with me, the Dashboard, the caregiver guide or the Questions tab. Print it, or save it as a file to print or email. Each person has their own card.
