@@ -1,4 +1,8 @@
-# Speakeasy — installable app (v1.6.0)
+# Speakeasy
+
+— installable app (v1.9)
+
+**Live app:** https://speakeasy.mclearn2025.workers.dev (Cloudflare, updates automatically from this repository)
 McLearn Media LLC · Brandon, MS
 
 This folder is the full Speakeasy app. Put it on any web address and it becomes a real app:
