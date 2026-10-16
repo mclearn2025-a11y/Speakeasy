@@ -5,6 +5,12 @@ This folder is the full Speakeasy app. Put it on any web address and it becomes 
 it installs to the home screen on iPhone, iPad, Android, Windows, Mac and Chromebook, and it
 keeps talking with no internet.
 
+## New in v1.9
+
+- **2,306 words, up from 548.** About 1,750 new words, each with its own talking-app symbol from the free Mulberry Symbols library (CC BY-SA 4.0), in English and Spanish. 20 new word groups (Fruits and vegetables, Meals and snacks, Sweets and drinks, Kitchen, Home, Getting ready, Jobs, More actions, Shapes, Where, Sports, Phones and computers, Tools, Going places, Nature, Science, Holidays and parties, Art and music, Countries, Pet care), and more words in 14 existing groups. New words were added at the end of each group, so no word that was already there moved.
+- The symbols for the new words load in three files in symbols/ (more-1.json to more-3.json, about 8 MB together) and are kept for offline use.
+- How the list was chosen is in tools/words/: British words were changed to American ones, duplicates and look-alike drawings were removed, and symbols not right for children were left out.
+
 ## New in v1.8
 
 - **Languages.** Each profile picks English or Español. Words, phrases, word groups, topic pages, fun facts, games, the Help card, the How to talk with me card, the guide, the questions and the screens switch to that language, and Speakeasy speaks it with the device's own voice for that language. Words a caregiver types stay as typed. Spanish word endings (the ± button) are not built yet. Translations live in tools/i18n/translations.json and should be checked by a native speaker.
