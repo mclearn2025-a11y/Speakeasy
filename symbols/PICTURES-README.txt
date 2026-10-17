@@ -1,4 +1,4 @@
-symbols/3d.json holds Speakeasy's "3D pictures" style:
+symbols/3d-*.json hold Speakeasy's "3D pictures" style:
 - Microsoft Fluent Emoji 3D (MIT license, see FLUENT-EMOJI-LICENSE.txt)
 - Country flags from flag-icons with a 3D finish (MIT license, see FLAG-ICONS-LICENSE.txt)
 - About 420 pictures made for Speakeasy by McLearn Media with AI image tools (Figma AI), checked by hand for meaning

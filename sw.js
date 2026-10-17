@@ -2,7 +2,7 @@
    The app must keep talking with no internet, so the page and its icons are stored on install.
    Page: network first (updates arrive), stored copy when offline.
    Fonts and bird photos: stored as they're used, so they keep working offline. */
-const VERSION = "speakeasy-v1.11.0";
+const VERSION = "speakeasy-v1.11.1";
 const CORE = VERSION + "-core", RUNTIME = VERSION + "-runtime", PHOTOS = VERSION + "-photos";
 const SHELL = ["./", "index.html", "privacy.html", "privacy-es.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png",
   "fonts/fonts.css", "fonts/atkinson-400.woff", "fonts/atkinson-700.woff", "fonts/hanken-var.woff", "fonts/fraunces-600.woff"];
@@ -14,7 +14,7 @@ self.addEventListener("install", e => {
     // store every built-in bird photo too, so the whole app works offline
     try { const j = await (await fetch("photos/credits.json")).json(); await c.addAll(Object.values(j).map(x => "photos/" + x.file)); } catch {}
     try { await c.add("symbols/all.json"); } catch {}
-    try { await c.add("symbols/3d.json"); } catch {}
+    for (let i = 1; i <= 4; i++) { try { await c.add(`symbols/3d-${i}.json`); } catch {} }
     for (let i = 1; i <= 3; i++) { try { await c.add(`symbols/more-${i}.json`); } catch {} }
   }).then(() => self.skipWaiting()));
 });
