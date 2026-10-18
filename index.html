@@ -68,6 +68,10 @@ button{font:inherit;color:inherit;cursor:pointer}
 .ibtn .ring{position:absolute;left:0;bottom:0;height:4px;width:0;background:var(--brand)}
 .ibtn.holding .ring{animation:fill var(--hold,1.5s) linear forwards}
 @keyframes fill{to{width:100%}}
+.dwelling{position:relative;overflow:hidden}.dwelling::after{content:"";position:absolute;left:0;bottom:0;height:6px;width:0;background:var(--ink);animation:fill var(--hold,1s) linear forwards}
+.bigmsg{position:fixed;inset:0;z-index:90;background:#fff;color:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;gap:18px}
+.bigmsg p{font-size:clamp(40px,9vw,110px);font-weight:800;line-height:1.1;margin:0;word-break:break-word}
+.bigmsg small{font-size:18px;color:#555}
 
 /* message strip */
 .strip{display:flex;gap:6px;align-items:stretch;background:var(--card);border:2px solid var(--line);border-radius:var(--r-lg);padding:6px;min-height:calc(64px*var(--scale))}
@@ -1142,6 +1146,48 @@ I18N.es.ui["3D pictures"] = "Imágenes 3D";
 I18N.es.ui["3D pictures are big, bright, and look the same on every phone and computer. Words that don't have a 3D picture show their talking-app symbol. 3D pictures: Microsoft Fluent Emoji (MIT license), flags from flag-icons (MIT license), and pictures made for Speakeasy by McLearn Media."] = "Las imágenes 3D son grandes, brillantes y se ven igual en todos los teléfonos y computadoras. Las palabras que no tienen imagen 3D muestran su símbolo de la app. Imágenes 3D: Microsoft Fluent Emoji (licencia MIT), banderas de flag-icons (licencia MIT) e imágenes hechas para Speakeasy por McLearn Media.";
 I18N.es.ui["Picture style"] = "Estilo de imágenes";
 I18N.es.ui["Pick the pictures that are easiest for them to understand. You can change this any time in Settings, Pictures."] = "Elija las imágenes que le resulten más fáciles de entender. Puede cambiarlo cuando quiera en Ajustes, Imágenes.";
+I18N.es.ui["What helps them"] = "Lo que le ayuda";
+I18N.es.ui["Everyone is different. Pick anything that fits, and Speakeasy sets itself up for them. Pick none if nothing fits."] = "Cada persona es diferente. Elija lo que le corresponda y Speakeasy se ajusta para esa persona. No elija nada si nada corresponde.";
+I18N.es.ui["Speakeasy will:"] = "Speakeasy va a:";
+I18N.es.ui["You can fine-tune any of this in Settings. Taking a choice off puts those settings back."] = "Puede ajustar todo esto en Ajustes. Si quita una opción, esos ajustes vuelven a como estaban.";
+I18N.es.ui["Taps by accident or has shaky hands"] = "Toca sin querer o le tiemblan las manos";
+I18N.es.ui["Hold a button a moment to choose it, repeat taps ignored, bigger buttons"] = "Mantener el botón un momento para elegirlo, se ignoran los toques repetidos, botones más grandes";
+I18N.es.ui["Taps the same word over and over"] = "Toca la misma palabra una y otra vez";
+I18N.es.ui["Quick repeat taps are ignored for 1 second"] = "Se ignoran los toques repetidos durante 1 segundo";
+I18N.es.ui["Can't point well, uses a switch"] = "Le cuesta señalar, usa un pulsador";
+I18N.es.ui["Switch scanning, one choice lit up at a time"] = "Barrido con pulsador, una opción iluminada a la vez";
+I18N.es.ui["Uses eye-gaze or a head mouse"] = "Usa la mirada o un ratón de cabeza";
+I18N.es.ui["Rest on a button for 1 second to choose it"] = "Quedarse sobre un botón 1 segundo para elegirlo";
+I18N.es.ui["Has trouble seeing small things"] = "Le cuesta ver cosas pequeñas";
+I18N.es.ui["High contrast and extra-big buttons"] = "Alto contraste y botones muy grandes";
+I18N.es.ui["Is blind or can't see the screen"] = "Es ciego o no puede ver la pantalla";
+I18N.es.ui["Each choice is read out loud, choose with a switch or the big button"] = "Cada opción se lee en voz alta; se elige con un pulsador o el botón grande";
+I18N.es.ui["Gets upset by noise, motion or bright colors"] = "Le molestan el ruido, el movimiento o los colores fuertes";
+I18N.es.ui["Calm look with nothing moving, and a softer voice"] = "Aspecto tranquilo sin movimiento y una voz más suave";
+I18N.es.ui["Flashing or moving lights aren't safe"] = "Las luces que parpadean o se mueven no son seguras";
+I18N.es.ui["Calm look, so nothing flashes or moves"] = "Aspecto tranquilo, nada parpadea ni se mueve";
+I18N.es.ui["Gets distracted easily"] = "Se distrae con facilidad";
+I18N.es.ui["Calm look, and tapping a picture just says it (no pop-ups)"] = "Aspecto tranquilo, y al tocar una imagen solo se dice (sin ventanas)";
+I18N.es.ui["Needs more time to understand speech"] = "Necesita más tiempo para entender lo que se dice";
+I18N.es.ui["A slower voice"] = "Una voz más lenta";
+I18N.es.ui["Can't read yet"] = "Todavía no lee";
+I18N.es.ui["Pictures on every button, and each word is said when tapped"] = "Imágenes en cada botón, y cada palabra se dice al tocarla";
+I18N.es.ui["Can read and spell"] = "Sabe leer y deletrear";
+I18N.es.ui["The keyboard page is turned on"] = "Se activa la página del teclado";
+I18N.es.ui["Talks with Deaf people or in loud places"] = "Habla con personas sordas o en lugares ruidosos";
+I18N.es.ui["Speak also shows the message in big letters"] = "Hablar también muestra el mensaje en letras grandes";
+I18N.es.ui["Builds sentences with topic words"] = "Forma frases con palabras de los temas";
+I18N.es.ui["Topic pages add each picture instead of swapping the last one"] = "Las páginas de temas agregan cada imagen en vez de cambiar la última";
+I18N.es.ui["Message"] = "Mensaje";
+I18N.es.ui["Tap anywhere to close"] = "Toque en cualquier lugar para cerrar";
+I18N.es.ui["Loudness"] = "Volumen";
+I18N.es.ui["Show the message in big letters after Speak"] = "Mostrar el mensaje en letras grandes después de Hablar";
+I18N.es.ui["Rest on a button to choose it (eye-gaze, head mouse)"] = "Quedarse sobre un botón para elegirlo (mirada, ratón de cabeza)";
+I18N.es.ui["Quick (0.7s)"] = "Rápido (0,7 s)";
+I18N.es.ui["Medium (1s)"] = "Medio (1 s)";
+I18N.es.ui["Slow (1.5s)"] = "Lento (1,5 s)";
+I18N.es.ui["Very slow (2s)"] = "Muy lento (2 s)";
+I18N.es.ui["Speak says only the last picture they picked"] = "Hablar dice solo la última imagen elegida";
 let LANG = "en", L10 = null, L10RE = [];
 const normLang = v => (v && v.lang || "").toLowerCase().replace("_","-");
 const voicesFor = code => voices.filter(v=>normLang(v).startsWith(code));
@@ -1478,7 +1524,7 @@ function writeReg(){ try { localStorage.setItem(PREG, JSON.stringify(REG)); } ca
 function syncReg(){ const P = state.profile||{}; let e = REG.list.find(x=>x.id===REG.active); if (!e){ e = {id:REG.active}; REG.list.push(e); } e.name = P.name||""; e.avatar = P.avatar||"🙂"; e.lvl = state.settings.lvl||2; writeReg(); }
 const DEFAULT = {
   settings:{photos:"photos",look:"sparkle",mode:"k",voiceURI:"",rate:0.9,pitch:1,speakOnTap:true,holdMs:0,debounceMs:300,scale:1.1,contrast:false,wordsOnly:false,
-            board:"24",level:"all",scan:"off",scanMs:1500,lock:true,lang:"en"},
+            board:"24",level:"all",scan:"off",scanMs:1500,lock:true,lang:"en",volume:1,dwellMs:0,showText:false,topicOne:true},
   custom:{}, hidden:[], learned:{}, help:{name:"",contact:"",info:"",contacts:[],address:"",showAddress:false,shareLoc:false}, practice:{right:0,tries:0},
   packs:{birds:true}, topics:[], birdGroup:"all", facts:false, savedAt:0, lastBackup:0,
   stats:{days:{}}, guideSeen:false, modeSet:false, profileAsked:false,
@@ -1661,7 +1707,7 @@ function say(text, cue=false){
     synth.cancel();
     const u = new SpeechSynthesisUtterance(speakable(T(text)));
     const v = voiceNow(); if (v){ u.voice = v; u.lang = v.lang; } else u.lang = LANGS[LANG].tag;
-    u.rate = cue ? Math.min(2, S.rate*1.2) : S.rate; u.pitch = S.pitch; u.volume = cue ? 0.7 : 1;
+    u.rate = cue ? Math.min(2, S.rate*1.2) : S.rate; u.pitch = S.pitch; const vol = S.volume ?? 1; u.volume = cue ? 0.7*vol : vol;
     synth.speak(u);
   }catch{ toast(text); }
 }
@@ -1926,7 +1972,7 @@ function activate(node){
     commitTyping();
     /* v1.12.1: on topic pages (Birds, Dogs, Cars...) a new pick replaces the last one, so Speak says only the one just chosen */
     const fromTopic = isTopic(tab);
-    if (fromTopic) msg = msg.filter(w => !w.topic);
+    if (fromTopic && S.topicOne!==false) msg = msg.filter(w => !w.topic);
     msg.push({id:it.id, label:it.label, say:it.say, sym:it.sym, img:it.img, art:hasPic(it)?it:null, pos:it.pos, topic:fromTopic});
     const fl = $("factLine");
     if (it.fact && fl){ fl.dataset.touched="1"; fl.replaceChildren(el("b",null,it.label+". "), document.createTextNode(it.fact));
@@ -1998,9 +2044,32 @@ document.addEventListener("pointerup", e=>endPress(e,false));
 document.addEventListener("pointercancel", e=>endPress(e,true));
 board.addEventListener("click", e=>{ const t=e.target.closest("[data-act]"); if(t && e.detail===0) activate(t); }); // keyboard and screen readers
 board.addEventListener("contextmenu", e=>e.preventDefault());
+/* v1.13: look or hover to choose, for eye-gaze and head-mouse users. Rest on a button and it gets chosen.
+   Move off and back on to choose the same button again. */
+let dwell = null, dwellDone = null;
+const DWELL_SEL = '#board [data-act], #speakBtn, #delBtn, #clrBtn, #helpBtn, #tabs .tab, .bigmsg';
+document.addEventListener("pointermove", e => {
+  if (!S.dwellMs || e.pointerType==="touch") return;
+  const t = e.target.closest ? e.target.closest(DWELL_SEL) : null;
+  if (dwell && dwell.el===t) return;
+  if (dwell){ clearTimeout(dwell.id); dwell.el.classList.remove("dwelling"); dwell = null; }
+  if (t !== dwellDone) dwellDone = null;
+  if (!t || t===dwellDone || document.querySelector(".sheet,.helpcard,.game,.bigpic") || (document.querySelector(".bigmsg") && !t.matches(".bigmsg"))) return;
+  t.style.setProperty("--hold", S.dwellMs+"ms"); t.classList.add("dwelling");
+  dwell = {el:t, id:setTimeout(()=>{ t.classList.remove("dwelling"); dwell = null; dwellDone = t;
+    if (t.matches("#board [data-act]")) activate(t); else t.click(); }, S.dwellMs)};
+});
 
-$("speakBtn").onclick = () => { commitTyping(); renderStrip(); const s=sentence(); if(s){ say(s); track("said"); save(); burst($("speakBtn"),10); flyBird(); } else toast("Choose some words first."); };
+$("speakBtn").onclick = () => { commitTyping(); renderStrip(); const s=sentence(); if(s){ say(s); if (S.showText) showBigText(s); track("said"); save(); burst($("speakBtn"),10); flyBird(); } else toast("Choose some words first."); };
 $("msg").onclick = $("speakBtn").onclick;
+/* v1.13: show the message in big letters, for Deaf or hard-of-hearing listeners and loud places */
+function showBigText(text){
+  document.querySelector(".bigmsg")?.remove();
+  const d = el("div","bigmsg"); d.setAttribute("role","dialog"); d.setAttribute("aria-label", T("Message"));
+  const p = el("p"); p.textContent = text; p.dataset.notr = "1";
+  d.append(p, el("small", null, T("Tap anywhere to close")));
+  d.onclick = () => d.remove(); document.body.append(d);
+}
 $("msg").onkeydown = e => { if(e.key==="Enter"){ e.preventDefault(); $("speakBtn").onclick(); } };
 $("delBtn").onclick = () => { if (typing) typing=typing.slice(0,-1); else msg.pop(); renderStrip(); refreshPred(); };
 $("clrBtn").onclick = () => { msg=[]; typing=""; renderStrip(); refreshPred(); };
@@ -2344,6 +2413,7 @@ function openSettings(focus){
       <div class="row"><label for="p-birds">🐦 Birds (124 birds, 6 groups, fun facts)</label><input type="checkbox" id="p-birds" ${state.packs.birds!==false?"checked":""}></div>
       ${Object.entries(PACKS).filter(([k])=>k!=="birds").map(([k,p])=>`<div class="row"><label for="p-${k}">${p.sym} ${esc(p.name)} (${p.items.length} ${esc(p.plural)}, fun facts)</label><input type="checkbox" data-pack="${k}" id="p-${k}" ${state.packs[k]===true?"checked":""}></div>`).join("")}
       <div class="row"><label for="p-tap">When they tap a picture</label><select id="p-tap">${opt("say",S.tapView,"Just say the word")}${opt("big",S.tapView,"Say it and show it big")}</select></div>
+      <div class="row"><label for="p-one">Speak says only the last picture they picked</label><input type="checkbox" id="p-one" ${S.topicOne!==false?"checked":""}></div>
       <div class="row"><label for="p-photos">Bird pictures</label><select id="p-photos">${opt("photos",S.photos,"Real photos")}${opt("off",S.photos,"Drawings")}</select></div>
       <p class="note">Real bird photos are built into Speakeasy, so they work offline too. They come from Wikimedia Commons under free licenses, and every photographer is credited. The few birds without a free photo show a drawing.${photoBlocked?" Photos can't load in this preview, so drawings are showing.":""}</p>
       <div class="row" style="justify-content:flex-start"><button class="btn" id="p-credits">Photo credits</button></div>
@@ -2360,12 +2430,15 @@ function openSettings(focus){
       <div class="row"><label for="v-voice">Voice</label><select id="v-voice"></select></div>
       <div class="row"><label for="v-rate">Speed</label><input type="range" id="v-rate" min="0.5" max="1.5" step="0.05" value="${S.rate}"></div>
       <div class="row"><label for="v-pitch">Pitch</label><input type="range" id="v-pitch" min="0.5" max="1.5" step="0.05" value="${S.pitch}"></div>
+      <div class="row"><label for="v-vol">Loudness</label><input type="range" id="v-vol" min="0.3" max="1" step="0.05" value="${S.volume??1}"></div>
+      <div class="row"><label for="v-big">Show the message in big letters after Speak</label><input type="checkbox" id="v-big" ${S.showText?"checked":""}></div>
       <div class="row"><label for="v-tap">Say each word when tapped</label><input type="checkbox" id="v-tap" ${S.speakOnTap?"checked":""}></div>
       <div class="row"><button class="btn" id="v-test">🔊 Test voice</button><button class="btn" id="v-dev">📱 This device</button></div>
       <p class="note">${synth?"Voices come from this device. Voices marked “needs internet” stop working offline, so pick one without that label for everyday use.":"This browser can't speak out loud. Messages will show as text instead. Try Safari on iPhone or iPad, or Chrome on Android."}</p></div>
 
     <div class="sec" id="sec-touch"><h3>Touch and access</h3>
       <div class="row"><label for="a-hold">Hold to choose</label><select id="a-hold">${opt(0,S.holdMs,"Off")}${opt(300,S.holdMs,"Short (0.3s)")}${opt(600,S.holdMs,"Medium (0.6s)")}${opt(1000,S.holdMs,"Long (1s)")}</select></div>
+      <div class="row"><label for="a-dwell">Rest on a button to choose it (eye-gaze, head mouse)</label><select id="a-dwell">${opt(0,S.dwellMs||0,"Off")}${opt(700,S.dwellMs||0,"Quick (0.7s)")}${opt(1000,S.dwellMs||0,"Medium (1s)")}${opt(1500,S.dwellMs||0,"Slow (1.5s)")}${opt(2000,S.dwellMs||0,"Very slow (2s)")}</select></div>
       <div class="row"><label for="a-deb">Ignore repeat taps</label><select id="a-deb">${opt(0,S.debounceMs,"Off")}${opt(300,S.debounceMs,"0.3s")}${opt(600,S.debounceMs,"0.6s")}${opt(1000,S.debounceMs,"1s")}</select></div>
       <div class="row"><label for="a-size">Button size</label><input type="range" id="a-size" min="0.8" max="1.6" step="0.05" value="${S.scale}"></div>
       <div class="row"><label for="a-con">High contrast</label><input type="checkbox" id="a-con" ${S.contrast?"checked":""}></div>
@@ -2426,6 +2499,7 @@ function openSettings(focus){
   sheet.querySelectorAll("[data-pack]").forEach(c=>c.onchange = e => { const k=c.dataset.pack; state.packs[k] = e.target.checked; syncFav(k, e.target.checked); save(); apply(); rebuildEditTabs(); });
   q("p-photos").onchange = e => { set("photos", e.target.value); };
   q("p-tap").onchange = e => { set("tapView", e.target.value); };
+  q("p-one").onchange = e => set("topicOne", e.target.checked);
   q("ab-privacy").onclick = () => { closeSettings(); openPrivacy(); };
   q("ab-dev").onclick = () => { closeSettings(); openDeviceCheck(); };
   q("ab-inst").onclick = () => { closeSettings(); openInstall(); };
@@ -2477,6 +2551,8 @@ function openSettings(focus){
   q("v-pitch").oninput = e => { S.pitch=+e.target.value; save(); };
   q("v-rate").onchange = q("v-pitch").onchange = () => say("Hello. This is my voice.");
   q("v-tap").onchange = e => set("speakOnTap",e.target.checked);
+  q("v-vol").onchange = e => { S.volume=+e.target.value; save(); say("Hello. This is my voice."); };
+  q("v-big").onchange = e => set("showText",e.target.checked);
   q("v-dev").onclick = () => { closeSettings(); openDeviceCheck(); };
   q("v-test").onclick = () => say(m()==="k" ? "Hi! I want to play." : "Hello. I use this device to talk.");
   q("a-hold").onchange = e => set("holdMs",+e.target.value);
@@ -2484,6 +2560,7 @@ function openSettings(focus){
   q("a-size").oninput = e => set("scale",+e.target.value);
   q("a-con").onchange = e => set("contrast",e.target.checked);
   q("a-words").onchange = e => set("wordsOnly",e.target.checked);
+  q("a-dwell").onchange = e => set("dwellMs",+e.target.value);
   q("a-board").onchange = e => { set("board", e.target.value); toast(e.target.value==="48" ? "48-button board. Words have new places now." : "24-button board."); };
   q("a-level").onchange = e => set("level", e.target.value);
   q("x-scan").onchange = e => set("scan",e.target.value);
@@ -2989,6 +3066,29 @@ function setLevel(n, quiet){
   S.lvl = n; Object.assign(S, LEVELS[n].set); save(); apply();
   if (!quiet) toast(`Level ${n}: ${LEVELS[n].tag}`);
 }
+/* v1.13: what helps them. Each choice sets up Speakeasy for a kind of need, in plain words.
+   Caregivers can still fine-tune everything in Settings. */
+const NEEDS = [
+  ["shaky","✋","Taps by accident or has shaky hands","Hold a button a moment to choose it, repeat taps ignored, bigger buttons",["holdMs","debounceMs","scale"],s=>{ s.holdMs=Math.max(s.holdMs,300); s.debounceMs=Math.max(s.debounceMs,600); s.scale=Math.max(s.scale,1.3); }],
+  ["repeat","🔁","Taps the same word over and over","Quick repeat taps are ignored for 1 second",["debounceMs"],s=>{ s.debounceMs=1000; }],
+  ["switch","🔘","Can't point well, uses a switch","Switch scanning, one choice lit up at a time",["scan","scanMs"],s=>{ s.scan="switch"; s.scanMs=Math.max(s.scanMs,2000); }],
+  ["gaze","👁️","Uses eye-gaze or a head mouse","Rest on a button for 1 second to choose it",["dwellMs","scale"],s=>{ s.dwellMs=1000; s.scale=Math.max(s.scale,1.3); }],
+  ["lowvision","🔍","Has trouble seeing small things","High contrast and extra-big buttons",["contrast","scale"],s=>{ s.contrast=true; s.scale=Math.max(s.scale,1.5); }],
+  ["blind","🦯","Is blind or can't see the screen","Each choice is read out loud, choose with a switch or the big button",["scan","scanMs","contrast"],s=>{ s.scan="listen"; s.scanMs=Math.max(s.scanMs,2500); s.contrast=true; }],
+  ["sensory","🌿","Gets upset by noise, motion or bright colors","Calm look with nothing moving, and a softer voice",["look","volume"],s=>{ s.look="calm"; s.volume=0.7; }],
+  ["flash","⚡","Flashing or moving lights aren't safe","Calm look, so nothing flashes or moves",["look"],s=>{ s.look="calm"; }],
+  ["focus","🎯","Gets distracted easily","Calm look, and tapping a picture just says it (no pop-ups)",["look","tapView"],s=>{ s.look="calm"; s.tapView="say"; }],
+  ["slow","🐢","Needs more time to understand speech","A slower voice",["rate"],s=>{ s.rate=Math.min(s.rate,0.75); }],
+  ["preread","🖼️","Can't read yet","Pictures on every button, and each word is said when tapped",["wordsOnly","speakOnTap"],s=>{ s.wordsOnly=false; s.speakOnTap=true; }],
+  ["reader","⌨️","Can read and spell","The keyboard page is turned on",[],s=>{ if (s.off) delete s.off.keyboard; }],
+  ["deaf","🧏","Talks with Deaf people or in loud places","Speak also shows the message in big letters",["showText"],s=>{ s.showText=true; }],
+  ["sentences","🧩","Builds sentences with topic words","Topic pages add each picture instead of swapping the last one",["topicOne"],s=>{ s.topicOne=false; }]
+];
+function applyNeeds(oldNeeds, newNeeds, lvl){
+  const base = {...DEFAULT.settings, ...LEVELS[lvl].set};
+  for (const [k,,,,keys] of NEEDS) if (oldNeeds.includes(k) && !newNeeds.includes(k)) for (const key of keys) S[key] = base[key];
+  for (const [k,,,,,fn] of NEEDS) if (newNeeds.includes(k)) fn(S);
+}
 const AGES = [["young","Young child","under 8","k"],["child","Child","8 to 12","k"],["teen","Teen","13 to 17","a"],["adult","Adult","18 and up","a"]];
 const ageOf = k => AGES.find(a=>a[0]===k);
 const INTERESTS = [   // word groups they like to talk about
@@ -3089,7 +3189,7 @@ function openProfileEditor(opts={}){
   const close = () => { if (!state.profileAsked){ state.profileAsked = true; save(); } rawClose(); if (LANG!==S.lang) apply(); };
   panel.parentElement.onclick = e => { if (e.target===panel.parentElement) close(); };
   const draft = { name:P.name||"", avatar:P.avatar||"🙂", age:P.age||"",
-    nicks: {...state.nicks}, nickShow: S.nickShow, custom: [], lang: S.lang, pics: S.pics||"3d", interests: P.interests.length ? [...P.interests] : (state.packs.birds!==false ? ["birds"] : []), lvl: first ? (opts.isNew ? 1 : lv()) : lv() };
+    nicks: {...state.nicks}, nickShow: S.nickShow, custom: [], lang: S.lang, pics: S.pics||"3d", needs: [...(P.needs||[])], interests: P.interests.length ? [...P.interests] : (state.packs.birds!==false ? ["birds"] : []), lvl: first ? (opts.isNew ? 1 : lv()) : lv() };
   let sure = false;
   const render = () => {
     panel.innerHTML = `<div class="phead"><h2>${opts.isNew?"New person":opts.welcome?"Welcome to Speakeasy":"Profile"}</h2><button class="btn" id="fCancel">${opts.welcome?"Later":"Cancel"}</button></div>
@@ -3100,6 +3200,11 @@ function openProfileEditor(opts={}){
       <div class="sec"><h3>Picture</h3><div class="avs" role="group" aria-label="Picture">${AVATARS.map(a=>`<button data-av="${a}" aria-pressed="${a===draft.avatar}" aria-label="${a}">${a}</button>`).join("")}</div></div>
       <div class="sec"><h3>Age group</h3><div class="chips" role="group" aria-label="Age group">${AGES.map(([k,n,r])=>`<button class="chipbtn" data-age="${k}" aria-pressed="${k===draft.age}">${n} <small>(${r})</small></button>`).join("")}</div>
         <p class="note">Age group picks everyday words that fit, like recess for kids or work for adults.</p></div>
+      <div class="sec"><h3>What helps them</h3>
+        <p class="note">${T("Everyone is different. Pick anything that fits, and Speakeasy sets itself up for them. Pick none if nothing fits.")}</p>
+        <div class="chips" role="group" aria-label="${T("What helps them")}">${NEEDS.map(([k,s,n])=>`<button class="chipbtn" data-need="${k}" aria-pressed="${draft.needs.includes(k)}"><span aria-hidden="true">${s}</span>${T(n)}</button>`).join("")}</div>
+        ${draft.needs.length?`<div class="note" style="color:var(--ink)"><b>${T("Speakeasy will:")}</b><ul style="margin:6px 0 0;padding-left:20px">${NEEDS.filter(([k])=>draft.needs.includes(k)).map(([,s,,w])=>`<li>${s} ${T(w)}</li>`).join("")}</ul></div>`:""}
+        <p class="note">${T("You can fine-tune any of this in Settings. Taking a choice off puts those settings back.")}</p></div>
       <div class="sec"><h3>Picture style</h3><div role="group" aria-label="Picture style" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">${PIC_STYLES.map(([k,n])=>`<button class="lvl" data-pics="${k}" aria-pressed="${k===draft.pics}" style="display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center"><span style="display:flex;gap:2px;justify-content:center;min-height:40px;align-items:center;flex-wrap:nowrap">${picPreview(k)}</span><b>${T(n)}</b></button>`).join("")}</div>
         <p class="note">${T("Pick the pictures that are easiest for them to understand. You can change this any time in Settings, Pictures.")}</p></div>
       <div class="sec"><h3>Favorite things</h3>
@@ -3128,6 +3233,7 @@ function openProfileEditor(opts={}){
     panel.querySelectorAll("[data-av]").forEach(b=>b.onclick=()=>{ draft.avatar=b.dataset.av; render(); });
     panel.querySelectorAll("[data-age]").forEach(b=>b.onclick=()=>{ draft.age=b.dataset.age; render(); });
     panel.querySelectorAll("[data-pics]").forEach(b=>b.onclick=()=>{ draft.pics=b.dataset.pics; render(); });
+    panel.querySelectorAll("[data-need]").forEach(b=>b.onclick=()=>{ const k=b.dataset.need; draft.needs = draft.needs.includes(k) ? draft.needs.filter(x=>x!==k) : [...draft.needs,k]; const y=panel.parentElement.scrollTop; render(); panel.parentElement.scrollTop=y; });
     panel.querySelectorAll("[data-int]").forEach(b=>b.onclick=()=>{ const k=b.dataset.int; draft.interests = draft.interests.includes(k) ? draft.interests.filter(x=>x!==k) : [...draft.interests,k]; render(); });
     panel.querySelectorAll("[data-lvl]").forEach(b=>b.onclick=()=>{ draft.lvl=+b.dataset.lvl; render(); });
     panel.querySelectorAll("[data-nick]").forEach(i=>i.oninput=e=>{ draft.nicks[i.dataset.nick] = e.target.value; });
@@ -3153,6 +3259,7 @@ function openProfileEditor(opts={}){
       state.profileAsked = true;
       const levelChanged = draft.lvl !== lv();
       S.lvl = draft.lvl; if (levelChanged || first) Object.assign(S, LEVELS[draft.lvl].set);
+      applyNeeds(levelChanged||first ? [] : (P.needs||[]), draft.needs, draft.lvl); P.needs = draft.needs;
       save(); syncReg(); apply(); rawClose();
       toast(`Saved ${name}'s profile.`);
       const guideNext = () => { if (!state.guideSeen) openGuide("care", true); };
