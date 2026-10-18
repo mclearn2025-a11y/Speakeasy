@@ -1494,6 +1494,8 @@ function normalize(d){
   if (!["nick","both"].includes(n.settings.nickShow)) n.settings.nickShow = "both";
   if (!["say","big"].includes(n.settings.tapView)) n.settings.tapView = "say";
   if (!["symbols","emoji","3d"].includes(n.settings.pics)) n.settings.pics = "3d";
+  /* v1.11: move everyone to the new 3D pictures once; they can switch back in Settings, Pictures */
+  if (!n.settings.pics3dIntro) { n.settings.pics = "3d"; n.settings.pics3dIntro = true; }
   if (![1,2,3].includes(n.settings.lvl)) n.settings.lvl = n.settings.level==="starter" ? 1 : n.settings.board==="48" ? 3 : 2;
   if (!Array.isArray(n.help.contacts)) n.help.contacts = [];
   if (!n.help.contacts.length && n.help.contact){   // the old single contact moves into contact 1
