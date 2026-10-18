@@ -72,6 +72,13 @@ button{font:inherit;color:inherit;cursor:pointer}
 .bigmsg{position:fixed;inset:0;z-index:90;background:#fff;color:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;gap:18px}
 .bigmsg p{font-size:clamp(40px,9vw,110px);font-weight:800;line-height:1.1;margin:0;word-break:break-word}
 .bigmsg small{font-size:18px;color:#555}
+.signbadge{position:absolute;top:4px;right:6px;font-size:16px;line-height:1;filter:drop-shadow(0 1px 1px #0003)}
+.tile{position:relative}
+.bp-pic video{width:100%;height:100%;object-fit:contain;border-radius:var(--r-lg)}
+.signbox{display:flex;flex-direction:column;gap:8px;padding:10px;margin:-4px 0 8px;border:2px dashed var(--line,#ccc);border-radius:12px}
+.signbox video{width:100%;max-height:260px;border-radius:10px;background:#000}
+.signbox .acts{display:flex;flex-wrap:wrap;gap:8px}
+.signbox label.btn{cursor:pointer}.signbox input[type=file]{display:none}
 
 /* message strip */
 .strip{display:flex;gap:6px;align-items:stretch;background:var(--card);border:2px solid var(--line);border-radius:var(--r-lg);padding:6px;min-height:calc(64px*var(--scale))}
@@ -1188,6 +1195,27 @@ I18N.es.ui["Medium (1s)"] = "Medio (1 s)";
 I18N.es.ui["Slow (1.5s)"] = "Lento (1,5 s)";
 I18N.es.ui["Very slow (2s)"] = "Muy lento (2 s)";
 I18N.es.ui["Speak says only the last picture they picked"] = "Hablar dice solo la última imagen elegida";
+I18N.es.ui["Watch again"] = "Ver otra vez";
+I18N.es.ui["Close"] = "Cerrar";
+I18N.es.ui["Sign for"] = "Seña para";
+I18N.es.ui["Their sign for"] = "Su seña para";
+I18N.es.ui["Film the sign they use for this word. Keep it short, 2 to 5 seconds. It plays when they tap the word. The video stays on this device only."] = "Grabe la seña que usa para esta palabra. Que sea corta, de 2 a 5 segundos. Se muestra cuando toca la palabra. El video se queda solo en este aparato.";
+I18N.es.ui["Film it again"] = "Grabar otra vez";
+I18N.es.ui["Film the sign"] = "Grabar la seña";
+I18N.es.ui["Pick a saved video"] = "Elegir un video guardado";
+I18N.es.ui["Delete sign"] = "Borrar la seña";
+I18N.es.ui["That isn't a video. Try again."] = "Eso no es un video. Inténtelo otra vez.";
+I18N.es.ui["That video is too long. Keep it under 10 seconds."] = "Ese video es muy largo. Que dure menos de 10 segundos.";
+I18N.es.ui["Sign saved."] = "Seña guardada.";
+I18N.es.ui["This device couldn't save the video. Free up some space and try again."] = "Este aparato no pudo guardar el video. Libere espacio e inténtelo otra vez.";
+I18N.es.ui["Tap again to delete"] = "Toque otra vez para borrar";
+I18N.es.ui["Sign deleted."] = "Seña borrada.";
+I18N.es.ui["Play their sign when a word is tapped"] = "Mostrar su seña al tocar una palabra";
+I18N.es.ui["Uses some sign language"] = "Usa algo de lengua de señas";
+I18N.es.ui["Plays the sign they use when they tap a word. Film their signs in Settings, Edit words, with the ✋ button."] = "Muestra la seña que usa al tocar una palabra. Grabe sus señas en Ajustes, Editar palabras, con el botón ✋.";
+I18N.es.ui["How do I add their sign for a word?"] = "¿Cómo agrego su seña para una palabra?";
+I18N.es.ui["Open Settings, Edit words. Tap the ✋ button next to the word, then Film the sign. Keep it short, 2 to 5 seconds. Words with a sign show a small ✋, and the sign plays when they tap the word. Videos stay on this phone or tablet only and are not in backups."] = "Abra Ajustes, Editar palabras. Toque el botón ✋ junto a la palabra y luego Grabar la seña. Que sea corta, de 2 a 5 segundos. Las palabras con seña muestran una ✋ pequeña, y la seña se muestra cuando tocan la palabra. Los videos se quedan solo en este teléfono o tableta y no van en las copias de seguridad.";
+I18N.es.ui["Signs"] = "Señas";
 let LANG = "en", L10 = null, L10RE = [];
 const normLang = v => (v && v.lang || "").toLowerCase().replace("_","-");
 const voicesFor = code => voices.filter(v=>normLang(v).startsWith(code));
@@ -1524,7 +1552,7 @@ function writeReg(){ try { localStorage.setItem(PREG, JSON.stringify(REG)); } ca
 function syncReg(){ const P = state.profile||{}; let e = REG.list.find(x=>x.id===REG.active); if (!e){ e = {id:REG.active}; REG.list.push(e); } e.name = P.name||""; e.avatar = P.avatar||"🙂"; e.lvl = state.settings.lvl||2; writeReg(); }
 const DEFAULT = {
   settings:{photos:"photos",look:"sparkle",mode:"k",voiceURI:"",rate:0.9,pitch:1,speakOnTap:true,holdMs:0,debounceMs:300,scale:1.1,contrast:false,wordsOnly:false,
-            board:"24",level:"all",scan:"off",scanMs:1500,lock:true,lang:"en",volume:1,dwellMs:0,showText:false,topicOne:true},
+            board:"24",level:"all",scan:"off",scanMs:1500,lock:true,lang:"en",volume:1,dwellMs:0,showText:false,topicOne:true,signs:true},
   custom:{}, hidden:[], learned:{}, help:{name:"",contact:"",info:"",contacts:[],address:"",showAddress:false,shareLoc:false}, practice:{right:0,tries:0},
   packs:{birds:true}, topics:[], birdGroup:"all", facts:false, savedAt:0, lastBackup:0,
   stats:{days:{}}, guideSeen:false, modeSet:false, profileAsked:false,
@@ -1623,8 +1651,53 @@ async function addPoint(label){
   } catch {}
 }
 const dayKey = t => new Date(t).toDateString();
+/* v1.14: their sign. A caregiver films the sign a person uses for a word. Videos stay on this device only. */
+let signDB = null, SIGNS = new Set();
+function openSignDB(){
+  if (signDB) return Promise.resolve(signDB);
+  return new Promise(res => { try {
+    const r = indexedDB.open("speakeasy-signs", 1);
+    r.onupgradeneeded = () => { if (!r.result.objectStoreNames.contains("v")) r.result.createObjectStore("v"); };
+    r.onsuccess = () => { signDB = r.result; res(signDB); }; r.onerror = () => res(null); r.onblocked = () => res(null);
+    setTimeout(() => res(null), 4000);
+  } catch { res(null); } });
+}
+async function signDo(mode, fn){
+  const d = await openSignDB(); if (!d) throw new Error("no storage");
+  return new Promise((res, rej) => { let req; const tx = d.transaction("v", mode); try { req = fn(tx.objectStore("v")); } catch(e){ return rej(e); }
+    tx.oncomplete = () => res(req ? req.result : undefined); tx.onerror = () => rej(tx.error); tx.onabort = () => rej(tx.error || new Error("aborted")); });
+}
+const signKey = id => (REG.active||"main") + "|" + id;
+async function loadSigns(){
+  try { const keys = await signDo("readonly", st => st.getAllKeys()); const pre = (REG.active||"main") + "|";
+    SIGNS = new Set((keys||[]).filter(k => String(k).startsWith(pre)).map(k => String(k).slice(pre.length))); }
+  catch { SIGNS = new Set(); }
+  try { renderBoard(); } catch {}
+}
+const getSign = id => signDo("readonly", st => st.get(signKey(id)));
+async function putSign(id, blob){ await signDo("readwrite", st => st.put(blob, signKey(id))); SIGNS.add(id); }
+async function delSign(id){ await signDo("readwrite", st => st.delete(signKey(id))); SIGNS.delete(id); }
+async function delPersonSigns(pid){ try { const keys = await signDo("readonly", st => st.getAllKeys());
+  for (const k of keys||[]) if (String(k).startsWith(pid+"|")) await signDo("readwrite", st => st.delete(k)); } catch {} }
+async function showSign(it){
+  let blob; try { blob = await getSign(it.id); } catch {} if (!blob) return false;
+  document.querySelector(".bigpic")?.remove(); stopScan(); clearTimeout(toastT); $("toast").hidden = true;
+  const url = URL.createObjectURL(blob), v = el("div","bigpic"); v.setAttribute("role","dialog"); v.setAttribute("aria-label", it.label);
+  const fig = el("div","bp-pic"), vid = el("video"); vid.src = url; vid.muted = true; vid.playsInline = true; vid.setAttribute("playsinline",""); vid.autoplay = true;
+  let plays = 0; vid.onended = () => { if (++plays < 2) vid.play().catch(()=>{}); };
+  fig.append(vid); v.append(fig, el("div","bp-name", "✋ " + it.label));
+  const again = el("button","btn","▶ " + T("Watch again")), close = el("button","btn primary", T("Close"));
+  const row = el("div","bp-acts"); row.append(again, close); v.append(row);
+  const t0 = performance.now();
+  const done = () => { v.remove(); URL.revokeObjectURL(url); document.removeEventListener("keydown", onKey); restartScan(); };
+  const onKey = e => { if (["Escape"," ","Enter"].includes(e.key)){ e.preventDefault(); done(); } };
+  again.onclick = e => { e.stopPropagation(); plays = 0; vid.currentTime = 0; vid.play().catch(()=>{}); };
+  v.addEventListener("click", e => { if (e.target===again || e.target===vid || performance.now()-t0 < 450) return; done(); });
+  document.addEventListener("keydown", onKey); document.body.append(v); vid.play().catch(()=>{});
+  return true;
+}
 async function initStorage(){
-  idb = await openIDB(); health.idb = !!idb;
+  idb = await openIDB(); health.idb = !!idb; loadSigns();
   if (idb){
     try {
       if (!readReg()){ const r = await idbDo("kv","readonly", st => st.get("people")); if (r && Array.isArray(r.list) && r.active){ REG = r; writeReg(); } }
@@ -1801,6 +1874,7 @@ function tileFor(it){
   else b.classList.add("textonly");
   b.append(el("span","lbl",it.label));
   if (it.alt && S.nickShow==="both") b.append(el("small","alt",it.alt));
+  if (S.signs!==false && SIGNS.has(it.id)){ const sb = el("span","signbadge","✋"); sb.setAttribute("aria-hidden","true"); b.append(sb); }
   b.setAttribute("aria-label", it.say && it.say!==it.label ? `${it.label}, says ${it.say}` : it.label);
   return b;
 }
@@ -1977,7 +2051,8 @@ function activate(node){
     const fl = $("factLine");
     if (it.fact && fl){ fl.dataset.touched="1"; fl.replaceChildren(el("b",null,it.label+". "), document.createTextNode(it.fact));
       if (photoSrcOf(it) && photosOn()){ const cr=el("small","credit","Photo: Wikimedia Commons"); fl.append(cr); photoCredit(it).then(t=>{ if(t) cr.textContent=t; }); } }
-    if (isTopic(tab) && S.tapView==="big" && !off("bigview") && (hasPic(it) || (it.img && it.img!=="__idb__"))) showBig(it);
+    if (S.signs!==false && SIGNS.has(it.id)) showSign(it);
+    else if (isTopic(tab) && S.tapView==="big" && !off("bigview") && (hasPic(it) || (it.img && it.img!=="__idb__"))) showBig(it);
     if (it.fact && state.facts) say(`${it.label}. ${it.fact}`);
     else if (S.speakOnTap) say(it.say||it.label);
     track("taps"); bump(it.label); renderStrip(); pop(node);
@@ -2432,6 +2507,7 @@ function openSettings(focus){
       <div class="row"><label for="v-pitch">Pitch</label><input type="range" id="v-pitch" min="0.5" max="1.5" step="0.05" value="${S.pitch}"></div>
       <div class="row"><label for="v-vol">Loudness</label><input type="range" id="v-vol" min="0.3" max="1" step="0.05" value="${S.volume??1}"></div>
       <div class="row"><label for="v-big">Show the message in big letters after Speak</label><input type="checkbox" id="v-big" ${S.showText?"checked":""}></div>
+      <div class="row"><label for="v-sign">Play their sign when a word is tapped</label><input type="checkbox" id="v-sign" ${S.signs!==false?"checked":""}></div>
       <div class="row"><label for="v-tap">Say each word when tapped</label><input type="checkbox" id="v-tap" ${S.speakOnTap?"checked":""}></div>
       <div class="row"><button class="btn" id="v-test">🔊 Test voice</button><button class="btn" id="v-dev">📱 This device</button></div>
       <p class="note">${synth?"Voices come from this device. Voices marked “needs internet” stop working offline, so pick one without that label for everyday use.":"This browser can't speak out loud. Messages will show as text instead. Try Safari on iPhone or iPad, or Chrome on Android."}</p></div>
@@ -2553,6 +2629,7 @@ function openSettings(focus){
   q("v-tap").onchange = e => set("speakOnTap",e.target.checked);
   q("v-vol").onchange = e => { S.volume=+e.target.value; save(); say("Hello. This is my voice."); };
   q("v-big").onchange = e => set("showText",e.target.checked);
+  q("v-sign").onchange = e => { set("signs",e.target.checked); renderBoard(); };
   q("v-dev").onclick = () => { closeSettings(); openDeviceCheck(); };
   q("v-test").onclick = () => say(m()==="k" ? "Hi! I want to play." : "Hello. I use this device to talk.");
   q("a-hold").onchange = e => set("holdMs",+e.target.value);
@@ -2621,7 +2698,9 @@ function openSettings(focus){
     list.innerHTML = allItems(t).map(it=>`<div class="erow${h.has(it.id)?" hidden":""}">
       ${it.img&&it.img!=="__idb__"?`<img src="${esc(it.img)}" alt="">`:hasPic(it)?`<span class="art">${artSVG(it)}</span>`:symOf(it)?`<img class="symimg" src="${symSrc(symOf(it))}" alt="">`:`<span class="s">${esc(it.sym||"")}</span>`}
       <span class="t">${esc(it.label)}${it.say&&it.say!==it.label?`<small>says “${esc(it.say)}”</small>`:""}</span>
+      <button class="btn" data-sign="${esc(it.id)}" aria-label="${esc(T("Sign for")+" "+it.label)}">✋${SIGNS.has(it.id)?" ✓":""}</button>
       ${it.builtin?`<button class="btn" data-tog="${esc(it.id)}">${h.has(it.id)?"Show":"Hide"}</button>`:`<button class="btn danger" data-del="${esc(it.id)}">Delete</button>`}</div>`).join("");
+    list.querySelectorAll("[data-sign]").forEach(b=>b.onclick=()=>signBox(b.closest(".erow"), allItems(t).find(x=>x.id===b.dataset.sign)));
     list.querySelectorAll("[data-tog]").forEach(b=>b.onclick=()=>{
       const id=b.dataset.tog; state.hidden = h.has(id) ? state.hidden.filter(x=>x!==id) : [...state.hidden,id]; save(); renderEdit(); renderBoard();
     });
@@ -2647,6 +2726,32 @@ function openSettings(focus){
       const item = {id:"u-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6), label, say:q("n-say").value.trim()||undefined, sym:q("n-sym").value.trim()||(photo?"":"⭐"), img:photo||undefined, pos, group:grp};
       (state.custom[t] ||= []).push(item); save(); renderEdit(); renderBoard(); toast(`Added “${label}”.`);
     };
+  }
+  async function signBox(row, it){
+    if (!row || !it) return;
+    const open = row.nextElementSibling; if (open && open.classList.contains("signbox")){ open.remove(); return; }
+    document.querySelectorAll(".signbox").forEach(x=>x.remove());
+    const box = el("div","signbox"); row.after(box);
+    const draw = async () => {
+      let blob = null; try { blob = await getSign(it.id); } catch {}
+      box.innerHTML = `<b>✋ ${esc(T("Their sign for"))} “${esc(it.label)}”</b>
+        ${blob?`<video controls playsinline muted></video>`:`<p class="note">${T("Film the sign they use for this word. Keep it short, 2 to 5 seconds. It plays when they tap the word. The video stays on this device only.")}</p>`}
+        <div class="acts"><label class="btn primary">🎥 ${T(blob?"Film it again":"Film the sign")}<input type="file" accept="video/*" capture="user" data-f="1"></label>
+        <label class="btn">📁 ${T("Pick a saved video")}<input type="file" accept="video/*" data-f="1"></label>
+        ${blob?`<button class="btn danger" data-sdel="1">${T("Delete sign")}</button>`:""}</div>`;
+      if (blob){ const v = box.querySelector("video"); const u = URL.createObjectURL(blob); v.src = u; }
+      box.querySelectorAll("[data-f]").forEach(inp => inp.onchange = async e => {
+        const f = e.target.files[0]; e.target.value = ""; if (!f) return;
+        if (!/^video\//.test(f.type||"video/")){ toast(T("That isn't a video. Try again.")); return; }
+        if (f.size > 40*1024*1024){ toast(T("That video is too long. Keep it under 10 seconds.")); return; }
+        try { await putSign(it.id, f); toast(T("Sign saved.")); renderEdit(); renderBoard(); }
+        catch { toast(T("This device couldn't save the video. Free up some space and try again.")); }
+      });
+      const d = box.querySelector("[data-sdel]");
+      if (d) d.onclick = async () => { if (d.dataset.sure!=="1"){ d.dataset.sure="1"; d.textContent=T("Tap again to delete"); return; }
+        try { await delSign(it.id); } catch {} toast(T("Sign deleted.")); renderEdit(); renderBoard(); };
+    };
+    draw(); box.scrollIntoView({block:"nearest"});
   }
   q("e-tab").onchange = renderEdit;
   renderEdit(); renderTopics();
@@ -2932,6 +3037,7 @@ const FAQ = [
   ["Talking","Can I change the pictures on the buttons?","Yes. Open Settings, Word pictures. Talking-app symbols are drawn to match each word. Emoji are the small pictures from phones. You can also add your own photo for any word in Edit words.","pictures icons symbols emoji change picture button wrong confusing",{go:"pics"}],
   ["Talking","Why do some buttons have no picture?","Small words like it, is and do show just the word, because a picture would confuse. Speech therapists often do the same.","no picture blank word only it is do",{}],
   ["Talking","Why does it say I like the word eye?","That's on purpose. Some voices read I as capital I. Speakeasy always says it as the word I. The screen still shows I.","capital eye letter i pronounce",{}],
+  ["Signs","How do I add their sign for a word?","Open Settings, Edit words. Tap the ✋ button next to the word, then Film the sign. Keep it short, 2 to 5 seconds. Words with a sign show a small ✋, and the sign plays when they tap the word. Videos stay on this phone or tablet only and are not in backups.","sign language asl signs video film hands deaf makaton",{}],
   ["Topics","What are topic pages?","Topic pages are about things they love, like Birds, Dogs, Space or Trains. Each has real photos, names, fun facts and a game. Pick them in the profile.","topic pages birds dogs favorites interests packs",{profile:true}],
   ["Topics","How do I add a topic like horses?","Open the profile, go to Favorite things, type the topic and tap Add. Then add its words and photos in Settings, Edit words.","add topic new custom own horses tractors make page",{profile:true}],
   ["Topics","How do I add my own photo?","Open Settings, Edit words. Pick the page, type the word, tap Or a photo, and choose a picture from your phone. Then tap Add word.","photo picture own camera upload add image",{go:"words"}],
@@ -3081,6 +3187,7 @@ const NEEDS = [
   ["slow","🐢","Needs more time to understand speech","A slower voice",["rate"],s=>{ s.rate=Math.min(s.rate,0.75); }],
   ["preread","🖼️","Can't read yet","Pictures on every button, and each word is said when tapped",["wordsOnly","speakOnTap"],s=>{ s.wordsOnly=false; s.speakOnTap=true; }],
   ["reader","⌨️","Can read and spell","The keyboard page is turned on",[],s=>{ if (s.off) delete s.off.keyboard; }],
+  ["signs","✋","Uses some sign language","Plays the sign they use when they tap a word. Film their signs in Settings, Edit words, with the ✋ button.",["signs"],s=>{ s.signs=true; }],
   ["deaf","🧏","Talks with Deaf people or in loud places","Speak also shows the message in big letters",["showText"],s=>{ s.showText=true; }],
   ["sentences","🧩","Builds sentences with topic words","Topic pages add each picture instead of swapping the last one",["topicOne"],s=>{ s.topicOne=false; }]
 ];
@@ -3124,7 +3231,7 @@ function renderWho(){
 }
 
 async function loadPerson(id){
-  REG.active = id; writeReg();
+  REG.active = id; writeReg(); loadSigns();
   let d = load();
   if (idb){ try { const fromDB = await idbDo("kv","readonly", st => st.get(idbKey(id))); if (fromDB && ((fromDB.savedAt||0) > (d.savedAt||0) || d._stripped)) d = fromDB; } catch {} }
   adopt(d); msg = []; typing = ""; tab = "core"; sub = null; if (learn.on) stopLearn();
@@ -3151,6 +3258,7 @@ async function deletePerson(id){
     const all = await idbDo("points","readonly", st => st.getAll());
     for (const p of all||[]) if ((p.pid||"main")===id) await idbDo("points","readwrite", st => st.delete(p.t));
   } catch {} }
+  delPersonSigns(id);
   REG.list = REG.list.filter(x=>x.id!==id); writeReg();
   if (REG.active===id){ clearTimeout(idbTimer); idbTimer = null; await loadPerson(REG.list[0].id); }
 }
