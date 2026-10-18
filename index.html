@@ -1924,7 +1924,10 @@ function activate(node){
     const it = itemsById.get(node.dataset.id); if(!it) return;
     if (learn.on) return learnCheck(it,node);
     commitTyping();
-    msg.push({id:it.id, label:it.label, say:it.say, sym:it.sym, img:it.img, art:hasPic(it)?it:null, pos:it.pos});
+    /* v1.12.1: on topic pages (Birds, Dogs, Cars...) a new pick replaces the last one, so Speak says only the one just chosen */
+    const fromTopic = isTopic(tab);
+    if (fromTopic) msg = msg.filter(w => !w.topic);
+    msg.push({id:it.id, label:it.label, say:it.say, sym:it.sym, img:it.img, art:hasPic(it)?it:null, pos:it.pos, topic:fromTopic});
     const fl = $("factLine");
     if (it.fact && fl){ fl.dataset.touched="1"; fl.replaceChildren(el("b",null,it.label+". "), document.createTextNode(it.fact));
       if (photoSrcOf(it) && photosOn()){ const cr=el("small","credit","Photo: Wikimedia Commons"); fl.append(cr); photoCredit(it).then(t=>{ if(t) cr.textContent=t; }); } }
