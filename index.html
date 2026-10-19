@@ -1234,6 +1234,47 @@ I18N.es.ui["Showing every setting."] = "Se muestran todos los ajustes.";
 I18N.es.ui["Videos stay on this phone or tablet, and the backup file keeps a copy."] = "Los videos se quedan en este teléfono o tableta, y el archivo de copia de seguridad guarda una copia.";
 I18N.es.ui["Signs restored:"] = "Señas recuperadas:";
 I18N.es.ui["For teens and adults: talking-app symbols are drawn for all ages and look less childlike, so we picked them. The 3D pictures look younger. Choose whichever they like."] = "Para adolescentes y adultos: los símbolos de la app están hechos para todas las edades y se ven menos infantiles, por eso los elegimos. Las imágenes 3D se ven más infantiles. Elija la que le guste.";
+I18N.es.ui["Tell us what you think"] = "Díganos qué piensa";
+I18N.es.ui["How easy was it to set up?"] = "¿Qué tan fácil fue prepararla?";
+I18N.es.ui["How easy is it for them to use?"] = "¿Qué tan fácil le resulta usarla?";
+I18N.es.ui["How well do the pictures match the words?"] = "¿Qué tan bien coinciden las imágenes con las palabras?";
+I18N.es.ui["How clear is the voice?"] = "¿Qué tan clara es la voz?";
+I18N.es.ui["What do they like most about Speakeasy?"] = "¿Qué es lo que más le gusta de Speakeasy?";
+I18N.es.ui["What was hard or confusing?"] = "¿Qué fue difícil o confuso?";
+I18N.es.ui["Did any picture confuse them? Which words?"] = "¿Alguna imagen le confundió? ¿Qué palabras?";
+I18N.es.ui["What's missing that you need?"] = "¿Qué falta que usted necesita?";
+I18N.es.ui["If you could change one thing, what would it be?"] = "Si pudiera cambiar una cosa, ¿cuál sería?";
+I18N.es.ui["Anything else? Tell us in your own words."] = "¿Algo más? Díganos con sus propias palabras.";
+I18N.es.ui["1 means very hard or poor. 5 means very easy or great."] = "1 significa muy difícil o malo. 5 significa muy fácil o excelente.";
+I18N.es.ui["Type or use the microphone on your keyboard"] = "Escriba o use el micrófono de su teclado";
+I18N.es.ui["Speakeasy is new, and your answers decide what we fix and build next. It takes about 3 minutes. Skip any question you want."] = "Speakeasy es nueva, y sus respuestas deciden qué arreglamos y creamos después. Toma unos 3 minutos. Puede saltar cualquier pregunta.";
+I18N.es.ui["Who is filling this out?"] = "¿Quién lo está llenando?";
+I18N.es.ui["Parent or family"] = "Padre, madre o familia";
+I18N.es.ui["Teacher or aide"] = "Maestro o asistente";
+I18N.es.ui["Speech or other therapist"] = "Terapeuta del habla u otro";
+I18N.es.ui["I use Speakeasy myself"] = "Yo uso Speakeasy";
+I18N.es.ui["Someone else"] = "Otra persona";
+I18N.es.ui["How long have they used Speakeasy?"] = "¿Cuánto tiempo lleva usando Speakeasy?";
+I18N.es.ui["First day"] = "Primer día";
+I18N.es.ui["About a week"] = "Una semana más o menos";
+I18N.es.ui["A few weeks"] = "Unas semanas";
+I18N.es.ui["A month or more"] = "Un mes o más";
+I18N.es.ui["Would you tell another family about Speakeasy?"] = "¿Le hablaría de Speakeasy a otra familia?";
+I18N.es.ui["Yes"] = "Sí";
+I18N.es.ui["Maybe"] = "Tal vez";
+I18N.es.ui["No"] = "No";
+I18N.es.ui["Your name and how to reach you (optional)"] = "Su nombre y cómo contactarle (opcional)";
+I18N.es.ui["Only if it's OK for us to ask you a follow-up question."] = "Solo si está bien que le hagamos otra pregunta después.";
+I18N.es.ui["Include app details (version, phone type, language, level, picture style). No words, names or health details."] = "Incluir datos de la app (versión, tipo de teléfono, idioma, nivel, estilo de imágenes). Sin palabras, nombres ni datos de salud.";
+I18N.es.ui["Send by email"] = "Enviar por correo";
+I18N.es.ui["Send by text message"] = "Enviar por mensaje de texto";
+I18N.es.ui["Copy answers"] = "Copiar respuestas";
+I18N.es.ui["Your phone opens your own email or text app with your answers filled in. You see everything before it's sent, and nothing is sent unless you press send there."] = "Su teléfono abre su propia app de correo o de mensajes con sus respuestas ya escritas. Usted ve todo antes de enviarlo, y no se envía nada a menos que presione enviar allí.";
+I18N.es.ui["Answers copied. Paste them into an email or text to "] = "Respuestas copiadas. Péguelas en un correo o mensaje para ";
+I18N.es.ui["Copying is blocked here. Use Send by email instead."] = "Copiar está bloqueado aquí. Use Enviar por correo.";
+I18N.es.ui["Help make Speakeasy better"] = "Ayude a mejorar Speakeasy";
+I18N.es.ui["A few quick questions, about 3 minutes"] = "Unas preguntas rápidas, unos 3 minutos";
+I18N.es.ui["💬 Tell us what you think"] = "💬 Díganos qué piensa";
 let LANG = "en", L10 = null, L10RE = [];
 const normLang = v => (v && v.lang || "").toLowerCase().replace("_","-");
 const voicesFor = code => voices.filter(v=>normLang(v).startsWith(code));
@@ -2496,7 +2537,7 @@ function openSettings(focus){
   const editTabs = sections();
   sheet.innerHTML = `<div class="panel">
     <div class="phead"><h2>Settings</h2><button class="btn primary" id="sClose">Done</button></div>
-    <div class="snav" role="navigation" aria-label="Settings sections"><button class="chipbtn" data-open="dash">📊 Dashboard</button><button class="chipbtn" data-open="guide">📘 How to use</button><button class="chipbtn" data-open="faq">❓ Questions</button>${[["safe","Backups"],["who","Profile"],["show","Show and hide"],["look","Look"],["pics","Pictures"],["topics","Topics"],["voice","Voice"],["touch","Touch"],["scan","Scanning"],["help","Help card"],["words","Edit words"],["lock","Lock"],["about","About"]].map(([k,t])=>`<button class="chipbtn" data-jump="${k}">${t}</button>`).join("")}</div>
+    <div class="snav" role="navigation" aria-label="Settings sections"><button class="chipbtn" data-open="dash">📊 Dashboard</button><button class="chipbtn" data-open="guide">📘 How to use</button><button class="chipbtn" data-open="faq">❓ Questions</button>${FEEDBACK_ON?`<button class="chipbtn" data-open="feedback">💬 Tell us what you think</button>`:""}${[["safe","Backups"],["who","Profile"],["show","Show and hide"],["look","Look"],["pics","Pictures"],["topics","Topics"],["voice","Voice"],["touch","Touch"],["scan","Scanning"],["help","Help card"],["words","Edit words"],["lock","Lock"],["about","About"]].map(([k,t])=>`<button class="chipbtn" data-jump="${k}">${t}</button>`).join("")}</div>
     <div class="row" style="justify-content:flex-start"><span class="seg" role="group" aria-label="How much to show"><button data-view="simple">Simple</button><button data-view="all">All settings</button></span></div>
     <p class="note" id="sViewNote"></p>
 
@@ -2627,7 +2668,7 @@ function openSettings(focus){
   };
   setView(focus && !SIMPLE.has(focus) ? "all" : (S.setView || "simple"));
   sheet.querySelectorAll("[data-view]").forEach(b => b.onclick = () => { S.setView = b.dataset.view; save(); setView(S.setView); });
-  sheet.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{ closeSettings(); b.dataset.open==="dash" ? openDashboard() : openGuide(b.dataset.open==="faq" ? "faq" : "care"); });
+  sheet.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{ closeSettings(); b.dataset.open==="dash" ? openDashboard() : b.dataset.open==="feedback" ? openFeedback() : openGuide(b.dataset.open==="faq" ? "faq" : "care"); });
   sheet.querySelectorAll("[data-look]").forEach(b=>b.onclick=()=>{ set("look",b.dataset.look); sheet.querySelectorAll("[data-look]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.look===S.look)); });
   const syncFav = (k,on) => { const I = state.profile.interests; state.profile.interests = on ? [...new Set([...I,k])] : I.filter(x=>x!==k); };
   q("p-birds").onchange = e => { state.packs.birds = e.target.checked; syncFav("birds", e.target.checked); save(); apply(); rebuildEditTabs(); };
@@ -2886,6 +2927,80 @@ function guarded(btn, action){
 document.addEventListener("keydown", e=>{ if (e.key==="Escape"){ const s=[...document.querySelectorAll(".sheet")].pop(); if (s){ s.remove(); restartScan(); } } });
 
 /* ---- Menu ---- */
+/* v1.16: trial feedback. Families answer a few questions and send them by email or text from their own phone.
+   Nothing is sent by Speakeasy itself. To remove this section later, set FEEDBACK_ON to false. */
+const FEEDBACK_ON = true;
+const APP_VER = "Speakeasy 1.16.0";   // keep in step with VERSION in sw.js
+const FEEDBACK_EMAIL = "Mclearn2025@gmail.com", FEEDBACK_PHONE = "6018089559";
+const FB_RATE = [
+  ["setup","How easy was it to set up?"],
+  ["use","How easy is it for them to use?"],
+  ["pics","How well do the pictures match the words?"],
+  ["voice","How clear is the voice?"]
+];
+const FB_OPEN = [
+  ["liked","What do they like most about Speakeasy?"],
+  ["hard","What was hard or confusing?"],
+  ["picwords","Did any picture confuse them? Which words?"],
+  ["missing","What's missing that you need?"],
+  ["change","If you could change one thing, what would it be?"],
+  ["own","Anything else? Tell us in your own words."]
+];
+function openFeedback(){
+  const {panel, close} = makeSheet(T("Tell us what you think"), "feedback");
+  const d = state.feedbackDraft = state.feedbackDraft || {};
+  const keep = () => save();
+  const rateRow = ([k,q]) => `<div class="sec"><h3 style="text-transform:none;letter-spacing:0">${T(q)}</h3>
+    <div class="seg" role="group" aria-label="${esc(T(q))}">${[1,2,3,4,5].map(n=>`<button data-rate="${k}" data-n="${n}" aria-pressed="${d[k]===n}">${n}</button>`).join("")}</div>
+    <p class="note">${T("1 means very hard or poor. 5 means very easy or great.")}</p></div>`;
+  const openRow = ([k,q]) => `<div class="sec"><label style="display:block;font-weight:700">${T(q)}<textarea data-open-q="${k}" rows="3" style="width:100%;margin-top:6px;font:inherit;padding:8px;border-radius:10px;border:2px solid var(--line)" placeholder="${esc(T("Type or use the microphone on your keyboard"))}">${esc(d[k]||"")}</textarea></label></div>`;
+  const chips = (k, list) => `<div class="chips" role="group">${list.map(([v,t])=>`<button class="chipbtn" data-pick="${k}" data-v="${v}" aria-pressed="${d[k]===v}">${T(t)}</button>`).join("")}</div>`;
+  panel.innerHTML = `<div class="phead"><h2>${T("Tell us what you think")}</h2><button class="btn" id="fbClose">${T("Close")}</button></div>
+    <p class="note">${T("Speakeasy is new, and your answers decide what we fix and build next. It takes about 3 minutes. Skip any question you want.")}</p>
+    <div class="sec"><h3>${T("Who is filling this out?")}</h3>${chips("who",[["parent","Parent or family"],["teacher","Teacher or aide"],["therapist","Speech or other therapist"],["self","I use Speakeasy myself"],["other","Someone else"]])}</div>
+    <div class="sec"><h3>${T("How long have they used Speakeasy?")}</h3>${chips("long",[["first","First day"],["week","About a week"],["weeks","A few weeks"],["month","A month or more"]])}</div>
+    ${FB_RATE.map(rateRow).join("")}
+    ${FB_OPEN.map(openRow).join("")}
+    <div class="sec"><h3>${T("Would you tell another family about Speakeasy?")}</h3>${chips("tell",[["yes","Yes"],["maybe","Maybe"],["no","No"]])}</div>
+    <div class="sec"><label style="display:block;font-weight:700">${T("Your name and how to reach you (optional)")}<input type="text" data-open-q="contact" maxlength="120" value="${esc(d.contact||"")}" style="width:100%;margin-top:6px"></label>
+      <p class="note">${T("Only if it's OK for us to ask you a follow-up question.")}</p></div>
+    <div class="sec"><div class="row" style="justify-content:flex-start"><label for="fbInfo">${T("Include app details (version, phone type, language, level, picture style). No words, names or health details.")}</label><input type="checkbox" id="fbInfo" ${d.info!==false?"checked":""}></div></div>
+    <div class="row" style="justify-content:flex-start;flex-wrap:wrap;gap:8px">
+      <button class="btn primary" id="fbMail">📧 ${T("Send by email")}</button>
+      <button class="btn" id="fbText">💬 ${T("Send by text message")}</button>
+      <button class="btn" id="fbCopy">📋 ${T("Copy answers")}</button></div>
+    <p class="note">${T("Your phone opens your own email or text app with your answers filled in. You see everything before it's sent, and nothing is sent unless you press send there.")}</p>`;
+  panel.querySelector("#fbClose").onclick = close;
+  panel.querySelectorAll("[data-rate]").forEach(b => b.onclick = () => { const k=b.dataset.rate, n=+b.dataset.n; d[k] = d[k]===n ? undefined : n;
+    panel.querySelectorAll(`[data-rate="${k}"]`).forEach(x=>x.setAttribute("aria-pressed", +x.dataset.n===d[k])); keep(); });
+  panel.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => { const k=b.dataset.pick, v=b.dataset.v; d[k] = d[k]===v ? undefined : v;
+    panel.querySelectorAll(`[data-pick="${k}"]`).forEach(x=>x.setAttribute("aria-pressed", x.dataset.v===d[k])); keep(); });
+  panel.querySelectorAll("[data-open-q]").forEach(t => t.oninput = () => { d[t.dataset.openQ] = t.value; keep(); });
+  panel.querySelector("#fbInfo").onchange = e => { d.info = e.target.checked; keep(); };
+  const label = (k, list) => { const f = list.find(x=>x[0]===d[k]); return f ? f[1] : "-"; };
+  const text = () => {
+    const L = ["Speakeasy feedback", ""];
+    L.push("Filled out by: " + label("who",[["parent","Parent or family"],["teacher","Teacher or aide"],["therapist","Speech or other therapist"],["self","Uses Speakeasy themselves"],["other","Someone else"]]));
+    L.push("Used for: " + label("long",[["first","First day"],["week","About a week"],["weeks","A few weeks"],["month","A month or more"]]), "");
+    for (const [k,q] of FB_RATE) L.push(q + " " + (d[k] ? d[k] + " out of 5" : "-"));
+    L.push("");
+    for (const [k,q] of FB_OPEN) L.push(q, "  " + ((d[k]||"").trim() || "-"), "");
+    L.push("Would tell another family: " + label("tell",[["yes","Yes"],["maybe","Maybe"],["no","No"]]));
+    if ((d.contact||"").trim()) L.push("Contact: " + d.contact.trim());
+    if (d.info!==false){
+      L.push("", "App details: " + [APP_VER, /iPhone|iPad|iPod/.test(navigator.userAgent) ? "iPhone/iPad" : /Android/.test(navigator.userAgent) ? "Android" : "Computer",
+        "language " + (S.lang||"en"), "level " + lv(), "pictures " + (S.pics||"3d"), installed() ? "saved to device" : "in browser"].join(", "));
+    }
+    return L.join("\n");
+  };
+  const sent = () => { state.feedbackSent = Date.now(); save(); };
+  panel.querySelector("#fbMail").onclick = () => { const t = text();
+    location.href = `mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent("Speakeasy feedback")}&body=${encodeURIComponent(t.length>6000 ? t.slice(0,6000)+"\n..." : t)}`; sent(); };
+  panel.querySelector("#fbText").onclick = () => { const sep = /iPhone|iPad|iPod/.test(navigator.userAgent) ? "&" : "?";
+    location.href = `sms:${FEEDBACK_PHONE}${sep}body=${encodeURIComponent(text())}`; sent(); };
+  panel.querySelector("#fbCopy").onclick = async () => { try { await navigator.clipboard.writeText(text()); toast(T("Answers copied. Paste them into an email or text to ") + FEEDBACK_EMAIL + "."); sent(); }
+    catch { toast(T("Copying is blocked here. Use Send by email instead.")); } };
+}
 function openMenu(){
   const {panel, close} = makeSheet("Menu","menu");
   panel.innerHTML = `<div class="phead"><h2>Menu</h2><span class="mode">${esc(state.profile.avatar||"🙂")} ${esc(state.profile.name||"Profile")} · Level ${lv()}</span><button class="btn primary" id="mClose">Close</button></div>`;
@@ -2910,6 +3025,7 @@ function openMenu(){
     if (k==="install") return openInstall();
     if (k==="device") return openDeviceCheck();
     if (k==="settings") return openSettings();
+    if (k==="feedback") return openFeedback();
     if (["words","help-set","voice","safe"].includes(k)) return openSettings(k==="help-set" ? "help" : k);
     tab = k; if (k==="groups") sub = null;                      // a word board
     renderTabs(); renderBoard(); restartScan();
@@ -2951,6 +3067,7 @@ function openMenu(){
     ["guide-faq","❓","Questions","Type a question, get an answer"]
   ]);
   group("Help", [["help","🆘","Help card","Shows and says who to call","sos"]]);
+  if (FEEDBACK_ON) group("Help make Speakeasy better", [["feedback","💬","Tell us what you think","A few quick questions, about 3 minutes"]], {care:true});
   group("Caregivers 🔒", [
     ["dash","📊","Dashboard","Progress, setup steps, safety"],
     ["profile","🪪","Edit profile","Name, age, favorites, level"],
