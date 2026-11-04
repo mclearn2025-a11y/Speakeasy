@@ -6,3 +6,6 @@
 wrangler.jsonc
 tools
 README.md
+docs
+tests
+package.json

@@ -1,0 +1,10 @@
+{
+  "name": "speakeasy",
+  "version": "2.0.0-rc.1",
+  "private": true,
+  "description": "Speakeasy, a communication app for people with limited or no speech. McLearn Media LLC.",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "test:browser": "node tests/browser-backup.e2e.cjs http://localhost:8765 /tmp/speakeasy-e2e"
+  }
+}

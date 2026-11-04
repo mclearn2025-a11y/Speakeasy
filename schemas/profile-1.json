@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://speakeasy.mclearn2025.workers.dev/schemas/profile-1.json",
+  "title": "Speakeasy profile payload, schema version 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "profileId",
+    "state",
+    "signs"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "profileId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]{1,40}$"
+    },
+    "signs": {
+      "type": "object",
+      "maxProperties": 5000,
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^m[0-9]{1,5}$"
+      }
+    },
+    "state": {
+      "type": "object",
+      "required": [
+        "settings",
+        "custom",
+        "profile",
+        "help"
+      ],
+      "properties": {
+        "settings": {
+          "type": "object",
+          "maxProperties": 200
+        },
+        "custom": {
+          "type": "object",
+          "maxProperties": 1000,
+          "additionalProperties": {
+            "type": "array",
+            "maxItems": 5000,
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "label"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "label": {
+                  "type": "string",
+                  "maxLength": 500
+                },
+                "say": {
+                  "type": "string",
+                  "maxLength": 2000
+                },
+                "sym": {
+                  "type": "string",
+                  "maxLength": 64
+                },
+                "img": {
+                  "type": "string",
+                  "pattern": "^media:m[0-9]{1,5}$"
+                }
+              }
+            }
+          }
+        },
+        "profile": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "avatar": {
+              "type": "string",
+              "maxLength": 32
+            },
+            "interests": {
+              "type": "array",
+              "maxItems": 200
+            }
+          }
+        },
+        "help": {
+          "type": "object",
+          "properties": {
+            "contacts": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "relation": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "phone": {
+                    "type": "string",
+                    "maxLength": 40
+                  },
+                  "email": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "video": {
+                    "type": "string",
+                    "maxLength": 2000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "topics": {
+          "type": "array",
+          "maxItems": 500,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "name": {
+                "type": "string",
+                "maxLength": 200
+              }
+            }
+          }
+        },
+        "hidden": {
+          "type": "array",
+          "maxItems": 20000
+        }
+      }
+    }
+  }
+}

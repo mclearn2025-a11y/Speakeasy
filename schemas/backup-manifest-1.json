@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://speakeasy.mclearn2025.workers.dev/schemas/backup-manifest-1.json",
+  "title": "Speakeasy full-profile backup manifest, format version 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "formatVersion",
+    "app",
+    "appVersion",
+    "profileSchemaVersion",
+    "exportType",
+    "createdAt",
+    "profiles",
+    "media",
+    "includes"
+  ],
+  "properties": {
+    "format": {
+      "const": "speakeasy-profile-backup"
+    },
+    "formatVersion": {
+      "const": 1
+    },
+    "app": {
+      "const": "Speakeasy"
+    },
+    "appVersion": {
+      "type": "string",
+      "maxLength": 40,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.]+)?$"
+    },
+    "profileSchemaVersion": {
+      "const": 1
+    },
+    "exportType": {
+      "const": "full-profile"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40
+    },
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "path",
+          "bytes",
+          "contentType",
+          "sha256"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]{1,40}$"
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^profiles/[a-z0-9]{1,40}\\.json$"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 5242880
+          },
+          "contentType": {
+            "const": "application/json"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "media": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "path",
+          "bytes",
+          "role",
+          "contentType",
+          "sha256"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^m[0-9]{1,5}$"
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^media/m[0-9]{1,5}\\.(jpg|png|webp|mp4|webm|mov)$"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 104857600
+          },
+          "role": {
+            "enum": [
+              "photo",
+              "sign"
+            ]
+          },
+          "contentType": {
+            "enum": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "video/mp4",
+              "video/webm",
+              "video/quicktime"
+            ]
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "includes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "photos",
+        "signs"
+      ],
+      "properties": {
+        "photos": {
+          "type": "boolean"
+        },
+        "signs": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

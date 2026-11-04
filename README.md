@@ -9,6 +9,26 @@ This folder is the full Speakeasy app. Put it on any web address and it becomes 
 it installs to the home screen on iPhone, iPad, Android, Windows, Mac and Chromebook, and it
 keeps talking with no internet.
 
+## New in 2.0.0-rc.1 (release candidate, not released)
+
+- **Level names say what each level shows** (Level 1 · 12 big words, Level 2 · 24 words, Level 3 · 48 words), not Beginner or Advanced.
+- **Replace someone with a backup**, a deliberate step with a restore point saved first.
+- Full status, tests and what's left before release: `docs/STATUS.md`.
+
+## New in 2.0.0-dev.3
+
+- **Old backups are safe too.** Old `.json` backup files and pasted backup text get the same strict check and are added as a new person.
+- **Unfinished messages are kept** through reloads and switching people. Clearing can be undone.
+- **Optional caregiver PIN** for settings and caregiver tools. Talking and the Help card never ask for it.
+- Full status and tests: `docs/STATUS.md`.
+
+## New in 2.0.0-dev.2
+
+- **ZIP backup files.** Save backup file now makes a `.zip` with the person's profile and every photo and filmed sign as real files, each with a fingerprint. Old `.json` backups still restore.
+- **Strict check before restoring.** A damaged, changed or unsafe backup is refused before anything is saved, and the screen says plainly that nobody on the device was changed.
+- **Restore never overwrites anyone.** A restored backup is added as a new person. The caregiver reviews it and chooses when to switch.
+- Details, tests and what is still to do: `docs/STATUS.md`. The 2.0 plan: `docs/`.
+
 ## New in v1.9
 
 - **2,306 words, up from 548.** About 1,750 new words, each with its own talking-app symbol from the free Mulberry Symbols library (CC BY-SA 4.0), in English and Spanish. 20 new word groups (Fruits and vegetables, Meals and snacks, Sweets and drinks, Kitchen, Home, Getting ready, Jobs, More actions, Shapes, Where, Sports, Phones and computers, Tools, Going places, Nature, Science, Holidays and parties, Art and music, Countries, Pet care), and more words in 14 existing groups. New words were added at the end of each group, so no word that was already there moved.
