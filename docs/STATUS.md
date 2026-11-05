@@ -1,8 +1,12 @@
-# Speakeasy 2.0 — build status
+# Communara (formerly Speakeasy) 2.0 — build status
 
-Current build: **2.0.0-rc.2** (release candidate, Nov 4, 2026), built on the live Speakeasy 1.16.0 (commit 3457c2c). Not released to families yet: it needs testing on real phones and tablets first.
+Current build: **2.0.0-rc.3** (release candidate, Nov 4, 2026), built on the live Speakeasy 1.16.0 (commit 3457c2c). Not released to families yet: it needs testing on real phones and tablets first.
 
 Rule for 2.0: only add what makes the app better. A grouped settings menu was tried in rc.1 and taken back out, because on a phone it pushed the settings a full screen down.
+
+## Added in 2.0.0-rc.3
+- **New name: Communara** (tagline: Your thoughts. Your choices. Your way.). Chosen Nov 4, 2026 because other speech and AAC apps and trademarks already use SpeakEasy and Spkeasy. A first web check found no app or trademark named Communara; an attorney still needs to clear it before sale.
+- Everything people see now says Communara, in English and Spanish. Saved words, profiles, backups and the web address are unchanged: old Speakeasy backups (.zip and .json) still restore, and new backup files are named communara-backup-DATE.zip.
 
 ## Added in 2.0.0-rc.2
 - **Phones held sideways:** the whole word board now fits on screen with no scrolling (it used to cut off the bottom rows), with picture and word side by side. Checked on 15 screen sizes from a 320-pixel phone to a 1920-pixel desktop, including tablets, Chromebook and large text: no sideways scrolling, no buttons off screen, settings usable on all (`tests/device-sweep.cjs`).

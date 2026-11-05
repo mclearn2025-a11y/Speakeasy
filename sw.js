@@ -1,8 +1,8 @@
-/* Speakeasy offline worker — McLearn Media.
+/* Communara (formerly Speakeasy) offline worker — McLearn Media.
    The app must keep talking with no internet, so the page and its icons are stored on install.
    Page: network first (updates arrive), stored copy when offline.
    Fonts and bird photos: stored as they're used, so they keep working offline. */
-const VERSION = "speakeasy-v2.0.0-rc.2";
+const VERSION = "speakeasy-v2.0.0-rc.3";
 const CORE = VERSION + "-core", RUNTIME = VERSION + "-runtime", PHOTOS = VERSION + "-photos";
 const SHELL = ["./", "index.html", "zipbackup.js", "privacy.html", "privacy-es.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png",
   "fonts/fonts.css", "fonts/atkinson-400.woff", "fonts/atkinson-700.woff", "fonts/hanken-var.woff", "fonts/fraunces-600.woff"];

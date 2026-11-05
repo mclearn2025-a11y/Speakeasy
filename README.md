@@ -1,4 +1,4 @@
-# Speakeasy
+# Communara (formerly Speakeasy)
 
 — installable app (v1.9)
 
@@ -8,6 +8,10 @@ McLearn Media LLC · Brandon, MS
 This folder is the full Speakeasy app. Put it on any web address and it becomes a real app:
 it installs to the home screen on iPhone, iPad, Android, Windows, Mac and Chromebook, and it
 keeps talking with no internet.
+
+## New in 2.0.0-rc.3
+
+- **Renamed to Communara.** Saved data, backups and the web address are unchanged.
 
 ## New in 2.0.0-rc.1 (release candidate, not released)
 

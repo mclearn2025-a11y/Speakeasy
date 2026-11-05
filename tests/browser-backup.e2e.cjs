@@ -1,4 +1,4 @@
-// End-to-end test of Speakeasy 2.0-dev.2 ZIP backup in headless Chromium (phone size).
+// End-to-end test of Communara 2.0-dev.2 ZIP backup in headless Chromium (phone size).
 const { chromium } = require('playwright'); const fs = require('fs'); const path = require('path');
 const BASE = process.argv[2]; const OUT = process.argv[3];
 const results = []; const ok = (name, cond, extra='') => { results.push((cond?'PASS ':'FAIL ')+name+(extra?' — '+extra:'')); };
@@ -35,7 +35,7 @@ const results = []; const ok = (name, cond, extra='') => { results.push((cond?'P
   await page.click('#gearBtn'); await page.waitForTimeout(500);
   const [dl] = await Promise.all([ page.waitForEvent('download'), page.click('#b-file') ]);
   const zipPath = path.join(OUT, dl.suggestedFilename()); await dl.saveAs(zipPath);
-  ok('backup downloads as .zip', /^speakeasy-backup-\d{4}-\d\d-\d\d\.zip$/.test(dl.suggestedFilename()), dl.suggestedFilename());
+  ok('backup downloads as .zip', /^communara-backup-\d{4}-\d\d-\d\d\.zip$/.test(dl.suggestedFilename()), dl.suggestedFilename());
   const zbytes = fs.readFileSync(zipPath); ok('file starts with PK', zbytes[0]===0x50 && zbytes[1]===0x4B);
   const listing = require('child_process').execSync('unzip -l ' + JSON.stringify(zipPath)).toString();
   ok('zip has manifest, profile, photo, sign', /manifest\.json/.test(listing) && /profiles\/main\.json/.test(listing) && /media\/m1\.jpg/.test(listing) && /media\/m2\.mp4/.test(listing), listing.split('\n').filter(l=>/\//.test(l)||/manifest/.test(l)).map(l=>l.trim().split(/\s+/).pop()).join(', '));
@@ -122,7 +122,7 @@ const results = []; const ok = (name, cond, extra='') => { results.push((cond?'P
   await page.click('#gearBtn'); await page.waitForTimeout(400);
   await page.evaluate(() => { document.querySelector('[data-view="all"]')?.click(); document.getElementById('b-text').value = '{"kind":"speakeasy-backup","version":7,"state":{"settings":{}}}'; document.getElementById('b-restore').click(); });
   await page.waitForSelector('.restore-fail', {timeout:15000});
-  ok('backup from a newer version gets the newer-version message', /newer Speakeasy/.test(await page.evaluate(() => document.querySelector('.restore-fail').innerText)));
+  ok('backup from a newer version gets the newer-version message', /newer Communara/.test(await page.evaluate(() => document.querySelector('.restore-fail').innerText)));
   await page.click('#rfHome');
 
   // unfinished message survives a reload, and clearing can be undone
