@@ -1,6 +1,6 @@
 {
   "name": "speakeasy",
-  "version": "2.0.0-rc.1",
+  "version": "2.0.0-rc.2",
   "private": true,
   "description": "Speakeasy, a communication app for people with limited or no speech. McLearn Media LLC.",
   "scripts": {

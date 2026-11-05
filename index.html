@@ -514,6 +514,17 @@ body.pics3d .tile img.symimg[src^="data:"]{height:calc(76px*var(--scale));max-he
 .langpick{display:inline-flex;flex-wrap:wrap}
 html[lang="es"] .tile .lbl{hyphens:auto;-webkit-hyphens:auto}
 @media print{.installbar{display:none!important}}
+/* v2.0: phones held sideways are short, so the whole word board must still fit without scrolling (words never move) */
+@media (orientation:landscape) and (max-height:500px){
+  .top .brand{display:none} .ibtn{min-height:36px}
+  .strip{min-height:46px;padding:4px} .sbtn{min-width:46px;font-size:18px}
+  .tabs .tab{min-height:32px;padding-top:2px;padding-bottom:2px}
+  .grid.fill{grid-template-rows:repeat(var(--rows,4),minmax(34px,1fr))}
+  .grid.fill .tile{flex-direction:row;gap:6px;padding:2px 6px}
+  .grid.fill .tile img.symimg,.grid.fill .tile img.symimg[src^="data:"]{height:86%;max-height:86%;width:auto;max-width:48%}
+  .grid.fill .tile .sym{font-size:min(30px,7vh);width:auto;aspect-ratio:auto}
+  .grid.fill .tile .lbl{text-align:left}
+}
 </style>
 
 <div id="app">
@@ -3335,7 +3346,7 @@ document.addEventListener("keydown", e=>{ if (e.key==="Escape"){ const s=[...doc
 /* v1.16: trial feedback. Families answer a few questions and send them by email or text from their own phone.
    Nothing is sent by Speakeasy itself. To remove this section later, set FEEDBACK_ON to false. */
 const FEEDBACK_ON = true;
-const APP_VER = "Speakeasy 2.0.0-rc.1";   // keep in step with VERSION in sw.js
+const APP_VER = "Speakeasy 2.0.0-rc.2";   // keep in step with VERSION in sw.js
 const FEEDBACK_EMAIL = "Mclearn2025@gmail.com", FEEDBACK_PHONE = "6018089559";
 const FB_RATE = [
   ["setup","How easy was it to set up?"],

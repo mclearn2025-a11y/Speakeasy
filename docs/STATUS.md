@@ -1,8 +1,11 @@
 # Speakeasy 2.0 — build status
 
-Current build: **2.0.0-rc.1** (release candidate, Nov 4, 2026), built on the live Speakeasy 1.16.0 (commit 3457c2c). Not released to families yet: it needs testing on real phones and tablets first.
+Current build: **2.0.0-rc.2** (release candidate, Nov 4, 2026), built on the live Speakeasy 1.16.0 (commit 3457c2c). Not released to families yet: it needs testing on real phones and tablets first.
 
 Rule for 2.0: only add what makes the app better. A grouped settings menu was tried in rc.1 and taken back out, because on a phone it pushed the settings a full screen down.
+
+## Added in 2.0.0-rc.2
+- **Phones held sideways:** the whole word board now fits on screen with no scrolling (it used to cut off the bottom rows), with picture and word side by side. Checked on 15 screen sizes from a 320-pixel phone to a 1920-pixel desktop, including tablets, Chromebook and large text: no sideways scrolling, no buttons off screen, settings usable on all (`tests/device-sweep.cjs`).
 
 ## Added in 2.0.0-rc.1
 - **Level names say what a level shows, not how able the person is:** Level 1 · 12 big words, Level 2 · 24 words, Level 3 · 48 words (were Beginner, Middle, Advanced). Guides, questions and Spanish updated to match.
