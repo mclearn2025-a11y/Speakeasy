@@ -1,5 +1,5 @@
 const { chromium } = require('playwright'); const path = require('path');
-const OUT = 'process.argv[2] || "/tmp/speakeasy-devices"';
+const OUT = process.argv[2] || '/tmp/speakeasy-devices'; require('fs').mkdirSync(OUT, {recursive:true});
 const DEV = [
   ['Small phone (iPhone SE 1st)', 320, 568, true], ['iPhone SE', 375, 667, true], ['iPhone 15', 390, 844, true], ['iPhone Pro Max', 430, 932, true],
   ['Android phone', 412, 915, true], ['Phone landscape', 844, 390, true], ['Small Android landscape', 640, 360, true],
