@@ -1637,6 +1637,7 @@ async function photoCredit(it){
   if (BUNDLED[it.id]){ const b = BUNDLED[it.id]; return `Photo: ${b.a} · ${b.l} · Wikimedia Commons`; }
   const d = photoDB[it.id]; if (!d || !d.src || !d.file) return "";
   if (d.credit) return d.credit;
+  return "Photo: Wikimedia Commons";   // never look anything up online (privacy policy: no other companies contacted)
   try{
     const u = "https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&prop=imageinfo&iiprop=extmetadata&titles=File:"+encodeURIComponent(d.file);
     const j = await (await fetch(u)).json(); const pg = Object.values(j.query.pages)[0]; const md = pg.imageinfo[0].extmetadata;
@@ -2596,7 +2597,10 @@ function showBigText(text, note){
   d.onclick = () => d.remove(); document.body.append(d);
 }
 $("msg").onkeydown = e => { if(e.key==="Enter"){ e.preventDefault(); $("speakBtn").onclick(); } };
-$("delBtn").onclick = () => { if (typing) typing=typing.slice(0,-1); else msg.pop(); renderStrip(); refreshPred(); };
+$("delBtn").onclick = () => {
+  // right after Clear, the back arrow brings the message back, so switch, scanning and eye-gaze users can undo too
+  if (!msg.length && !typing && lastCleared && Date.now() - lastCleared.t < 15000){ msg = lastCleared.msg; typing = lastCleared.typing; lastCleared = null; renderStrip(); refreshPred(); return; }
+  if (typing) typing=typing.slice(0,-1); else msg.pop(); renderStrip(); refreshPred(); };
 $("clrBtn").onclick = () => {
   if (msg.length || typing){ lastCleared = {msg:[...msg], typing, t:Date.now()}; setTimeout(() => { if (!msg.length && !typing) renderStrip(); }, 15100); }
   msg=[]; typing=""; renderStrip(); refreshPred(); };
