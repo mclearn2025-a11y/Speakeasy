@@ -163,6 +163,7 @@ details summary{cursor:pointer;font-weight:600;min-height:40px;display:flex;alig
 .topichead{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;position:sticky;top:0;background:var(--bg);z-index:2;scrollbar-width:none}
 .topichead::-webkit-scrollbar{display:none}
 .undoclr{margin-left:10px;pointer-events:auto}
+.bigmsg .bignote{display:block;font-size:20px;font-weight:700;margin-bottom:12px;opacity:.95}
 .chipbtn{flex:none;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-weight:600;font-size:13px;min-height:38px;display:inline-flex;gap:6px;align-items:center}
 .chipbtn[aria-pressed="true"]{background:var(--brand2);color:var(--on-brand);border-color:var(--brand2)}
 .factline{font-family:var(--font-tile);font-size:15px;line-height:1.4;background:var(--soft);border-radius:var(--r-md);padding:8px 12px;margin-bottom:6px}
@@ -1289,6 +1290,11 @@ I18N.es.ui["Help make Communara better"] = "Ayude a mejorar Communara";
 I18N.es.ui["A few quick questions, about 3 minutes"] = "Unas preguntas rápidas, unos 3 minutos";
 I18N.es.ui["💬 Tell us what you think"] = "💬 Díganos qué piensa";
 /* v2.0: backup and restore */
+I18N.es.ui["Headphones mode"] = "Modo audífonos";
+I18N.es.ui["Games and practice stay in the headphones. The Speak button talks through the phone's speaker, so people nearby can hear."] = "Los juegos y la práctica se quedan en los audífonos. El botón Hablar suena por la bocina del teléfono para que las personas cerca puedan oír.";
+I18N.es.ui["Games and practice stay in the headphones. When they tap Speak, the message also shows in big letters so the person nearby can read it. In the Communara app from the app store, Speak talks out loud through the phone's speaker even with headphones on."] = "Los juegos y la práctica se quedan en los audífonos. Al tocar Hablar, el mensaje también aparece en letras grandes para que la persona cerca lo pueda leer. En la app Communara de la tienda, Hablar suena por la bocina del teléfono aunque tenga audífonos puestos.";
+I18N.es.ui["Speak button always uses the phone's speaker"] = "El botón Hablar siempre usa la bocina del teléfono";
+I18N.es.ui["🎧 Take off the headphones so they can hear, or show them this."] = "🎧 Quítate los audífonos para que puedan oír, o enséñales esto.";
 I18N.es.ui["12 big words"] = "12 palabras grandes";
 I18N.es.ui["24 words"] = "24 palabras";
 I18N.es.ui["48 words"] = "48 palabras";
@@ -1705,7 +1711,7 @@ function writeReg(){ try { localStorage.setItem(PREG, JSON.stringify(REG)); } ca
 function syncReg(){ const P = state.profile||{}; let e = REG.list.find(x=>x.id===REG.active); if (!e){ e = {id:REG.active}; REG.list.push(e); } e.name = P.name||""; e.avatar = P.avatar||"🙂"; e.lvl = state.settings.lvl||2; writeReg(); }
 const DEFAULT = {
   settings:{photos:"photos",look:"sparkle",mode:"k",voiceURI:"",rate:0.9,pitch:1,speakOnTap:true,holdMs:0,debounceMs:300,scale:1.1,contrast:false,wordsOnly:false,
-            board:"24",level:"all",scan:"off",scanMs:1500,lock:true,lang:"en",volume:1,dwellMs:0,showText:false,topicOne:true,signs:true},
+            board:"24",level:"all",scan:"off",scanMs:1500,lock:true,lang:"en",volume:1,dwellMs:0,showText:false,topicOne:true,signs:true,headphones:false,speakerOut:true},
   custom:{}, hidden:[], learned:{}, help:{name:"",contact:"",info:"",contacts:[],address:"",showAddress:false,shareLoc:false}, practice:{right:0,tries:0},
   packs:{birds:true}, topics:[], birdGroup:"all", facts:false, savedAt:0, lastBackup:0,
   stats:{days:{}}, guideSeen:false, modeSet:false, profileAsked:false,
@@ -2561,13 +2567,31 @@ document.addEventListener("pointermove", e => {
     if (t.matches("#board [data-act]")) activate(t); else t.click(); }, S.dwellMs)};
 });
 
-$("speakBtn").onclick = () => { commitTyping(); renderStrip(); const s=sentence(); if(s){ say(s); if (S.showText) showBigText(s); track("said"); save(); burst($("speakBtn"),10); flyBird(); } else toast("Choose some words first."); };
+/* v2.0: headphones. Games and practice stay in the headphones. The Speak button is for talking to someone:
+   in the store app it goes through the phone's own speaker (native SpeakerVoice plugin), so people nearby hear it
+   even with headphones on. A web page can't choose the speaker, so on the web Speak also shows the message in big
+   letters with a reminder, and the person nearby can read it. */
+const NATIVE_VOICE = (() => { try { const C = window.Capacitor; return C && C.isNativePlatform && C.isNativePlatform() && C.Plugins && C.Plugins.SpeakerVoice || null; } catch { return null; } })();
+function sayOutLoud(text){
+  if (NATIVE_VOICE && S.speakerOut !== false){
+    const v = voiceNow();
+    NATIVE_VOICE.speak({text: speakable(T(text)), lang: v ? v.lang : LANGS[LANG].tag, rate: S.rate, pitch: S.pitch, volume: S.volume ?? 1, speaker: true})
+      .catch(() => say(text));
+    return;
+  }
+  say(text);
+}
+$("speakBtn").onclick = () => { commitTyping(); renderStrip(); const s=sentence(); if(s){ sayOutLoud(s);
+  if (S.headphones && !NATIVE_VOICE) showBigText(s, T("🎧 Take off the headphones so they can hear, or show them this."));
+  else if (S.showText) showBigText(s);
+  track("said"); save(); burst($("speakBtn"),10); flyBird(); } else toast("Choose some words first."); };
 $("msg").onclick = $("speakBtn").onclick;
 /* v1.13: show the message in big letters, for Deaf or hard-of-hearing listeners and loud places */
-function showBigText(text){
+function showBigText(text, note){
   document.querySelector(".bigmsg")?.remove();
   const d = el("div","bigmsg"); d.setAttribute("role","dialog"); d.setAttribute("aria-label", T("Message"));
   const p = el("p"); p.textContent = text; p.dataset.notr = "1";
+  if (note) d.append(el("small","bignote", note));
   d.append(p, el("small", null, T("Tap anywhere to close")));
   d.onclick = () => d.remove(); document.body.append(d);
 }
@@ -3021,6 +3045,9 @@ function openSettingsNow(focus){
       <div class="row"><label for="v-pitch">Pitch</label><input type="range" id="v-pitch" min="0.5" max="1.5" step="0.05" value="${S.pitch}"></div>
       <div class="row"><label for="v-vol">Loudness</label><input type="range" id="v-vol" min="0.3" max="1" step="0.05" value="${S.volume??1}"></div>
       <div class="row"><label for="v-big">Show the message in big letters after Speak</label><input type="checkbox" id="v-big" ${S.showText?"checked":""}></div>
+      <div class="row"><label for="v-hp">🎧 ${T("Headphones mode")}</label><input type="checkbox" id="v-hp" ${S.headphones?"checked":""}></div>
+      <p class="note">${T(NATIVE_VOICE ? "Games and practice stay in the headphones. The Speak button talks through the phone's speaker, so people nearby can hear." : "Games and practice stay in the headphones. When they tap Speak, the message also shows in big letters so the person nearby can read it. In the Communara app from the app store, Speak talks out loud through the phone's speaker even with headphones on.")}</p>
+      ${NATIVE_VOICE?`<div class="row"><label for="v-spk">${T("Speak button always uses the phone's speaker")}</label><input type="checkbox" id="v-spk" ${S.speakerOut!==false?"checked":""}></div>`:""}
       <div class="row"><label for="v-sign">Play their sign when a word is tapped</label><input type="checkbox" id="v-sign" ${S.signs!==false?"checked":""}></div>
       <div class="row"><label for="v-tap">Say each word when tapped</label><input type="checkbox" id="v-tap" ${S.speakOnTap?"checked":""}></div>
       <div class="row"><button class="btn" id="v-test">🔊 Test voice</button><button class="btn" id="v-dev">📱 This device</button></div>
@@ -3155,6 +3182,8 @@ function openSettingsNow(focus){
   q("v-tap").onchange = e => set("speakOnTap",e.target.checked);
   q("v-vol").onchange = e => { S.volume=+e.target.value; save(); say("Hello. This is my voice."); };
   q("v-big").onchange = e => set("showText",e.target.checked);
+  q("v-hp").onchange = e => set("headphones",e.target.checked);
+  if (q("v-spk")) q("v-spk").onchange = e => set("speakerOut",e.target.checked);
   q("v-sign").onchange = e => { set("signs",e.target.checked); renderBoard(); };
   q("v-dev").onclick = () => { closeSettings(); openDeviceCheck(); };
   q("v-test").onclick = () => say(m()==="k" ? "Hi! I want to play." : "Hello. I use this device to talk.");
@@ -3346,7 +3375,7 @@ document.addEventListener("keydown", e=>{ if (e.key==="Escape"){ const s=[...doc
 /* v1.16: trial feedback. Families answer a few questions and send them by email or text from their own phone.
    Nothing is sent by Communara itself. To remove this section later, set FEEDBACK_ON to false. */
 const FEEDBACK_ON = true;
-const APP_VER = "Communara 2.0.0-rc.3";   // keep in step with VERSION in sw.js
+const APP_VER = "Communara 2.0.0-rc.4";   // keep in step with VERSION in sw.js
 const FEEDBACK_EMAIL = "Mclearn2025@gmail.com", FEEDBACK_PHONE = "6018089559";
 const FB_RATE = [
   ["setup","How easy was it to set up?"],

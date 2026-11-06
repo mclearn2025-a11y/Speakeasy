@@ -1,0 +1,7 @@
+{
+  "appId": "com.mclearnmedia.communara",
+  "appName": "Communara",
+  "webDir": "www",
+  "ios": { "contentInset": "always", "limitsNavigationsToAppBoundDomains": false },
+  "android": { "allowMixedContent": false }
+}

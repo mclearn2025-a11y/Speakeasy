@@ -1,8 +1,13 @@
 # Communara (formerly Speakeasy) 2.0 — build status
 
-Current build: **2.0.0-rc.3** (release candidate, Nov 4, 2026), built on the live Speakeasy 1.16.0 (commit 3457c2c). Not released to families yet: it needs testing on real phones and tablets first.
+Current build: **2.0.0-rc.4** (release candidate, Nov 4, 2026), built on the live Speakeasy 1.16.0 (commit 3457c2c). Not released to families yet: it needs testing on real phones and tablets first.
 
 Rule for 2.0: only add what makes the app better. A grouped settings menu was tried in rc.1 and taken back out, because on a phone it pushed the settings a full screen down.
+
+## Added in 2.0.0-rc.4
+- **Headphones mode** (Settings → Language and voice). Games and practice stay in the headphones. On the web, Speak also shows the message in big letters with "Take off the headphones so they can hear, or show them this."
+- **Store app started** (`store-app/`): Capacitor project for iPhone/iPad and Android with the SpeakerVoice plugin, so in the store app the Speak button talks through the phone's speaker even with headphones on. Not built on a device yet; see `store-app/README.md`.
+- The web app is becoming the private admin and testing version (locked with Cloudflare Access); the public will get the store app.
 
 ## Added in 2.0.0-rc.3
 - **New name: Communara** (tagline: Your thoughts. Your choices. Your way.). Chosen Nov 4, 2026 because other speech and AAC apps and trademarks already use SpeakEasy and Spkeasy. A first web check found no app or trademark named Communara; an attorney still needs to clear it before sale.
