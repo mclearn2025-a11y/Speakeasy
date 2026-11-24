@@ -1,8 +1,15 @@
 # Communara (formerly Speakeasy) 2.0 — build status
 
-Current build: **2.0.0-rc.5** (release candidate, Nov 24, 2026), built on the live Speakeasy 1.16.0 (commit 3457c2c). Not released to families yet: it needs testing on real phones and tablets first.
+Current build: **2.0.0-rc.6** (release candidate, Nov 24, 2026), built on the live Speakeasy 1.16.0 (commit 3457c2c). Not released to families yet: it needs testing on real phones and tablets first.
 
 Rule for 2.0: only add what makes the app better. A grouped settings menu was tried in rc.1 and taken back out, because on a phone it pushed the settings a full screen down.
+
+## Added in 2.0.0-rc.6 (easier to say what they mean)
+- **Every level has every word.** The level only decides which core words fill the first screen, big and highlighted with a gold ring: 12 at Level 1, 24 at Level 2, all 48 at Level 3. The rest sit right below under a "More words" bar that stays visible and scrolls to them when tapped. No more empty spaces or half-empty screens, and a hidden word leaves no hole. Every word group is open at every level too (Level 1's everyday groups come first). Practice and the "ready for more?" hint still use the level's own words.
+- **The whole board fits the screen.** The "Save to this device" bar used to push the app down, so the bottom row (yes, no) was off the bottom of phones. It is now one short line and the board always fits (checked on 390x844, 375x667, iPad portrait and landscape, laptop).
+- **The sentence bar shows the whole sentence.** Words wrap onto a second line and shrink to fit instead of scrolling the start of the sentence out of sight.
+- **Buttons say what they do:** Back, Clear, Speak (Atrás, Borrar, Hablar in Spanish).
+- **Speaks the way people talk (English):** "I want eat" is spoken as "I want to eat", "I like play" as "I like to play". Only "to" is ever added, only between a wanting word and an action word; "I want help" stays as is, and the bar still shows their own words. On by default; Settings > Voice to turn off.
 
 ## Added in 2.0.0-rc.5
 - **Nothing goes online for pictures.** Removed the old, switched-off code that could look up bird photos on Wikipedia, and web photo links saved by very old versions are now ignored and cleared. Every photo comes from inside the app. Checked: 45 bird photos show, and the page makes no requests outside the app.
