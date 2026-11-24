@@ -1,8 +1,13 @@
 # Communara (formerly Speakeasy) 2.0 — build status
 
-Current build: **2.0.0-rc.4** (release candidate, Nov 4, 2026), built on the live Speakeasy 1.16.0 (commit 3457c2c). Not released to families yet: it needs testing on real phones and tablets first.
+Current build: **2.0.0-rc.5** (release candidate, Nov 24, 2026), built on the live Speakeasy 1.16.0 (commit 3457c2c). Not released to families yet: it needs testing on real phones and tablets first.
 
 Rule for 2.0: only add what makes the app better. A grouped settings menu was tried in rc.1 and taken back out, because on a phone it pushed the settings a full screen down.
+
+## Added in 2.0.0-rc.5
+- **Nothing goes online for pictures.** Removed the old, switched-off code that could look up bird photos on Wikipedia, and web photo links saved by very old versions are now ignored and cleared. Every photo comes from inside the app. Checked: 45 bird photos show, and the page makes no requests outside the app.
+- Project file (`package.json`) now says Communara 2.0.0-rc.5 (it still said Speakeasy rc.2).
+- Note on the Nov 23 outside audit: it graded old ZIP copies (v1.16.0 and an older 2.0 package), not this repository. Its points about missing folders, mismatched versions, weak backups and ability-based level names do not apply here. Its points about real-device and assistive-technology testing, an outside code review, and a Content Security Policy still stand (see "Not done yet").
 
 ## Added in 2.0.0-rc.4
 - **Headphones mode** (Settings → Language and voice). Games and practice stay in the headphones. On the web, Speak also shows the message in big letters with "Take off the headphones so they can hear, or show them this."
