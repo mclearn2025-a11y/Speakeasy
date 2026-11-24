@@ -2,14 +2,14 @@
    The app must keep talking with no internet, so the page and its icons are stored on install.
    Page: network first (updates arrive), stored copy when offline.
    Fonts and bird photos: stored as they're used, so they keep working offline. */
-const VERSION = "speakeasy-v2.0.0-rc.6";
+const VERSION = "speakeasy-v2.0.0";
 const CORE = VERSION + "-core", RUNTIME = VERSION + "-runtime", PHOTOS = VERSION + "-photos";
 const SHELL = ["./", "index.html", "zipbackup.js", "privacy.html", "privacy-es.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png",
   "fonts/fonts.css", "fonts/atkinson-400.woff", "fonts/atkinson-700.woff", "fonts/hanken-var.woff", "fonts/fraunces-600.woff"];
 const MAX_PHOTOS = 400;
 // pictures and topic photos live in their own store, so app updates don't download them again.
 // Change MEDIA only when the picture or photo files themselves change.
-const MEDIA = "speakeasy-media-1";
+const MEDIA = "speakeasy-media-2";
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CORE).then(async c => {

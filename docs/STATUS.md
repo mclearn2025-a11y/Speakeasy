@@ -1,8 +1,14 @@
 # Communara (formerly Speakeasy) 2.0 — build status
 
-Current build: **2.0.0-rc.6** (release candidate, Nov 24, 2026), built on the live Speakeasy 1.16.0 (commit 3457c2c). Not released to families yet: it needs testing on real phones and tablets first.
+Current build: **2.0.0** (release build, Nov 24, 2026), built on the live Speakeasy 1.16.0 (commit 3457c2c). Not released to families yet: it needs testing on real phones and tablets first.
 
 Rule for 2.0: only add what makes the app better. A grouped settings menu was tried in rc.1 and taken back out, because on a phone it pushed the settings a full screen down.
+
+## Added in 2.0.0 (release build)
+- **Words never move between levels (motor planning).** Level 1 is a 3 x 4 board. Level 2 keeps those 12 words in the same row and column and adds 12 to the right (6 x 4). Level 3 keeps all 24 in place and adds 24 to the right and below (8 x 6). Moving up only makes words smaller and adds new ones. Checked: 0 of 12 words move from Level 1 to 2, 0 of 24 from Level 2 to 3, on phone and iPad. The same columns are used in portrait and landscape so spots never change when the device turns.
+- **Every core word has a picture.** New 3D pictures for "it" (arrow pointing at a ball), "do" (child hammering), "is" (apple = apple) and a clearer "they" (three children instead of two dark silhouettes). Picture store renamed (MEDIA speakeasy-media-2) so devices fetch the new pictures.
+- Version labels say 2.0.0 everywhere (app, offline worker, package).
+- Sign-offs still to record outside this code: a speech-language pathologist review, real-device and switch / screen reader checks, and an outside code review.
 
 ## Added in 2.0.0-rc.6 (easier to say what they mean)
 - **Every level has every word.** The level only decides which core words fill the first screen, big and highlighted with a gold ring: 12 at Level 1, 24 at Level 2, all 48 at Level 3. The rest sit right below under a "More words" bar that stays visible and scrolls to them when tapped. No more empty spaces or half-empty screens, and a hidden word leaves no hole. Every word group is open at every level too (Level 1's everyday groups come first). Practice and the "ready for more?" hint still use the level's own words.
