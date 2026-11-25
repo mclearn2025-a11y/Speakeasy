@@ -1,6 +1,6 @@
 {
   "name": "communara",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "description": "Communara (formerly Speakeasy), a communication app for people with limited or no speech. McLearn Media LLC.",
   "scripts": {

@@ -1,8 +1,17 @@
 # Communara (formerly Speakeasy) 2.0 — build status
 
-Current build: **2.0.0** (release build, Nov 24, 2026), built on the live Speakeasy 1.16.0 (commit 3457c2c). Not released to families yet: it needs testing on real phones and tablets first.
+Current build: **2.1.0** (Nov 24, 2026), built on the live Speakeasy 1.16.0 (commit 3457c2c). Not released to families yet: it needs testing on real phones and tablets first.
 
 Rule for 2.0: only add what makes the app better. A grouped settings menu was tried in rc.1 and taken back out, because on a phone it pushed the settings a full screen down.
+
+## Added in 2.1.0
+- **Level 4: 84 core words** for strong communicators, nested like the others: all 48 Level 3 words stay in the same row and column, and 36 new words (open, close, give, take, see, hear, say, think, know, wait, sit, sleep, wash, read, hot, cold, fast, slow, happy, sad, all, some, who, when, why, how, with, for, to, and, please, thank you, hi, bye, now, later) fill 4 new columns and a seventh row (12 x 7). Each has a new 3D picture, a drawn symbol where one exists, and a Spanish word. Every level still has every word (84). Checked: 0 words move from Level 1→2, 2→3 or 3→4 on phone and iPad. On a phone, Level 4 buttons are about 26 px wide, so the level says it is best on a tablet or computer. The separate "Core board" setting was removed; the level (or "Words on the first screen") decides the layout.
+- Spanish "stop" now reads "alto", so it is not confused with the new "for" (para).
+- **Progress report for therapists and IEP meetings** (Dashboard → For their therapist or teacher): setup, the last four weeks (words tapped, messages spoken, days used), most used words, and lines for notes. Print it or save it as a file. Built only from data on the device.
+- **Weekly backup reminder.** The gear dot and a "Save this week's backup" item at the top of the Menu appear when a week has passed since the last backup file and the family has made anything worth keeping (their name, own words or photos, topics, contacts, filmed signs, or 10+ words used).
+- **Code split into separate files**: index.html (page and styles), words-data.js (word data), app.js (the app), zipbackup.js (backups). The offline worker and the store-app copy script include the new files.
+- **Content Security Policy** in index.html: only Communara's own scripts can run, and nothing loads from other websites. Leftover rules for Wikipedia photos were removed from the offline worker.
+- Tests: 24/24 unit, 43/43 browser backup checks, every menu item and tab opened on phone and laptop with no errors, no security-policy violations.
 
 ## Added in 2.0.0 (release build)
 - **Words never move between levels (motor planning).** Level 1 is a 3 x 4 board. Level 2 keeps those 12 words in the same row and column and adds 12 to the right (6 x 4). Level 3 keeps all 24 in place and adds 24 to the right and below (8 x 6). Moving up only makes words smaller and adds new ones. Checked: 0 of 12 words move from Level 1 to 2, 0 of 24 from Level 2 to 3, on phone and iPad. The same columns are used in portrait and landscape so spots never change when the device turns.
@@ -66,10 +75,12 @@ Full-profile ZIP backup, following BACKUP-AND-RECOVERY-CONTRACT.md:
 
 ## Not done yet (from the 2.0 plan)
 - Moving the settings sections themselves into six caregiver areas, and My Words / Explore / Help navigation. Left out on purpose for now: it would move things caregivers already know, for no clear gain.
-- Content Security Policy header (the app still has inline scripts and styles, so this needs a refactor first).
+- ~~Content Security Policy~~ Done in 2.1.0 (scripts are separate files now). Styles stay inline, so `style-src` still allows inline styles.
+- Splitting app.js further into modules (screens, storage, speech). The first split is done; going further is safer after real-device testing.
+- ASL starter signs from ASL Signbank: the site is blocked from the build workspace; add it to the allowed sites and the signs can be pulled in.
 - Testing on real iPhones, iPads and Android devices, and in Safari and Firefox. Only headless Chromium was tested here.
 
 ## Before release
 1. Test on a real iPhone, iPad and Android phone: save a backup, restore it, film a sign, set and forget a PIN, reload with an unfinished message.
 2. Have someone who didn't build it review `zipbackup.js` and the restore and PIN code.
-3. Merge `v2-dev` into `main`; Cloudflare then puts it live.
+3. A speech-language pathologist reviews it for two weeks (Menu → Tell us what you think, or the Dashboard report) and, if it holds up, writes a letter of support.

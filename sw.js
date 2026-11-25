@@ -2,14 +2,13 @@
    The app must keep talking with no internet, so the page and its icons are stored on install.
    Page: network first (updates arrive), stored copy when offline.
    Fonts and bird photos: stored as they're used, so they keep working offline. */
-const VERSION = "speakeasy-v2.0.0";
-const CORE = VERSION + "-core", RUNTIME = VERSION + "-runtime", PHOTOS = VERSION + "-photos";
-const SHELL = ["./", "index.html", "zipbackup.js", "privacy.html", "privacy-es.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png",
+const VERSION = "speakeasy-v2.1.0";
+const CORE = VERSION + "-core", RUNTIME = VERSION + "-runtime";
+const SHELL = ["./", "index.html", "zipbackup.js", "words-data.js", "app.js", "privacy.html", "privacy-es.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png",
   "fonts/fonts.css", "fonts/atkinson-400.woff", "fonts/atkinson-700.woff", "fonts/hanken-var.woff", "fonts/fraunces-600.woff"];
-const MAX_PHOTOS = 400;
 // pictures and topic photos live in their own store, so app updates don't download them again.
 // Change MEDIA only when the picture or photo files themselves change.
-const MEDIA = "speakeasy-media-2";
+const MEDIA = "speakeasy-media-3";
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CORE).then(async c => {
@@ -59,7 +58,5 @@ self.addEventListener("fetch", e => {
   if (req.mode === "navigate") { e.respondWith(networkFirst(req, CORE, "index.html")); return; }
   if (u.origin === location.origin && /\/(symbols|photos)\//.test(u.pathname)) { e.respondWith(cacheFirst(req, MEDIA)); return; }
   if (u.origin === location.origin) { e.respondWith(cacheFirst(req, CORE)); return; }
-  if (u.hostname === "fonts.googleapis.com" || u.hostname === "fonts.gstatic.com") { e.respondWith(cacheFirst(req, RUNTIME)); return; }
-  if (u.hostname === "upload.wikimedia.org") { e.respondWith(cacheFirst(req, PHOTOS, MAX_PHOTOS)); return; }
-  if (u.hostname === "en.wikipedia.org" || u.hostname === "commons.wikimedia.org") { e.respondWith(networkFirst(req, RUNTIME)); return; }
+  // Communara loads nothing from other websites (see the Content-Security-Policy in index.html).
 });
